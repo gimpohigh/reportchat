@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>김포고 수강신청 - 관리자 1:1 채팅</title>
-    <!-- Firebase -->
+    <!-- 🔥 Firebase App, Database, Storage -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
     
     <style>
         :root {
@@ -14,49 +15,80 @@
             --primary-light: #678CEB; 
             --bg-color: #F2F4F6;
             --text-black: #191F28;
-            --text-gray: #8B95A1; /* 🔥 발신자 이름용 회색 텍스트 색상 */
+            --text-gray: #8B95A1; 
         }
 
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Pretendard', -apple-system, sans-serif; background-color: var(--bg-color); display: flex; }
         
         /* 왼쪽 채팅방 목록 패널 */
-        .chat-list-panel { width: 300px; background-color: white; border-right: 1px solid #E5E8EB; display: flex; flex-direction: column; }
-        .panel-header { padding: 20px; background-color: var(--primary-dark); color: white; font-weight: bold; font-size: 18px; flex-shrink: 0; }
+        .chat-list-panel { width: 320px; background-color: white; border-right: 1px solid #E5E8EB; display: flex; flex-direction: column; flex-shrink: 0; }
+        .panel-header { padding: 20px; background-color: var(--primary-dark); color: white; font-weight: bold; font-size: 18px; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; }
         .user-list { flex: 1; overflow-y: auto; }
         
         .user-item { padding: 16px; border-bottom: 1px solid #F2F4F6; cursor: pointer; transition: background 0.2s; }
         .user-item:hover, .user-item.active { background-color: #E8F0FE; }
-        .user-name { font-weight: bold; font-size: 14px; color: var(--text-black); margin-bottom: 4px; }
+        .user-name { font-weight: bold; font-size: 14px; color: var(--text-black); margin-bottom: 6px; }
         .user-preview { font-size: 12px; color: var(--text-gray); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         /* 오른쪽 채팅 화면 패널 */
-        .chat-room-panel { flex: 1; display: flex; flex-direction: column; background-color: #B2C7E7; position: relative; }
-        .room-header { padding: 20px; background-color: white; border-bottom: 1px solid #E5E8EB; font-weight: bold; font-size: 16px; display: flex; align-items: center; }
+        .chat-room-panel { flex: 1; display: flex; flex-direction: column; background-color: #B2C7E7; position: relative; min-width: 0; }
+        .room-header { padding: 20px; background-color: white; border-bottom: 1px solid #E5E8EB; font-weight: bold; font-size: 16px; display: flex; align-items: center; flex-shrink: 0; }
         
         .room-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
         
-        /* 🔥 말풍선 위 발신자 이름 컨테이너 설정 */
-        .msg-container { display: flex; flex-direction: column; max-width: 60%; }
+        /* 🔥 날짜 구분선 디자인 */
+        .date-separator {
+            align-self: center;
+            background-color: rgba(0, 0, 0, 0.15);
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin: 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .msg-container { display: flex; flex-direction: column; max-width: 70%; }
         .msg-admin-container { align-self: flex-end; align-items: flex-end; }
         .msg-user-container { align-self: flex-start; align-items: flex-start; }
         
-        /* 🔥 발신자 이름 디자인 (작은 회색 텍스트) */
-        .msg-sender { font-size: 11px; color: var(--text-gray); margin-bottom: 4px; padding: 0 4px; font-weight: bold; }
+        .msg-sender { font-size: 11px; color: #4E5968; margin-bottom: 4px; padding: 0 4px; font-weight: bold; }
+        
+        /* 말풍선과 시간 가로 정렬 */
+        .msg-row { display: flex; flex-direction: row; align-items: flex-end; gap: 6px; }
         
         .msg-bubble { padding: 10px 14px; font-size: 14px; line-height: 1.4; word-break: break-word; }
         
-        /* 🔥 관리자(나)의 메시지 - 대표 컬러 (파란색 배경 + 흰 글씨) */
         .msg-admin { background-color: var(--primary-dark); color: white; border-radius: 14px; border-top-right-radius: 4px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
-        
-        /* 학생(유저)의 메시지 - 흰색 배경 + 검은 글씨 */
         .msg-user { background-color: white; color: #191F28; border-radius: 14px; border-top-left-radius: 4px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
 
-        .room-input-area { padding: 16px; background-color: white; border-top: 1px solid #E5E8EB; display: flex; gap: 10px; }
-        .room-input { flex: 1; padding: 12px 16px; border: 1px solid #D1D6DB; border-radius: 24px; outline: none; font-size: 14px; }
-        .room-send-btn { padding: 0 24px; background-color: var(--primary-dark); color: white; border: none; border-radius: 24px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .room-send-btn:active { background-color: var(--primary-light); }
+        /* 🔥 시간 텍스트 디자인 */
+        .msg-time { font-size: 10px; color: #6B7684; flex-shrink: 0; margin-bottom: 2px; }
         
-        .empty-state { display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-gray); font-size: 15px; font-weight: bold; }
+        /* 채팅방 전송된 이미지 디자인 */
+        .chat-image { max-width: 100%; max-height: 300px; border-radius: 8px; margin-top: 6px; cursor: pointer; border: 1px solid rgba(0,0,0,0.1); }
+        .img-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+
+        /* 🔥 입력 영역 (미리보기 + 인풋) */
+        .room-input-container { background-color: white; border-top: 1px solid #E5E8EB; display: flex; flex-direction: column; flex-shrink: 0; }
+        
+        .preview-area { display: flex; gap: 10px; padding: 12px 16px 0 16px; overflow-x: auto; }
+        .preview-img-wrap { position: relative; width: 64px; height: 64px; flex-shrink: 0; border: 1px solid #E5E8EB; border-radius: 8px; }
+        .preview-img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+        .preview-del { position: absolute; top: -6px; right: -6px; background: rgba(0,0,0,0.6); color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; font-weight: bold; }
+        
+        .room-input-area { padding: 12px 16px; display: flex; gap: 10px; align-items: center; }
+        .attach-btn { background-color: #F2F4F6; border: none; border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px; color: #4E5968; transition: 0.2s; flex-shrink: 0; }
+        .attach-btn:hover { background-color: #E5E8EB; }
+        .room-input { flex: 1; padding: 12px 16px; border: 1px solid #D1D6DB; border-radius: 24px; outline: none; font-size: 14px; background-color: var(--bg-color); min-width: 0; }
+        .room-send-btn { padding: 0 24px; height: 44px; background-color: var(--primary-dark); color: white; border: none; border-radius: 24px; font-weight: bold; cursor: pointer; transition: 0.2s; flex-shrink: 0; }
+        .room-send-btn:active { background-color: var(--primary-light); }
+        .room-send-btn:disabled { background-color: #D1D6DB; cursor: not-allowed; }
+        
+        .empty-state { display: flex; align-items: center; justify-content: center; height: 100%; color: #6B7684; font-size: 15px; font-weight: bold; background-color: #B2C7E7; }
 
     </style>
 </head>
@@ -64,7 +96,9 @@
 
     <!-- 왼쪽 사용자 리스트 -->
     <div class="chat-list-panel">
-        <div class="panel-header">학생 문의 채팅방</div>
+        <div class="panel-header">
+            <span>학생 문의 관리</span>
+        </div>
         <div class="user-list" id="userList">
             <!-- 자바스크립트로 렌더링 -->
         </div>
@@ -79,37 +113,50 @@
             <div class="room-messages" id="roomMessages">
                 <!-- 메시지 렌더링 -->
             </div>
-            <div class="room-input-area">
-                <input type="text" id="adminInput" class="room-input" placeholder="답변을 입력하세요 (엔터로 전송)">
-                <button class="room-send-btn" onclick="sendReply()">전송</button>
+            
+            <div class="room-input-container">
+                <!-- 이미지 미리보기 영역 -->
+                <div id="previewArea" class="preview-area" style="display: none;"></div>
+                
+                <div class="room-input-area">
+                    <label for="imgUpload" class="attach-btn" title="이미지 첨부">➕</label>
+                    <input type="file" id="imgUpload" multiple accept="image/*" style="display:none;" onchange="handleFileSelect(event)">
+                    
+                    <input type="text" id="adminInput" class="room-input" placeholder="답변을 입력하세요 (엔터로 전송)">
+                    <button class="room-send-btn" id="sendBtn" onclick="sendReply()">전송</button>
+                </div>
             </div>
         </div>
     </div>
 
 <script>
-    // 🔥 메인 앱과 동일한 Firebase 정보
+    // 🔥 메인 앱과 동일한 Firebase 정보 (Storage 추가 적용)
     const firebaseConfig = {
       apiKey: "AIzaSyD-IyAGGXQ69d8LupTU2mKmr87yoenahRo",
+      authDomain: "gimpo-monitoring.firebaseapp.com",
       databaseURL: "https://gimpo-monitoring-default-rtdb.firebaseio.com",
-      projectId: "gimpo-monitoring"
+      projectId: "gimpo-monitoring",
+      storageBucket: "gimpo-monitoring.firebasestorage.app", // Storage 버킷 주소 추가
     };
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
+    const storage = firebase.storage();
 
-    let usersData = {}; // 실제 이름,반,번호 정보 매핑 캐싱용
+    let usersData = {}; 
     let currentChatUid = null;
     let currentListener = null;
-    let currentChatName = ""; // 현재 채팅중인 학생의 이름 저장용
+    let currentChatName = ""; 
+    let lastMessageDateStr = ""; // 날짜 구분선 판별용 변수
+    
+    let selectedFiles = []; // 업로드할 이미지 보관 배열
 
     // 1. 유저 데이터 감지 및 가공 (🔥 1학년 N반 N번 OOO 형태로 가공)
     database.ref('user_data').on('value', snap => {
         const data = snap.val();
+        if(!data) return;
         for(let uid in data) {
             if(data[uid].name && data[uid].classNum && data[uid].studentNum) {
-                // 앞에 1학년을 명시적으로 붙임
                 usersData[uid] = `1학년 ${data[uid].classNum}반 ${data[uid].studentNum}번 ${data[uid].name}`;
-            } else {
-                usersData[uid] = "알 수 없는 사용자";
             }
         }
         renderUserList();
@@ -126,11 +173,33 @@
         const listDiv = document.getElementById('userList');
         listDiv.innerHTML = '';
         
+        // 최신 메시지 순으로 방 정렬
+        let rooms = [];
         for(let uid in allInquiries) {
             const msgsObj = allInquiries[uid];
             const msgsArr = Object.values(msgsObj);
-            const lastMsg = msgsArr[msgsArr.length - 1]; // 최근 메시지 추출
-            const nickname = usersData[uid] || "알 수 없는 사용자";
+            const lastMsg = msgsArr[msgsArr.length - 1];
+            rooms.push({ uid, lastMsg });
+        }
+        rooms.sort((a, b) => (b.lastMsg.timestamp || 0) - (a.lastMsg.timestamp || 0));
+
+        rooms.forEach(room => {
+            const uid = room.uid;
+            const lastMsg = room.lastMsg;
+            
+            let nickname = "알 수 없는 사용자";
+            // 💡 이름 판단 로직 고도화
+            if (usersData[uid]) {
+                nickname = usersData[uid]; // 로그인 유저 (1학년 ~)
+            } else if (uid.startsWith('anon_')) {
+                nickname = `익명 - ${lastMsg.senderName || '누군가'}`; // 익명 유저
+            } else if (lastMsg && lastMsg.senderName) {
+                nickname = lastMsg.senderName;
+            }
+
+            // 목록에 표시할 텍스트 
+            let previewText = lastMsg.text || '';
+            if(!previewText && lastMsg.images) previewText = "(사진 전송)";
 
             const item = document.createElement('div');
             item.className = `user-item ${currentChatUid === uid ? 'active' : ''}`;
@@ -138,10 +207,27 @@
             
             item.innerHTML = `
                 <div class="user-name">${nickname}</div>
-                <div class="user-preview">${lastMsg ? lastMsg.text : '대화 내용 없음'}</div>
+                <div class="user-preview">${previewText}</div>
             `;
             listDiv.appendChild(item);
-        }
+        });
+    }
+
+    // 🔥 날짜 형식 변환 (YYYY년 M월 D일 W요일)
+    function formatDate(ts) {
+        if(!ts) return '';
+        const d = new Date(ts);
+        const days = ['일', '월', '화', '수', '목', '금', '토'];
+        return `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 ${days[d.getDay()]}요일`;
+    }
+
+    // 🔥 시간 형식 변환 (HH:MM 24시간 형식)
+    function formatTime(ts) {
+        if(!ts) return '';
+        const d = new Date(ts);
+        const h = String(d.getHours()).padStart(2, '0');
+        const m = String(d.getMinutes()).padStart(2, '0');
+        return `${h}:${m}`;
     }
 
     function openChat(uid, nickname) {
@@ -155,49 +241,157 @@
         
         const msgDiv = document.getElementById('roomMessages');
         msgDiv.innerHTML = '';
+        lastMessageDateStr = ""; // 새 방을 열면 날짜 기록 초기화
 
         if(currentListener) database.ref('inquiries/' + currentListener).off();
         currentListener = uid;
 
-        // 🔥 선택한 유저와의 채팅 내용 불러오기 및 발신자 이름 렌더링
+        // 🔥 채팅 내용 불러오기 및 디자인 렌더링
         database.ref('inquiries/' + uid).on('child_added', snap => {
             const msg = snap.val();
+            // 과거 데이터에 timestamp가 없을 경우 방지용
+            if (!msg.timestamp) msg.timestamp = Date.now(); 
+
+            // 💡 날짜가 바뀌었는지 체크해서 구분선 넣기
+            const msgDate = formatDate(msg.timestamp);
+            if (msgDate && msgDate !== lastMessageDateStr) {
+                msgDiv.innerHTML += `
+                    <div class="date-separator">
+                        <span style="font-size:14px;">📅</span> ${msgDate}
+                    </div>
+                `;
+                lastMessageDateStr = msgDate;
+            }
+
             const isAdmin = msg.role === 'admin';
+            const displaySender = isAdmin ? '개발자' : currentChatName;
+            const timeStr = formatTime(msg.timestamp);
             
+            // 이미지 및 텍스트 조합 처리
+            let contentHtml = msg.text ? msg.text.replace(/\n/g, '<br>') : '';
+            if (msg.images && msg.images.length > 0) {
+                const imgTags = msg.images.map(url => `<img src="${url}" class="chat-image" onclick="window.open('${url}')">`).join('');
+                contentHtml += (contentHtml ? '<br>' : '') + `<div class="img-grid">${imgTags}</div>`;
+            }
+
             const containerClass = isAdmin ? 'msg-admin-container' : 'msg-user-container';
             const bubbleClass = isAdmin ? 'msg-admin' : 'msg-user';
             
-            // 관리자면 '개발자', 유저면 왼쪽 사이드바에 뜬 실제 이름(1학년 O반 O번 OOO) 표시
-            const displaySender = isAdmin ? '개발자' : currentChatName;
-            
+            // 관리자는 시간이 왼쪽, 유저는 시간이 오른쪽
+            let rowHtml = '';
+            if (isAdmin) {
+                rowHtml = `
+                    <div class="msg-row">
+                        <div class="msg-time">${timeStr}</div>
+                        <div class="msg-bubble ${bubbleClass}">${contentHtml}</div>
+                    </div>
+                `;
+            } else {
+                rowHtml = `
+                    <div class="msg-row">
+                        <div class="msg-bubble ${bubbleClass}">${contentHtml}</div>
+                        <div class="msg-time">${timeStr}</div>
+                    </div>
+                `;
+            }
+
             msgDiv.innerHTML += `
                 <div class="msg-container ${containerClass}">
-                    <div class="msg-sender">${displaySender}</div>
-                    <div class="msg-bubble ${bubbleClass}">${msg.text.replace(/\n/g, '<br>')}</div>
+                    ${isAdmin ? '' : `<div class="msg-sender">${displaySender}</div>`}
+                    ${rowHtml}
                 </div>
             `;
             msgDiv.scrollTop = msgDiv.scrollHeight;
         });
     }
 
-    function sendReply() {
-        if(!currentChatUid) return;
-        const input = document.getElementById('adminInput');
-        const text = input.value.trim();
-        if(!text) return;
-        
-        // 데이터베이스에 내 답변 저장
-        database.ref('inquiries/' + currentChatUid).push({
-            role: 'admin',
-            text: text,
-            timestamp: firebase.database.ServerValue.TIMESTAMP
-        });
-        
-        input.value = '';
+    // 🔥 이미지 파일 선택 및 미리보기 렌더링 로직
+    function handleFileSelect(e) {
+        const files = Array.from(e.target.files);
+        if(files.length === 0) return;
+        selectedFiles = selectedFiles.concat(files);
+        renderPreview();
+        e.target.value = ''; // 동일 파일 재선택 방지
     }
 
+    function removeFile(index) {
+        selectedFiles.splice(index, 1);
+        renderPreview();
+    }
+
+    function renderPreview() {
+        const area = document.getElementById('previewArea');
+        if (selectedFiles.length === 0) {
+            area.style.display = 'none';
+            area.innerHTML = '';
+            return;
+        }
+        
+        area.style.display = 'flex';
+        area.innerHTML = selectedFiles.map((file, idx) => `
+            <div class="preview-img-wrap">
+                <img src="${URL.createObjectURL(file)}" class="preview-img">
+                <div class="preview-del" onclick="removeFile(${idx})">✖</div>
+            </div>
+        `).join('');
+    }
+
+    // 🔥 텍스트 및 다중 이미지 전송 로직
+    async function sendReply() {
+        if(!currentChatUid) return;
+        const input = document.getElementById('adminInput');
+        const btn = document.getElementById('sendBtn');
+        const text = input.value.trim();
+        
+        if(!text && selectedFiles.length === 0) return; // 아무것도 없으면 전송 안함
+        
+        // 전송 중 상태 표시
+        btn.innerText = "전송중...";
+        btn.disabled = true;
+
+        try {
+            let imageUrls = [];
+            // 선택된 이미지가 있다면 Storage에 차례대로 업로드
+            if (selectedFiles.length > 0) {
+                for(let file of selectedFiles) {
+                    const fileRef = storage.ref().child(`chat_images/${currentChatUid}/${Date.now()}_${file.name}`);
+                    await fileRef.put(file);
+                    const url = await fileRef.getDownloadURL();
+                    imageUrls.push(url);
+                }
+            }
+
+            // DB에 데이터 푸시
+            const payload = {
+                role: 'admin',
+                text: text,
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            };
+            if(imageUrls.length > 0) payload.images = imageUrls;
+
+            await database.ref('inquiries/' + currentChatUid).push(payload);
+            
+            // 전송 완료 후 입력칸 초기화
+            input.value = '';
+            selectedFiles = [];
+            renderPreview();
+
+        } catch (error) {
+            console.error("전송 실패:", error);
+            alert("메시지 또는 이미지 전송에 실패했습니다.");
+        } finally {
+            btn.innerText = "전송";
+            btn.disabled = false;
+            document.getElementById('adminInput').focus();
+        }
+    }
+
+    // 엔터 키 전송 이벤트
     document.getElementById('adminInput').addEventListener('keydown', function(e) {
-        if(e.key === 'Enter') { e.preventDefault(); sendReply(); }
+        if(e.key === 'Enter') { 
+            e.preventDefault(); 
+            sendReply(); 
+        }
     });
 
 </script>
