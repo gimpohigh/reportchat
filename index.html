@@ -163,7 +163,105 @@ body{color:var(--text-black)}
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"></script>
-<script>/* Shared Firebase adapter, embedded into every standalone page by build.cjs. */
+<script>(function (root, factory) {
+  'use strict';
+  const helper=factory();
+  if(typeof module==='object'&&module.exports)module.exports=helper;
+  else root.GimpoAdminSession=helper;
+})(typeof window==='object'?window:null,function(){
+  'use strict';
+  const APP_NAME='gimpo-reportchat-admin';
+  // This marker only prevents importing the older session. It never grants access.
+  const SUPPRESS_IMPORT='gimpo-reportchat-admin:skip-legacy-import';
+
+  function restoredUser(auth){
+    return new Promise((resolve,reject)=>{
+      let unsubscribe=()=>{};
+      unsubscribe=auth.onAuthStateChanged(user=>{
+        queueMicrotask(()=>unsubscribe());
+        resolve(user);
+      },reject);
+    });
+  }
+
+  function registrationRequested(search){return new URLSearchParams(search).has('register-device');}
+
+  function initialize({firebase,config,storage,registerDevice=false,onWarning=()=>{}}){
+    const app=firebase.apps.find(candidate=>candidate.name===APP_NAME)||firebase.initializeApp(config,APP_NAME);
+    if(app.options.apiKey!==config.apiKey||app.options.projectId!==config.projectId)throw new Error('관리자 로그인 연결 설정이 올바르지 않습니다.');
+    const auth=app.auth();
+    let actionVersion=0;
+    let persistent=false;
+
+    function importSuppressed(){
+      try{return !storage||storage.getItem(SUPPRESS_IMPORT)==='1';}
+      catch{return true;}
+    }
+    function deviceSuppressed(){
+      try{return storage?.getItem(SUPPRESS_IMPORT)==='1';}
+      catch{return false;}
+    }
+    function manualAction(){
+      actionVersion++;
+      try{storage?.setItem(SUPPRESS_IMPORT,'1');}catch{}
+    }
+    async function reuseExistingAdmin(){
+      if(auth.currentUser||registerDevice||importSuppressed())return;
+      const version=actionVersion;
+      let legacy=firebase.apps.find(candidate=>candidate.name==='[DEFAULT]');
+      if(legacy&&(legacy.options.apiKey!==config.apiKey||legacy.options.projectId!==config.projectId))return;
+      if(!legacy)legacy=firebase.initializeApp(config);
+      const candidate=await restoredUser(legacy.auth());
+      if(!candidate||candidate.isAnonymous)return;
+      const token=await candidate.getIdTokenResult();
+      const allowed=token.claims.admin===true||
+        (await legacy.database().ref('private/reportAdmins/'+candidate.uid).once('value')).val()===true;
+      if(!allowed||version!==actionVersion||auth.currentUser||importSuppressed())return;
+      // The SDK copies this same-project Firebase user into the named Auth instance.
+      // No default-app signOut or persistence mutation is performed.
+      await auth.updateCurrentUser(candidate);
+    }
+
+    const ready=Promise.resolve().then(async()=>{
+      try{await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);persistent=true;}
+      catch{
+        onWarning('브라우저 설정 때문에 관리자 로그인을 이 기기에 저장할 수 없습니다.');
+        try{await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);}
+        catch{await auth.setPersistence(firebase.auth.Auth.Persistence.NONE);}
+      }
+      await restoredUser(auth);
+      try{await reuseExistingAdmin();}catch{/* Optional session import must not block manual login. */}
+      if(!auth.currentUser&&(registerDevice||!deviceSuppressed())){
+        try{await auth.signInAnonymously();}
+        catch{onWarning('관리자 기기 인증을 준비하지 못했습니다. 기존 관리자 계정으로 로그인할 수 있습니다.');}
+      }
+      return auth.currentUser;
+    }).catch(()=>{onWarning('관리자 기기 인증을 준비하지 못했습니다. 기존 관리자 계정으로 로그인할 수 있습니다.');return auth.currentUser;});
+
+    async function signInGoogle(){
+      manualAction();
+      await ready;
+      const provider=new firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({prompt:'select_account'});
+      return auth.signInWithPopup(provider);
+    }
+    async function signInEmail(email,password){
+      manualAction();
+      await ready;
+      return auth.signInWithEmailAndPassword(email.trim(),password);
+    }
+    async function signOut(){
+      manualAction();
+      await ready;
+      return auth.signOut();
+    }
+    return {app,auth,ready,signInGoogle,signInEmail,signOut,get persistent(){return persistent;}};
+  }
+
+  return {APP_NAME,SUPPRESS_IMPORT,initialize,registrationRequested};
+});
+
+/* Shared Firebase adapter, embedded into every standalone page by build.cjs. */
 window.App = (() => {
   'use strict';
   const config = {apiKey:'AIzaSyD-IyAGGXQ69d8LupTU2mKmr87yoenahRo',authDomain:'gimpo-monitoring.firebaseapp.com',databaseURL:'https://gimpo-monitoring-default-rtdb.firebaseio.com',projectId:'gimpo-monitoring',storageBucket:'gimpo-monitoring.firebasestorage.app',messagingSenderId:'918422830852',appId:'1:918422830852:web:c9d6412cb2fc3dcc619a51'};
@@ -174,18 +272,13 @@ window.App = (() => {
   const demo=new URLSearchParams(location.search).get('demo')==='1';
   const api={config,toast,error,cache,demo,offline:demo||!window.firebase||!firebase.auth||!firebase.database||!firebase.storage||!firebase.functions,isMember:u=>Boolean(u&&!u.isAnonymous),releaseImages(container){container?.querySelectorAll('img').forEach(img=>{if(img.src.startsWith('blob:'))URL.revokeObjectURL(img.src);});}};
   if(api.offline){if(!demo)api.initializationError={code:'sdk/unavailable',message:'Firebase 연결 모듈을 불러오지 못했습니다. 인터넷 연결을 확인하고 새로고침해주세요.'};api.auth={currentUser:null,onAuthStateChanged(fn){queueMicrotask(()=>fn(null));return ()=>{};}};api.ready=Promise.resolve(null);return api;}
-  firebase.initializeApp(config);api.auth=firebase.auth();api.db=firebase.database();api.storage=firebase.storage();api.functions=firebase.app().functions('asia-northeast3');
-  let signing=null,resolveReady;api.ready=new Promise(resolve=>resolveReady=resolve);
-  api.retryAuthentication=()=>{
-    if(api.auth.currentUser)return Promise.resolve(api.auth.currentUser);
-    if(signing)return signing;
-    signing=api.auth.signInAnonymously().then(cred=>{api.authError=null;resolveReady(cred.user);return cred.user;}).catch(e=>{if(api.auth.currentUser){api.authError=null;resolveReady(api.auth.currentUser);return api.auth.currentUser;}api.authError={code:e.code||'auth/unknown',message:e.message||error(e)};window.dispatchEvent(new CustomEvent('app-auth-error',{detail:api.authError}));toast('기기 내 연습은 가능합니다. 서버 연결: '+error(e));resolveReady(null);throw e;}).finally(()=>{signing=null;});
-    return signing;
-  };
-  api.auth.onAuthStateChanged(user=>{if(user){api.authError=null;resolveReady(user);return;}api.retryAuthentication().catch(()=>{});});
-  api.signInGoogle=async()=>{const provider=new firebase.auth.GoogleAuthProvider();return api.auth.signInWithPopup(provider);};
-  api.signInEmail=(email,password)=>api.auth.signInWithEmailAndPassword(email.trim(),password);
-  api.signOut=()=>api.auth.signOut();api.isAdmin=async()=>Boolean((await api.auth.currentUser?.getIdTokenResult(true))?.claims.admin);
+  let adminMarkerStorage;try{adminMarkerStorage=window.localStorage;}catch{}
+  const adminSession=GimpoAdminSession.initialize({firebase,config,storage:adminMarkerStorage,registerDevice:GimpoAdminSession.registrationRequested(location.search),onWarning:toast});
+  api.auth=adminSession.auth;api.db=adminSession.app.database();api.storage=adminSession.app.storage();api.functions=adminSession.app.functions('asia-northeast3');api.ready=adminSession.ready;
+  api.deviceRegistrationAllowed=()=>adminSession.persistent&&api.auth.currentUser?.isAnonymous===true;
+  api.retryAuthentication=()=>api.ready.then(()=>api.auth.currentUser);
+  api.signInGoogle=adminSession.signInGoogle;api.signInEmail=adminSession.signInEmail;api.signOut=adminSession.signOut;
+  api.isAdmin=async()=>Boolean((await api.auth.currentUser?.getIdTokenResult())?.claims.admin);
   api.uploadImages=async(uid,files)=>{if(files.length>3)throw new Error('사진은 한 번에 3장까지 첨부할 수 있습니다.');for(const f of files){if(!['image/jpeg','image/png','image/webp'].includes(f.type)||f.size>5*1024*1024)throw new Error('사진은 JPG·PNG·WEBP, 한 장당 5MB 이하로 선택해주세요.');}const uploaded=[];try{for(const f of files){const ext={'image/jpeg':'jpg','image/png':'png','image/webp':'webp'}[f.type];const path=`inquiryUploads/${uid}/${crypto.randomUUID()}/image.${ext}`;await api.storage.ref(path).put(f,{contentType:f.type});uploaded.push({path,name:f.name.slice(0,100)});}return uploaded;}catch(e){await Promise.allSettled(uploaded.map(x=>api.storage.ref(x.path).delete()));throw e;}};
   function restoredImage(image){
     const text=image.legacyData,mime=image.legacyMime,max=5*1024*1024;
@@ -293,15 +386,15 @@ $('gateLogout').addEventListener('click',()=>login(()=>sdk.signOut()));
 $('logout').addEventListener('click',()=>login(()=>sdk.signOut()));
 async function authChanged(user){
  const epoch=++authEpoch;stopAll();$('workspace').hidden=true;$('gate').hidden=false;$('loginForm').hidden=true;$('googleLogin').hidden=true;$('gateLogout').hidden=true;$('loginError').textContent='';
- if(!user||user.isAnonymous){$('gateInfo').textContent='관리자 권한이 등록된 계정으로 로그인해 주세요.';$('loginForm').hidden=false;$('googleLogin').hidden=false;return;}
+ if(!user){$('gateInfo').textContent='관리자 권한이 등록된 계정으로 로그인해 주세요.';$('loginForm').hidden=false;$('googleLogin').hidden=false;return;}
  $('gateInfo').textContent='관리자 권한을 확인하고 있습니다.';
  try{
-  const token=await user.getIdTokenResult(true);if(epoch!==authEpoch)return;
-  fullAdmin=token.claims.admin===true;
+  const token=await user.getIdTokenResult();if(epoch!==authEpoch)return;
+  fullAdmin=!user.isAnonymous&&token.claims.admin===true;
   const rolePath='private/reportAdmins/'+user.uid;
   const permission=fullAdmin?null:await sdk.db.ref(rolePath).once('value');
   if(epoch!==authEpoch)return;
-  if(!fullAdmin&&permission.val()!==true){$('gateInfo').textContent='이 계정에는 문의 관리 권한이 없습니다. 기존 관리자 계정으로 로그인해 주세요.';$('gateLogout').hidden=false;return;}
+  if(!fullAdmin&&permission.val()!==true){$('gateInfo').textContent=user.isAnonymous?'관리자 권한이 등록된 계정으로 로그인해 주세요.':'이 계정에는 문의 관리 권한이 없습니다. 기존 관리자 계정으로 로그인해 주세요.';$('loginForm').hidden=!user.isAnonymous;$('googleLogin').hidden=!user.isAnonymous;$('gateLogout').hidden=user.isAnonymous;return;}
   $('deleteRoom').hidden=!fullAdmin;
   document.querySelector('.composer .hint').textContent=fullAdmin?'Enter 전송 · Shift+Enter 줄바꿈 · JPG/PNG/WebP 3장, 각 5MB 이하':'Enter 전송 · Shift+Enter 줄바꿈';
   $('gate').hidden=true;$('workspace').hidden=false;$('accountInfo').textContent=user.email||'관리자';$('listStatus').textContent='문의 목록을 불러오는 중입니다.';
@@ -332,9 +425,23 @@ async function authChanged(user){
    $('listStatus').textContent='문의 '+Object.keys(rooms).length+'개 · 실시간 갱신 중';
   },error=>{if(epoch===authEpoch)$('listStatus').textContent=friendly(error);});
   connectionRef=sdk.db.ref('.info/connected');connectionRef.on('value',snap=>{if(epoch!==authEpoch)return;$('listStatus').textContent=snap.val()?'서버 연결됨 · 최근 문의를 실시간으로 확인합니다.':'서버 연결이 끊겼습니다. 연결이 복구되면 자동 갱신됩니다.';});
- }catch(error){if(epoch===authEpoch){$('loginError').textContent=friendly(error);$('gateLogout').hidden=false;}}
+ }catch(error){if(epoch===authEpoch){$('loginError').textContent=friendly(error);$('gateLogout').hidden=user.isAnonymous;if(user.isAnonymous){$('gateInfo').textContent='관리자 권한이 등록된 계정으로 로그인해 주세요.';$('loginForm').hidden=false;$('googleLogin').hidden=false;}}}
 }
 if(!sdk||sdk.offline){$('gateInfo').textContent='관리자 기능은 서버 연결이 필요합니다. 인터넷 연결과 Firebase 설정을 확인하고 새로고침해 주세요.';return;}
+if(GimpoAdminSession.registrationRequested(location.search)){
+ $('workspace').hidden=true;$('gate').hidden=false;$('loginForm').hidden=true;$('googleLogin').hidden=true;$('gateLogout').hidden=true;
+ $('gateInfo').textContent='이 브라우저의 관리자용 인증 정보를 준비하고 있습니다.';
+ sdk.ready.then(user=>{
+  if(!user)throw new Error('이 브라우저의 인증 정보를 만들지 못했습니다. 새로고침해 주세요.');
+  if(!user.isAnonymous)throw new Error('현재 기존 관리자 계정으로 로그인되어 있습니다. 관리자 화면에서 로그아웃한 뒤 기기 등록 화면을 다시 여세요.');
+  if(!sdk.deviceRegistrationAllowed())throw new Error('이 브라우저는 관리자 기기 인증을 지속적으로 저장할 수 없습니다. 브라우저의 사이트 저장 설정을 확인해주세요.');
+  $('workspace').hidden=true;$('gate').hidden=false;$('loginForm').hidden=true;$('googleLogin').hidden=true;$('gateLogout').hidden=true;
+  $('gateInfo').textContent='관리자 기기 등록용 UID입니다. 이 값으로는 문의를 읽거나 권한을 지정할 수 없습니다. 운영자가 서버에서 이 기기의 접근을 허용해야 합니다.';
+  const field=document.createElement('input');field.id='registrationUid';field.type='text';field.readOnly=true;field.value=user.uid;field.setAttribute('aria-label','이 브라우저의 관리자 기기 등록 UID');field.addEventListener('focus',()=>field.select());
+  $('gateInfo').after(field);
+ }).catch(error=>{$('loginError').textContent=friendly(error);});
+ return;
+}
 sdk.ready.then(()=>sdk.auth.onAuthStateChanged(authChanged)).catch(error=>{$('gateInfo').textContent=friendly(error);});
 window.addEventListener('pagehide',()=>{stopAll();});
 window.addEventListener('pageshow',event=>{if(event.persisted)authChanged(sdk.auth.currentUser);});
