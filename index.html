@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>김포고 수강신청 - 관리자 1:1 채팅</title>
-    <!-- 🔥 Firebase App, Database (Storage 완전 제거 -> ImgBB 사용) -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    
-    <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2A52BE">
+<title>김포고 수강신청 - 관리자 1:1 채팅</title>
+<style>
+
+*{box-sizing:border-box}
+button,input,textarea{font:inherit}button,a,input,textarea{touch-action:manipulation}
+button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.6}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #ffae42;outline-offset:3px}
+[hidden]{display:none!important}
+
         :root {
             --primary-dark: #2A52BE; 
             --primary-light: #678CEB; 
@@ -91,409 +95,250 @@
         
         .empty-state { display: flex; align-items: center; justify-content: center; height: 100%; color: #6B7684; font-size: 15px; font-weight: bold; background-color: #B2C7E7; }
 
-    </style>
+    
+/* 인증·검색·오류 안내는 기존 구조 안에 배치하고 원본 화면의 색상과 형태를 유지합니다. */
+:root{--primary:var(--primary-dark);--bg:var(--bg-color);--ink:var(--text-black);--muted:var(--text-gray);--line:#E5E8EB;color-scheme:light}
+body{color:var(--text-black)}
+.workspace{display:flex;width:100%;height:100vh;height:100dvh;min-height:0}
+.chat-list-panel,.chat-room-panel{min-height:0}
+.panel-header{gap:10px;flex-wrap:wrap}.panel-header h1{font:inherit;margin:0;flex:1 1 150px}
+.panel-header button{background:transparent;color:white;border:1px solid #ffffff70;border-radius:6px;padding:4px 6px;font-size:10px;line-height:1;flex-shrink:0}
+.panel-meta{padding:8px 16px;font-size:11px;color:#8B95A1;line-height:1.5;overflow-wrap:anywhere}
+.panel-meta:empty{display:none}
+.search-label{display:block;padding:8px 16px 12px;font-size:11px;color:#8B95A1;border-bottom:1px solid #F2F4F6}
+.search-label input{display:block;width:100%;min-width:0;margin-top:5px;padding:8px 10px;background:#F2F4F6;border:1px solid #E5E8EB;border-radius:6px;font-size:12px;color:#191F28}
+.user-list{min-height:0}.user-item{display:block;text-align:left;width:100%;background:white;color:#191F28;border:0;border-bottom:1px solid #F2F4F6;border-radius:0}
+.user-name,.user-preview{display:block}.user-name{overflow-wrap:anywhere}.user-preview{font-weight:normal}
+.list-empty{padding:20px;color:#8B95A1;font-size:13px;line-height:1.6}
+.room-header{gap:10px;flex-wrap:wrap}.room-header h2{margin:0;font:inherit;flex:1 1 160px;min-width:0;overflow-wrap:anywhere}
+.room-header button{flex-shrink:0}.room-header .back{display:none;background:#F2F4F6;color:#2A52BE;border:1px solid #E5E8EB;border-radius:6px;padding:8px;font-size:12px}
+.chat-room-panel:has(.room-empty:not([hidden])) .room-header,.chat-room-panel:has(.room-empty:not([hidden])) .room-status{display:none}
+.room-status{font-size:11px;line-height:1.5;color:#6B7684;padding:6px 20px 0;overflow-wrap:anywhere}.room-status:empty{display:none}
+.room-empty{padding:20px;text-align:center;line-height:1.6;min-height:0}
+.room-messages{min-height:0;overscroll-behavior:contain}
+.older{align-self:center;background:rgba(255,255,255,.85);color:#2A52BE;border:0;border-radius:20px;padding:6px 14px;font-size:11px}
+.msg-content{min-width:0;max-width:100%;display:flex;flex-direction:column;gap:4px}.msg-admin-container .msg-content{align-items:flex-end}
+.msg-bubble{min-width:0;max-width:100%;white-space:pre-wrap}
+.attachments{display:flex;flex-direction:column;gap:8px;max-width:250px;margin-top:4px;min-width:0}
+.attachments img{display:block;max-width:100%;height:auto;max-height:360px;object-fit:contain;border:1px solid rgba(0,0,0,.1);border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.attachments a{display:block;font-size:10px;color:#2A52BE;background:white;border:1px solid #D1D6DB;padding:6px;margin-top:4px;border-radius:6px;font-weight:bold;text-align:center;text-decoration:none;overflow-wrap:anywhere}
+.composer{padding-bottom:env(safe-area-inset-bottom,0px)}
+.composer textarea{resize:vertical;height:44px;min-height:44px;max-height:150px;line-height:18px}
+.composer .attach-btn{flex:0 0 44px}.room-send-btn{font-size:14px;white-space:nowrap}
+.hint{font-size:10px;color:#8B95A1;margin:0;padding:0 16px 6px;line-height:1.5}
+.error{color:#B42331!important;white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;line-height:1.5}
+.composer .error{margin:0;padding:0 16px 8px}.composer .error:empty{display:none}
+.preview-area{padding-top:18px}.preview-img-wrap img{width:100%;height:100%;object-fit:cover;border-radius:8px}.preview-del{border:0;padding:0}
+.gate{width:100%;min-height:100vh;min-height:100dvh;padding:24px 16px;display:grid;place-items:center}
+.gate-card{width:min(100%,440px);padding:24px;background:white;border:1px solid #E5E8EB;border-radius:8px}
+.gate-card h1{font-size:22px;margin:0 0 12px;line-height:1.4}.gate-card p{line-height:1.6;color:#6B7684;overflow-wrap:anywhere}
+.gate-card form{display:grid;gap:12px}.gate-card label{display:grid;gap:6px;font-size:14px;font-weight:bold}
+.gate-card input{width:100%;min-width:0;padding:12px;border:1px solid #D1D6DB;border-radius:8px}
+.gate-actions{display:grid;gap:10px;margin-top:12px}
+.gate button{border:0;border-radius:8px;padding:12px 14px;background:#2A52BE;color:white;font-weight:bold;overflow-wrap:anywhere}
+.gate button.secondary{background:#F2F4F6;color:#2A52BE}.gate a{color:#2A52BE;font-size:14px;line-height:1.5}
+@media(max-width:700px){
+ .chat-list-panel{width:100%}.workspace .chat-room-panel{display:none}.workspace.room-open .chat-list-panel{display:none}.workspace.room-open .chat-room-panel{display:flex}
+ .room-header .back{display:block}.room-header{padding:12px}.room-header h2{flex-basis:120px;font-size:15px}.room-header .delete-room-btn{font-size:12px}
+ .room-messages{padding:12px}.msg-container{max-width:90%}.room-status{padding-inline:12px}.room-input-area{padding:12px 10px;gap:8px}
+ .room-input{font-size:16px;padding:12px}.room-send-btn{padding:0 16px}.gate-card{padding:22px}
+}
+@media(max-width:360px){.panel-header h1{font-size:16px}.room-header h2{flex-basis:100px}.room-input-area{flex-wrap:wrap}.room-input{flex:1 1 100%;order:-1}.room-send-btn{margin-left:auto}}
+
+</style>
 </head>
 <body>
-
-    <!-- 왼쪽 사용자 리스트 -->
-    <div class="chat-list-panel">
-        <div class="panel-header">
-            <span>학생 문의 관리</span>
-        </div>
-        <div class="user-list" id="userList">
-            <!-- 자바스크립트로 렌더링 -->
-        </div>
-    </div>
-
-    <!-- 오른쪽 채팅 내역 -->
-    <div class="chat-room-panel">
-        <div id="roomEmpty" class="empty-state">왼쪽에서 대화방을 선택해주세요.</div>
-        
-        <div id="roomActive" style="display: none; height: 100%; flex-direction: column;">
-            <div class="room-header">
-                <span id="roomTitle">사용자 이름</span>
-                <button id="deleteRoomBtn" class="delete-room-btn" style="display: none;" onclick="deleteCurrentRoom()">대화방 삭제</button>
-            </div>
-            <div class="room-messages" id="roomMessages">
-                <!-- 메시지 렌더링 -->
-            </div>
-            
-            <div class="room-input-container">
-                <!-- 이미지 미리보기 영역 -->
-                <div id="previewArea" class="preview-area" style="display: none;"></div>
-                
-                <div class="room-input-area">
-                    <label for="imgUpload" class="attach-btn" title="이미지 첨부">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    </label>
-                    <input type="file" id="imgUpload" multiple accept="image/*" style="display:none;" onchange="handleFileSelect(event)">
-                    
-                    <input type="text" id="adminInput" class="room-input" placeholder="답변을 입력하세요">
-                    <button class="room-send-btn" id="sendBtn" onclick="sendReply()">전송</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
+<section id="gate" class="gate"><div class="gate-card">
+<h1>관리자 문의 채팅</h1><p id="gateInfo">로그인 상태를 확인하고 있습니다.</p>
+<form id="loginForm" hidden><label>이메일<input id="email" type="email" autocomplete="username" required maxlength="254"></label><label>비밀번호<input id="password" type="password" autocomplete="current-password" required></label><button type="submit">이메일로 로그인</button></form>
+<div class="gate-actions"><button id="googleLogin" type="button" hidden>Google 계정으로 로그인</button><button id="gateLogout" class="secondary" type="button" hidden>다른 계정으로 로그인</button><a href="../course/">수강신청 도우미로 돌아가기</a></div><p id="loginError" class="error" role="alert"></p>
+</div></section>
+<main id="workspace" class="workspace" hidden>
+<aside class="list-panel chat-list-panel" aria-label="문의 목록"><header class="panel-header"><h1>학생 문의 관리</h1><button id="logout" type="button">로그아웃</button></header><div id="accountInfo" class="panel-meta"></div><label class="search-label">문의 이름 검색<input id="roomSearch" type="search" placeholder="이름 또는 닉네임" autocomplete="off"></label><div id="roomList" class="user-list" aria-label="채팅방"></div><div id="listStatus" class="panel-meta" role="status"></div></aside>
+<section class="room-panel chat-room-panel" aria-label="문의 대화"><header class="room-header"><button id="back" class="back secondary" type="button">← 목록</button><h2 id="roomTitle">문의를 선택해 주세요</h2><button id="deleteRoom" class="danger delete-room-btn" type="button" disabled>대화방 삭제</button></header><div id="roomStatus" class="room-status" role="status"></div><div id="roomEmpty" class="room-empty empty-state">왼쪽에서 대화방을 선택해주세요.</div><div id="messages" class="messages room-messages" role="log" aria-label="대화 내용" hidden></div>
+<form id="composer" class="composer room-input-container" hidden><div id="previews" class="previews preview-area" hidden></div><div class="composer-row room-input-area"><label class="attach attach-btn" title="이미지 첨부" aria-label="이미지 첨부" for="images"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></label><input id="images" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden><textarea class="room-input" id="reply" rows="1" maxlength="4000" placeholder="답변을 입력하세요" aria-label="답변"></textarea><button id="send" class="send room-send-btn" type="submit">전송</button></div><p class="hint">Enter 전송 · Shift+Enter 줄바꿈 · JPG/PNG/WebP 3장, 각 5MB 이하</p><p id="sendError" class="error" role="alert"></p></form>
+</section></main>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"></script>
+<script>/* Shared Firebase adapter, embedded into every standalone page by build.cjs. */
+window.App = (() => {
+  'use strict';
+  const config = {apiKey:'AIzaSyD-IyAGGXQ69d8LupTU2mKmr87yoenahRo',authDomain:'gimpo-monitoring.firebaseapp.com',databaseURL:'https://gimpo-monitoring-default-rtdb.firebaseio.com',projectId:'gimpo-monitoring',storageBucket:'gimpo-monitoring.firebasestorage.app',messagingSenderId:'918422830852',appId:'1:918422830852:web:c9d6412cb2fc3dcc619a51'};
+  let timer;
+  function toast(text){let box=document.getElementById('appToast');if(!box){box=document.createElement('div');box.id='appToast';box.setAttribute('role','status');box.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);max-width:90vw;width:max-content;background:#191f28;color:white;padding:12px 18px;border-radius:12px;z-index:999999;white-space:pre-wrap;overflow-wrap:anywhere';document.body.append(box);}box.textContent=text;box.hidden=false;clearTimeout(timer);timer=setTimeout(()=>box.hidden=true,6500);}
+  function error(e){const c=String(e?.code||''); if(c.includes('permission-denied')||c.includes('PERMISSION_DENIED'))return '접근 권한이 없습니다. 로그인 상태와 Firebase 보안 규칙을 확인해주세요.';if(c.includes('unauthenticated'))return '로그인이 필요합니다.';if(c.includes('resource-exhausted'))return '요청 한도에 도달했습니다. 잠시 후 다시 이용해주세요.';if(c.includes('popup-closed'))return '로그인 창이 닫혔습니다.';if(c.includes('credential')||c.includes('wrong-password')||c.includes('user-not-found'))return '이메일 또는 비밀번호를 확인해주세요.';if(c.includes('email-already'))return '이미 가입된 이메일입니다.';if(c.includes('network')||c.includes('unavailable'))return '서버에 연결할 수 없습니다. 연결 상태를 확인해주세요.';return e?.message||'요청을 처리하지 못했습니다. 다시 시도해주세요.';}
+  const cache={read(key,fallback=null){try{return JSON.parse(localStorage.getItem(key))??fallback;}catch{return fallback;}},write(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true;}catch{toast('기기 저장 공간에 접근할 수 없습니다. 창을 닫기 전에 저장 상태를 확인해주세요.');return false;}},remove(key){try{localStorage.removeItem(key);}catch{}}};
+  const demo=new URLSearchParams(location.search).get('demo')==='1';
+  const api={config,toast,error,cache,demo,offline:demo||!window.firebase||!firebase.auth||!firebase.database||!firebase.storage||!firebase.functions,isMember:u=>Boolean(u&&!u.isAnonymous),releaseImages(container){container?.querySelectorAll('img').forEach(img=>{if(img.src.startsWith('blob:'))URL.revokeObjectURL(img.src);});}};
+  if(api.offline){if(!demo)api.initializationError={code:'sdk/unavailable',message:'Firebase 연결 모듈을 불러오지 못했습니다. 인터넷 연결을 확인하고 새로고침해주세요.'};api.auth={currentUser:null,onAuthStateChanged(fn){queueMicrotask(()=>fn(null));return ()=>{};}};api.ready=Promise.resolve(null);return api;}
+  firebase.initializeApp(config);api.auth=firebase.auth();api.db=firebase.database();api.storage=firebase.storage();api.functions=firebase.app().functions('asia-northeast3');
+  let signing=null,resolveReady;api.ready=new Promise(resolve=>resolveReady=resolve);
+  api.retryAuthentication=()=>{
+    if(api.auth.currentUser)return Promise.resolve(api.auth.currentUser);
+    if(signing)return signing;
+    signing=api.auth.signInAnonymously().then(cred=>{api.authError=null;resolveReady(cred.user);return cred.user;}).catch(e=>{if(api.auth.currentUser){api.authError=null;resolveReady(api.auth.currentUser);return api.auth.currentUser;}api.authError={code:e.code||'auth/unknown',message:e.message||error(e)};window.dispatchEvent(new CustomEvent('app-auth-error',{detail:api.authError}));toast('기기 내 연습은 가능합니다. 서버 연결: '+error(e));resolveReady(null);throw e;}).finally(()=>{signing=null;});
+    return signing;
+  };
+  api.auth.onAuthStateChanged(user=>{if(user){api.authError=null;resolveReady(user);return;}api.retryAuthentication().catch(()=>{});});
+  api.signInGoogle=async()=>{const provider=new firebase.auth.GoogleAuthProvider();return api.auth.signInWithPopup(provider);};
+  api.signInEmail=(email,password)=>api.auth.signInWithEmailAndPassword(email.trim(),password);
+  api.signOut=()=>api.auth.signOut();api.isAdmin=async()=>Boolean((await api.auth.currentUser?.getIdTokenResult(true))?.claims.admin);
+  api.uploadImages=async(uid,files)=>{if(files.length>3)throw new Error('사진은 한 번에 3장까지 첨부할 수 있습니다.');for(const f of files){if(!['image/jpeg','image/png','image/webp'].includes(f.type)||f.size>5*1024*1024)throw new Error('사진은 JPG·PNG·WEBP, 한 장당 5MB 이하로 선택해주세요.');}const uploaded=[];try{for(const f of files){const ext={'image/jpeg':'jpg','image/png':'png','image/webp':'webp'}[f.type];const path=`inquiryUploads/${uid}/${crypto.randomUUID()}/image.${ext}`;await api.storage.ref(path).put(f,{contentType:f.type});uploaded.push({path,name:f.name.slice(0,100)});}return uploaded;}catch(e){await Promise.allSettled(uploaded.map(x=>api.storage.ref(x.path).delete()));throw e;}};
+  function restoredImage(image){
+    const text=image.legacyData,mime=image.legacyMime,max=5*1024*1024;
+    if(typeof text!=='string'||!text.length||text.length>4*Math.ceil(max/3)||text.length%4||!/^[A-Za-z0-9+/]+={0,2}$/.test(text))throw new Error('복원된 이미지 형식이 올바르지 않습니다.');
+    const raw=atob(text);if(raw.length>max||btoa(raw)!==text)throw new Error('복원된 이미지 크기나 형식이 올바르지 않습니다.');
+    const bytes=Uint8Array.from(raw,c=>c.charCodeAt(0)),n=bytes.length,hex=(a,b)=>Array.from(bytes.slice(a,b),x=>x.toString(16).padStart(2,'0')).join(''),ascii=(a,b)=>raw.slice(a,b);
+    const png=n>=45&&hex(0,8)==='89504e470d0a1a0a'&&hex(8,12)==='0000000d'&&ascii(12,16)==='IHDR'&&hex(n-8,n)==='49454e44ae426082';
+    const jpeg=n>=12&&hex(0,3)==='ffd8ff'&&hex(n-2,n)==='ffd9';
+    const webp=n>=20&&ascii(0,4)==='RIFF'&&new DataView(bytes.buffer).getUint32(4,true)===n-8&&ascii(8,12)==='WEBP'&&['VP8 ','VP8L','VP8X'].includes(ascii(12,16));
+    if(!((png&&mime==='image/png')||(jpeg&&mime==='image/jpeg')||(webp&&mime==='image/webp')))throw new Error('복원된 이미지 형식이 올바르지 않습니다.');
+    return new Blob([bytes],{type:mime});
+  }
+  api.imageElement=async image=>{
+    const wrap=document.createElement('div');
+    try{
+      if(!image||typeof image!=='object')throw new Error('지원하지 않는 첨부입니다.');
+      const name=typeof image.name==='string'?image.name.slice(0,100):'문의 첨부';
+      let blob;
+      if(image.legacyData!==undefined){blob=restoredImage(image);}
+      else if(image.legacyUrl!==undefined){
+        let url;try{url=new URL(image.legacyUrl);}catch{throw new Error('이전 첨부 주소가 올바르지 않습니다.');}
+        if(typeof image.legacyUrl!=='string'||url.protocol!=='https:'||url.hostname!=='i.ibb.co'||url.port||url.username||url.password||url.hash||url.search||/%(?:2f|5c|00)/i.test(url.pathname)||!/^\/[A-Za-z0-9_-]+\/[A-Za-z0-9_.%-]+$/.test(url.pathname))throw new Error('이전 첨부 주소가 올바르지 않습니다.');
+        try{decodeURIComponent(url.pathname);}catch{throw new Error('이전 첨부 주소가 올바르지 않습니다.');}
+        const link=document.createElement('a');link.href=url.href;link.target='_blank';link.rel='noopener noreferrer';link.referrerPolicy='no-referrer';link.textContent=name+' · 이전 이미지 열기';wrap.append(link);return wrap;
+      }else{
+        if(typeof image.path!=='string'||!/^inquiryUploads\/[^/]+\/[^/]+\/(image|[0-2])\.(jpg|png|webp)$/.test(image.path))throw new Error('지원하지 않는 첨부입니다.');
+        const token=await api.auth.currentUser.getIdToken();
+        const response=await fetch(`https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${encodeURIComponent(image.path)}?alt=media`,{headers:{Authorization:`Firebase ${token}`},signal:AbortSignal.timeout(20000)});
+        if(!response.ok)throw new Error('이미지를 읽을 수 없습니다.');blob=await response.blob();
+        if(blob.size>5*1024*1024||!/^image\/(jpeg|png|webp)$/.test(blob.type))throw new Error('지원하지 않는 이미지입니다.');
+      }
+      const url=URL.createObjectURL(blob),img=document.createElement('img'),link=document.createElement('a');img.src=url;img.alt=name;img.style.cssText='max-width:100%;width:220px;border-radius:12px;display:block';link.href=url;link.download=name;link.textContent='이미지 저장';wrap.append(img,link);
+    }catch(e){wrap.textContent=error(e);}
+    return wrap;
+  };
+  return api;
+})();
+</script>
 <script>
-    // 🔥 메인 앱과 완벽히 동일한 Firebase 정보 세팅 (Storage 완전 제거)
-    const firebaseConfig = {
-      apiKey: "AIzaSyD-IyAGGXQ69d8LupTU2mKmr87yoenahRo",
-      authDomain: "gimpo-monitoring.firebaseapp.com",
-      databaseURL: "https://gimpo-monitoring-default-rtdb.firebaseio.com",
-      projectId: "gimpo-monitoring",
-      messagingSenderId: "918422830852",
-      appId: "1:918422830852:web:c9d6412cb2fc3dcc619a51",
-      measurementId: "G-292HR1LYHY"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
-
-    // 🔴 메인 사이트에 넣은 것과 똑같은 32자리 ImgBB API 키를 쌍따옴표 안에 붙여넣으세요!
-    const IMGBB_API_KEY = "여기에_발급받은_API_키_붙여넣기";
-
-    let usersData = {}; 
-    let currentChatUid = null;
-    let currentListener = null;
-    let currentChatName = ""; 
-    let lastMessageDateStr = ""; 
-    
-    let selectedFiles = []; 
-
-    // 🔥 수강신청 앱과 완벽히 동일한 달력 벡터 아이콘
-    const calendarVector = `<svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
-
-    // 1. 유저 데이터 감지 및 가공 (1학년 N반 N번 OOO 형태로 완벽 가공)
-    database.ref('user_data').on('value', snap => {
-        const data = snap.val();
-        if(!data) return;
-        for(let uid in data) {
-            const u = data[uid];
-            // 반 번호가 모두 있는 경우
-            if(u.classNum && u.studentNum && u.name) {
-                usersData[uid] = `1학년 ${u.classNum}반 ${u.studentNum}번 ${u.name}`;
-            } 
-            // 이름만 있는 경우의 대비책
-            else if(u.name) {
-                usersData[uid] = u.name;
-            }
-        }
-        renderUserList();
+(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+const sdk = window.App;
+let authEpoch=0,roomEpoch=0,renderEpoch=0,currentUid=null,rooms={},roomRef=null,messageQuery=null,connectionRef=null,roleRef=null,fullAdmin=false,files=[],previewUrls=[],sending=false,deleting=false,loadingOlder=false,hasOlder=false,pending=null;
+let messages=new Map(),liveKeys=new Set(),liveRoomKeys=new Set(),moreRooms=false,loadingRooms=false;
+function textNode(tag,className,text){const node=document.createElement(tag);if(className)node.className=className;node.textContent=text;return node;}
+function friendly(error){return sdk ? sdk.error(error) : '서비스 연결에 실패했습니다. 인터넷 연결을 확인하고 새로고침해 주세요.';}
+function releaseImages(){if(sdk?.releaseImages)sdk.releaseImages($('messages'));}
+function clearPreview(){previewUrls.forEach(url=>URL.revokeObjectURL(url));previewUrls=[];files=[];$('images').value='';$('previews').replaceChildren();$('previews').hidden=true;}
+function stopRoom(){roomEpoch++;renderEpoch++;if(messageQuery)messageQuery.off();messageQuery=null;messages.clear();liveKeys.clear();releaseImages();$('messages').replaceChildren();currentUid=null;hasOlder=false;loadingOlder=false;pending=null;clearPreview();$('reply').value='';$('messages').hidden=true;$('composer').hidden=true;$('roomEmpty').hidden=false;$('deleteRoom').disabled=true;$('roomTitle').textContent='문의를 선택해 주세요';$('roomStatus').textContent='';$('sendError').textContent='';$('workspace').classList.remove('room-open');}
+function stopAll(){stopRoom();if(roleRef)roleRef.off();roleRef=null;fullAdmin=false;if(roomRef)roomRef.off();if(connectionRef)connectionRef.off();roomRef=null;connectionRef=null;rooms={};liveRoomKeys.clear();moreRooms=false;loadingRooms=false;$('roomList').replaceChildren();}
+function setBusy(){const locked=sending||deleting;$('send').disabled=locked;$('send').textContent=sending?'전송 중…':'전송';$('reply').disabled=locked;$('images').disabled=locked||!fullAdmin;$('deleteRoom').disabled=locked||!currentUid||!fullAdmin;document.querySelector('.attach').setAttribute('aria-disabled',String(!fullAdmin));document.querySelector('.attach').style.opacity=fullAdmin?'':'0.45';document.querySelector('.attach').style.pointerEvents=fullAdmin?'':'none';}
+function renderRooms(){const term=$('roomSearch').value.trim().toLocaleLowerCase('ko');const list=Object.entries(rooms).filter(([,room])=>room&&room.deleted!==true&&String(room.name||'익명 문의').toLocaleLowerCase('ko').includes(term)).sort((a,b)=>(Number(b[1].updatedAt)||0)-(Number(a[1].updatedAt)||0));const fragment=document.createDocumentFragment();list.forEach(([uid,room])=>{const button=textNode('button','user-item'+(uid===currentUid?' active':''),'');button.type='button';button.append(textNode('span','user-name',room.name||'익명 문의'),textNode('span','user-preview',room.lastText||'(사진 또는 새 문의)'));button.addEventListener('click',()=>openRoom(uid));fragment.append(button);});if(!list.length)fragment.append(textNode('p','list-empty',term?'불러온 문의 중 검색 결과가 없습니다.':'아직 접수된 문의가 없습니다.'));if(moreRooms){const button=textNode('button','user-item',loadingRooms?'불러오는 중…':'이전 문의 더 불러오기');button.type='button';button.disabled=loadingRooms;button.addEventListener('click',loadOlderRooms);fragment.append(button);}$('roomList').replaceChildren(fragment);}
+async function loadOlderRooms(){if(loadingRooms||!moreRooms)return;const entries=Object.entries(rooms).sort((a,b)=>(Number(a[1].updatedAt)||0)-(Number(b[1].updatedAt)||0)||a[0].localeCompare(b[0])),oldest=entries[0],epoch=authEpoch;if(!oldest)return;loadingRooms=true;renderRooms();try{const snapshot=await sdk.db.ref('v2/rooms').orderByChild('updatedAt').endAt(Number(oldest[1].updatedAt)||0,oldest[0]).limitToLast(201).once('value');if(epoch!==authEpoch)return;const items=Object.entries(snapshot.val()||{}).filter(([uid])=>uid!==oldest[0]);items.forEach(([uid,room])=>rooms[uid]=room);moreRooms=items.length===200;}catch(error){if(epoch===authEpoch)$('listStatus').textContent=friendly(error);}finally{if(epoch===authEpoch){loadingRooms=false;renderRooms();}}}
+function formatDate(ts){return new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'short'}).format(new Date(ts));}
+function formatTime(ts){return new Intl.DateTimeFormat('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(ts));}
+function dateSeparator(label){
+ const node=textNode('div','date date-separator',''),ns='http://www.w3.org/2000/svg',icon=document.createElementNS(ns,'svg');
+ icon.setAttribute('viewBox','0 0 24 24');icon.setAttribute('aria-hidden','true');
+ [['rect',{x:3,y:4,width:18,height:18,rx:2,ry:2}],['line',{x1:16,y1:2,x2:16,y2:6}],['line',{x1:8,y1:2,x2:8,y2:6}],['line',{x1:3,y1:10,x2:21,y2:10}]].forEach(([tag,attrs])=>{const shape=document.createElementNS(ns,tag);Object.entries(attrs).forEach(([key,value])=>shape.setAttribute(key,String(value)));icon.append(shape);});
+ node.append(icon,document.createTextNode(label));return node;
+}
+function renderMessages(preservePosition=false){
+ const container=$('messages'),before=container.scrollHeight-container.scrollTop,nearBottom=container.scrollHeight-container.scrollTop-container.clientHeight<100,epoch=++renderEpoch;
+ releaseImages();const fragment=document.createDocumentFragment();
+ if(hasOlder){const older=textNode('button','older',loadingOlder?'불러오는 중…':'이전 대화 불러오기');older.type='button';older.disabled=loadingOlder;older.addEventListener('click',loadOlder);fragment.append(older);}
+ let lastDate='';
+ [...messages.entries()].sort(([a],[b])=>a.localeCompare(b)).forEach(([id,msg])=>{
+  if(!msg||typeof msg!=='object')return;
+  const ts=typeof msg.timestamp==='number'&&Number.isFinite(msg.timestamp)?msg.timestamp:null,date=ts?formatDate(ts):'전송 중',admin=msg.role==='admin';
+  if(date!==lastDate){fragment.append(dateSeparator(date));lastDate=date;}
+  const item=document.createElement('article');item.className='message msg-container '+(admin?'admin msg-admin-container':'msg-user-container');item.dataset.messageId=id;
+  item.append(textNode('div','sender msg-sender',admin?'개발자':String(msg.senderName||rooms[currentUid]?.name||'사용자')));
+  const row=textNode('div',admin?'msg-row-admin':'msg-row-user',''),content=textNode('div','msg-content','');
+  if(typeof msg.text==='string'&&msg.text)content.append(textNode('div','bubble msg-bubble '+(admin?'msg-admin':'msg-user'),msg.text));
+  if(Array.isArray(msg.images)){
+   const images=document.createElement('div');images.className='attachments img-list';content.append(images);
+   msg.images.slice(0,3).forEach(image=>{const holder=document.createElement('div');images.append(holder);sdk.imageElement(image).then(node=>{if(epoch===renderEpoch&&holder.isConnected)holder.append(node);else if(sdk.releaseImages){const detached=document.createElement('div');detached.append(node);sdk.releaseImages(detached);}}).catch(()=>{if(epoch===renderEpoch)holder.textContent='이미지를 불러오지 못했습니다.';});});
+  }
+  const time=textNode('div','time msg-time',ts?formatTime(ts):'전송 확인 중');
+  if(admin)row.append(time,content);else row.append(content,time);
+  item.append(row);fragment.append(item);
+ });
+ container.replaceChildren(fragment);if(preservePosition)container.scrollTop=container.scrollHeight-before;else if(nearBottom)container.scrollTop=container.scrollHeight;
+}
+function openRoom(uid){if(uid===currentUid){$('workspace').classList.add('room-open');return;}stopRoom();currentUid=uid;const epoch=roomEpoch;$('workspace').classList.add('room-open');$('roomTitle').textContent=rooms[uid]?.name||'익명 문의';$('roomEmpty').hidden=true;$('messages').hidden=false;$('composer').hidden=false;$('roomStatus').textContent='대화를 불러오는 중입니다.';setBusy();renderRooms();messageQuery=sdk.db.ref('v2/inquiries/'+uid).orderByKey().limitToLast(100);messageQuery.on('value',snap=>{if(epoch!==roomEpoch||uid!==currentUid)return;const data=snap.val()||{},newKeys=Object.keys(data).sort();const min=newKeys[0];liveKeys.forEach(key=>{if(!Object.hasOwn(data,key)&&(!min||key>=min))messages.delete(key);});Object.entries(data).forEach(([key,value])=>messages.set(key,value));liveKeys=new Set(newKeys);hasOlder=newKeys.length===100&&messages.size<=100?true:hasOlder;$('roomStatus').textContent='최근 대화 '+messages.size+'개';renderMessages();},error=>{if(epoch===roomEpoch)$('roomStatus').textContent=friendly(error);});}
+async function loadOlder(){if(!currentUid||loadingOlder||!messages.size)return;const uid=currentUid,epoch=roomEpoch,oldest=[...messages.keys()].sort()[0];loadingOlder=true;renderMessages(true);try{const snap=await sdk.db.ref('v2/inquiries/'+uid).orderByKey().endAt(oldest).limitToLast(101).once('value');if(epoch!==roomEpoch)return;const entries=Object.entries(snap.val()||{}).filter(([id])=>id!==oldest);entries.forEach(([id,msg])=>messages.set(id,msg));hasOlder=entries.length===100;}catch(error){if(epoch===roomEpoch)$('roomStatus').textContent=friendly(error);}finally{if(epoch===roomEpoch){loadingOlder=false;renderMessages(true);}}}
+function renderPreview(){previewUrls.forEach(url=>URL.revokeObjectURL(url));previewUrls=[];$('previews').replaceChildren();$('previews').hidden=!files.length;files.forEach((file,index)=>{const wrap=document.createElement('div');wrap.className='preview preview-img-wrap';const img=document.createElement('img'),url=URL.createObjectURL(file);previewUrls.push(url);img.src=url;img.alt=file.name;const remove=textNode('button','preview-del','×');remove.type='button';remove.setAttribute('aria-label',file.name+' 첨부 취소');remove.disabled=sending;remove.addEventListener('click',()=>{if(sending)return;files.splice(index,1);pending=null;renderPreview();});wrap.append(img,remove);$('previews').append(wrap);});}
+$('images').addEventListener('change',event=>{if(sending||!fullAdmin)return;const additions=Array.from(event.target.files||[]);event.target.value='';if(files.length+additions.length>3){$('sendError').textContent='사진은 한 번에 3장까지 첨부할 수 있습니다.';return;}if(additions.some(file=>!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>5*1024*1024||file.size===0)){$('sendError').textContent='JPG/PNG/WebP 이미지이며 각 파일이 5MB 이하여야 합니다.';return;}files.push(...additions);pending=null;$('sendError').textContent='';renderPreview();});
+$('reply').addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing){event.preventDefault();$('composer').requestSubmit();}});
+async function persistReply(ref,payload,request){
+ const matches=value=>value&&value.role===payload.role&&value.text===payload.text&&value.senderName===payload.senderName&&JSON.stringify(value.images||[])===JSON.stringify(payload.images||[]);
+ if(request.attempted){const existing=await ref.once('value');if(matches(existing.val()))return;if(existing.exists())throw new Error('전송 식별자가 충돌했습니다. 내용을 확인하고 새 메시지로 전송해 주세요.');}
+ request.attempted=true;
+ try{await ref.set(payload);}catch(error){try{const existing=await ref.once('value');if(matches(existing.val()))return;}catch{}throw error;}
+}
+$('composer').addEventListener('submit',async event=>{event.preventDefault();if(sending||deleting||!currentUid)return;const text=$('reply').value.trim(),uid=currentUid,epoch=authEpoch,room=roomEpoch,chosen=[...files];if(!text&&!chosen.length)return;sending=true;setBusy();renderPreview();$('sendError').textContent='';try{if(!pending||pending.uid!==uid||pending.text!==text||pending.files.length!==chosen.length||pending.files.some((f,i)=>f!==chosen[i]))pending={uid,text,files:chosen,key:sdk.db.ref('v2/inquiries/'+uid).push().key,images:null};const request=pending;if(!request.images)request.images=await sdk.uploadImages(uid,chosen);if(epoch!==authEpoch)throw new Error('로그인 계정이 변경되어 전송을 중단했습니다.');const payload={role:'admin',senderName:'개발자',text,timestamp:firebase.database.ServerValue.TIMESTAMP};if(request.images.length)payload.images=request.images;await persistReply(sdk.db.ref('v2/inquiries/'+uid+'/'+request.key),payload,request);if(currentUid===uid&&roomEpoch===room){if($('reply').value.trim()===text)$('reply').value='';clearPreview();pending=null;$('sendError').textContent='';sdk.toast('답변을 전송했습니다.');}}catch(error){if(currentUid===uid&&roomEpoch===room)$('sendError').textContent=friendly(error);}finally{sending=false;setBusy();renderPreview();}});
+$('deleteRoom').addEventListener('click',async()=>{if(!fullAdmin||!currentUid||sending||deleting)return;const uid=currentUid,name=rooms[uid]?.name||'이 문의';if(!confirm(name+'의 대화와 첨부 이미지를 삭제할까요? 이 작업은 되돌릴 수 없습니다.'))return;deleting=true;setBusy();try{await sdk.functions.httpsCallable('deleteInquiry')({uid});if(currentUid===uid)stopRoom();sdk.toast('대화를 삭제했습니다.');}catch(error){$('roomStatus').textContent=friendly(error);}finally{deleting=false;setBusy();}});
+$('back').addEventListener('click',()=>$('workspace').classList.remove('room-open'));
+$('roomSearch').addEventListener('input',renderRooms);
+async function login(action){$('loginError').textContent='';const buttons=$('gate').querySelectorAll('button');buttons.forEach(b=>b.disabled=true);try{await action();$('password').value='';}catch(error){$('loginError').textContent=friendly(error);}finally{buttons.forEach(b=>b.disabled=false);}}
+$('loginForm').addEventListener('submit',event=>{event.preventDefault();login(()=>sdk.signInEmail($('email').value.trim(),$('password').value));});
+$('googleLogin').addEventListener('click',()=>login(()=>sdk.signInGoogle()));
+$('gateLogout').addEventListener('click',()=>login(()=>sdk.signOut()));
+$('logout').addEventListener('click',()=>login(()=>sdk.signOut()));
+async function authChanged(user){
+ const epoch=++authEpoch;stopAll();$('workspace').hidden=true;$('gate').hidden=false;$('loginForm').hidden=true;$('googleLogin').hidden=true;$('gateLogout').hidden=true;$('loginError').textContent='';
+ if(!user||user.isAnonymous){$('gateInfo').textContent='관리자 권한이 등록된 계정으로 로그인해 주세요.';$('loginForm').hidden=false;$('googleLogin').hidden=false;return;}
+ $('gateInfo').textContent='관리자 권한을 확인하고 있습니다.';
+ try{
+  const token=await user.getIdTokenResult(true);if(epoch!==authEpoch)return;
+  fullAdmin=token.claims.admin===true;
+  const rolePath='private/reportAdmins/'+user.uid;
+  const permission=fullAdmin?null:await sdk.db.ref(rolePath).once('value');
+  if(epoch!==authEpoch)return;
+  if(!fullAdmin&&permission.val()!==true){$('gateInfo').textContent='이 계정에는 문의 관리 권한이 없습니다. 기존 관리자 계정으로 로그인해 주세요.';$('gateLogout').hidden=false;return;}
+  $('deleteRoom').hidden=!fullAdmin;
+  document.querySelector('.composer .hint').textContent=fullAdmin?'Enter 전송 · Shift+Enter 줄바꿈 · JPG/PNG/WebP 3장, 각 5MB 이하':'Enter 전송 · Shift+Enter 줄바꿈';
+  $('gate').hidden=true;$('workspace').hidden=false;$('accountInfo').textContent=user.email||'관리자';$('listStatus').textContent='문의 목록을 불러오는 중입니다.';
+  if(!fullAdmin){
+   roleRef=sdk.db.ref(rolePath);
+   roleRef.on('value',snapshot=>{if(epoch===authEpoch&&snapshot.val()!==true)authChanged(user);},()=>{if(epoch===authEpoch)authChanged(user);});
+  }
+  // Firebase streams changed children into its local cache. Listing the inquiry tree
+  // discovers new rooms immediately while Functions is unavailable.
+  roomRef=sdk.db.ref('v2/inquiries');
+  roomRef.on('value',snap=>{
+   if(epoch!==authEpoch)return;
+   const nextRooms={};
+   snap.forEach(roomSnapshot=>{
+    let last=null,lastUser=null;
+    roomSnapshot.forEach(messageSnapshot=>{
+     const message=messageSnapshot.val();
+     if(!message||typeof message!=='object')return;
+     last=message;
+     if(message.role==='user')lastUser=message;
     });
-
-    // 2. 전체 문의방 목록 감지
-    let allInquiries = {};
-    database.ref('inquiries').on('value', snap => {
-        allInquiries = snap.val() || {};
-        renderUserList();
-    });
-
-    function renderUserList() {
-        const listDiv = document.getElementById('userList');
-        listDiv.innerHTML = '';
-        
-        let rooms = [];
-        for(let uid in allInquiries) {
-            const msgsObj = allInquiries[uid];
-            const msgsArr = Object.values(msgsObj);
-
-            // 마지막 메시지가 관리자의 답변인 경우에도 익명 닉네임이 유지되도록
-            // 해당 대화방의 사용자 메시지에서 senderName을 찾습니다.
-            let lastMsg = msgsArr[msgsArr.length - 1];
-            let userMsg = null;
-
-            for(let i = msgsArr.length - 1; i >= 0; i--) {
-                if(msgsArr[i] && msgsArr[i].role === 'user') {
-                    userMsg = msgsArr[i];
-                    break;
-                }
-            }
-
-            rooms.push({ uid, lastMsg, userMsg });
-        }
-        rooms.sort((a, b) => (b.lastMsg.timestamp || 0) - (a.lastMsg.timestamp || 0));
-
-        rooms.forEach(room => {
-            const uid = room.uid;
-            const lastMsg = room.lastMsg;
-            
-            let nickname = "알 수 없는 사용자";
-            // 💡 이름 판단 로직 (우선순위 적용)
-            if (usersData[uid]) {
-                nickname = usersData[uid]; // 로그인 유저 (1학년 ~)
-            } else if (room.userMsg && room.userMsg.senderName) {
-                nickname = room.userMsg.senderName; // 익명 유저의 실제 닉네임
-            } else if (lastMsg && lastMsg.senderName) {
-                nickname = lastMsg.senderName; // 기존 데이터 호환
-            }
-
-            let previewText = lastMsg && lastMsg.text ? lastMsg.text : '';
-            if(!previewText && lastMsg && lastMsg.images) previewText = "(사진 전송)";
-
-            const item = document.createElement('div');
-            item.className = `user-item ${currentChatUid === uid ? 'active' : ''}`;
-            item.onclick = () => openChat(uid, nickname);
-            
-            item.innerHTML = `
-                <div class="user-name">${nickname}</div>
-                <div class="user-preview">${previewText}</div>
-            `;
-            listDiv.appendChild(item);
-        });
-    }
-
-    // 날짜 형식 변환
-    function formatDate(ts) {
-        if(!ts) return '';
-        const d = new Date(ts);
-        const days = ['일', '월', '화', '수', '목', '금', '토'];
-        return `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 ${days[d.getDay()]}요일`;
-    }
-
-    // 시간 형식 변환
-    function formatTime(ts) {
-        if(!ts) return '';
-        const d = new Date(ts);
-        const h = String(d.getHours()).padStart(2, '0');
-        const m = String(d.getMinutes()).padStart(2, '0');
-        return `${h}:${m}`;
-    }
-
-    // 채팅방 삭제 기능
-    window.deleteCurrentRoom = function() {
-        if(!currentChatUid) return;
-        if(confirm("정말 이 학생과의 대화방(모든 메시지 및 사진 기록)을 삭제하시겠습니까?\n삭제된 데이터는 절대 복구할 수 없습니다.")) {
-            database.ref('inquiries/' + currentChatUid).remove().then(() => {
-                alert("대화방이 삭제되었습니다.");
-                document.getElementById('roomActive').style.display = 'none';
-                document.getElementById('roomEmpty').style.display = 'flex';
-                document.getElementById('deleteRoomBtn').style.display = 'none';
-                currentChatUid = null;
-                currentChatName = "";
-            }).catch(err => {
-                console.error("삭제 실패:", err);
-                alert("삭제 중 오류가 발생했습니다.");
-            });
-        }
-    }
-
-    function openChat(uid, nickname) {
-        currentChatUid = uid;
-
-        // 익명 대화방은 마지막 메시지가 관리자 답변이어도
-        // 사용자 메시지에 저장된 senderName을 다시 찾아 정확한 닉네임을 표시합니다.
-        if (!usersData[uid] && allInquiries[uid]) {
-            const msgsArr = Object.values(allInquiries[uid]);
-            for(let i = msgsArr.length - 1; i >= 0; i--) {
-                if(msgsArr[i] && msgsArr[i].role === 'user' && msgsArr[i].senderName) {
-                    nickname = msgsArr[i].senderName;
-                    break;
-                }
-            }
-        }
-
-        currentChatName = nickname;
-        renderUserList(); 
-        
-        document.getElementById('roomEmpty').style.display = 'none';
-        document.getElementById('roomActive').style.display = 'flex';
-        document.getElementById('roomTitle').innerText = `${nickname} 님과의 대화`;
-        document.getElementById('deleteRoomBtn').style.display = 'block'; // 삭제 버튼 활성화
-        
-        const msgDiv = document.getElementById('roomMessages');
-        msgDiv.innerHTML = '';
-        lastMessageDateStr = "";
-
-        if(currentListener) database.ref('inquiries/' + currentListener).off();
-        currentListener = uid;
-
-        // 채팅 렌더링
-        database.ref('inquiries/' + uid).on('child_added', snap => {
-            const msg = snap.val();
-            if (!msg.timestamp) msg.timestamp = Date.now(); 
-
-            const msgDate = formatDate(msg.timestamp);
-            if (msgDate && msgDate !== lastMessageDateStr) {
-                msgDiv.innerHTML += `
-                    <div class="date-separator">
-                        ${calendarVector} ${msgDate}
-                    </div>
-                `;
-                lastMessageDateStr = msgDate;
-            }
-
-            const isAdmin = msg.role === 'admin';
-            const displaySender = isAdmin ? '개발자' : currentChatName;
-            const timeStr = formatTime(msg.timestamp);
-            
-            let imgHtml = '';
-            if (msg.images && msg.images.length > 0) {
-                const imgTags = msg.images.map(url => `
-                    <div class="chat-image-wrap">
-                        <img src="${url}" class="chat-image" onclick="window.open('${url}')">
-                        <a href="${url}" target="_blank" download class="img-download-btn">원본 다운로드</a>
-                    </div>
-                `).join('');
-                imgHtml = `<div class="img-list">${imgTags}</div>`;
-            }
-
-            let textHtml = '';
-            if (msg.text) {
-                const bubbleClass = isAdmin ? 'msg-admin' : 'msg-user';
-                textHtml = `<div class="msg-bubble ${bubbleClass}">${msg.text.replace(/\n/g, '<br>')}</div>`;
-            }
-
-            const containerClass = isAdmin ? 'msg-admin-container' : 'msg-user-container';
-            const rowClass = isAdmin ? 'msg-row-admin' : 'msg-row-user';
-            
-            let finalHtml = '';
-            if (textHtml || imgHtml) {
-                // 🔥 min-width: 0 추가하여 Flex 박스 텍스트 오버플로우 방지
-                if (isAdmin) {
-                    finalHtml = `
-                        <div class="${rowClass}">
-                            <div class="msg-time">${timeStr}</div>
-                            <div style="display:flex; flex-direction:column; align-items:flex-end; min-width: 0;">
-                                ${textHtml}
-                                ${imgHtml}
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    finalHtml = `
-                        <div class="${rowClass}">
-                            <div style="display:flex; flex-direction:column; align-items:flex-start; min-width: 0;">
-                                ${textHtml}
-                                ${imgHtml}
-                            </div>
-                            <div class="msg-time">${timeStr}</div>
-                        </div>
-                    `;
-                }
-            }
-
-            msgDiv.innerHTML += `
-                <div class="msg-container ${containerClass}">
-                    ${isAdmin ? '' : `<div class="msg-sender">${displaySender}</div>`}
-                    ${finalHtml}
-                </div>
-            `;
-            msgDiv.scrollTop = msgDiv.scrollHeight;
-        });
-    }
-
-    // 🔥 이미지 파일 선택 및 미리보기 렌더링 로직 (벡터 X 아이콘 적용)
-    window.handleFileSelect = function(e) {
-        const files = Array.from(e.target.files);
-        if(files.length === 0) return;
-        selectedFiles = selectedFiles.concat(files);
-        renderPreview();
-        e.target.value = ''; 
-    }
-
-    window.removeFile = function(index) {
-        selectedFiles.splice(index, 1);
-        renderPreview();
-    }
-
-    function renderPreview() {
-        const area = document.getElementById('previewArea');
-        if (selectedFiles.length === 0) {
-            area.style.display = 'none';
-            area.innerHTML = '';
-            return;
-        }
-        
-        area.style.display = 'flex';
-        area.innerHTML = selectedFiles.map((file, idx) => `
-            <div class="preview-img-wrap">
-                <img src="${URL.createObjectURL(file)}" class="preview-img">
-                <div class="preview-del" onclick="removeFile(${idx})">
-                    <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    let isSending = false; 
-
-    // 🔥 답변 전송 (파이어베이스 Storage 제거 -> 무료 ImgBB API로 고화질 전송)
-    async function sendReply() {
-        if(!currentChatUid || isSending) return;
-        
-        const input = document.getElementById('adminInput');
-        const btn = document.getElementById('sendBtn');
-        const text = input.value.trim();
-        
-        if(!text && selectedFiles.length === 0) return; 
-
-        // API 키 입력 확인용 안전장치
-        if(selectedFiles.length > 0 && IMGBB_API_KEY === "aa1fa62c3d6c1259d4b83394320ce47c") {
-            alert("개발자 설정 오류: ImgBB API 키가 입력되지 않았습니다.");
-            return;
-        }
-        
-        isSending = true;
-        btn.innerText = "⏳";
-        btn.disabled = true;
-
-        try {
-            let imageUrls = [];
-            // 선택된 이미지가 있다면 ImgBB 서버로 업로드하여 고화질 원본 링크를 받아옴
-            if (selectedFiles.length > 0) {
-                for(let file of selectedFiles) {
-                    const formData = new FormData();
-                    formData.append("image", file);
-
-                    const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
-                        method: "POST",
-                        body: formData
-                    });
-                    const data = await res.json();
-                    
-                    if(data.success) {
-                        imageUrls.push(data.data.url); // ImgBB에서 받은 이미지 URL 저장
-                    } else {
-                        throw new Error("ImgBB Upload Failed");
-                    }
-                }
-            }
-
-            const payload = {
-                role: 'admin',
-                timestamp: firebase.database.ServerValue.TIMESTAMP
-            };
-            if(text) payload.text = text;
-            if(imageUrls.length > 0) payload.images = imageUrls;
-
-            // 파이어베이스 데이터베이스에는 텍스트와 사진 링크(URL)만 저장함
-            await database.ref('inquiries/' + currentChatUid).push(payload);
-            
-            input.value = '';
-            selectedFiles = [];
-            renderPreview();
-
-        } catch (error) {
-            console.error("전송 실패:", error);
-            alert("메시지 또는 이미지 전송에 실패했습니다. API 키나 인터넷 연결을 확인해주세요.");
-        } finally {
-            btn.innerText = "전송";
-            btn.disabled = false;
-            isSending = false;
-            document.getElementById('adminInput').focus();
-        }
-    }
-
-    document.getElementById('adminInput').addEventListener('keydown', function(e) {
-        if(e.key === 'Enter') { 
-            e.preventDefault(); 
-            sendReply(); 
-        }
-    });
-
+    if(!last)return;
+    nextRooms[roomSnapshot.key]={name:String(lastUser?.senderName||'익명 문의'),lastText:typeof last.text==='string'?last.text.slice(0,300):'',updatedAt:Number(last.timestamp)||0};
+   });
+   rooms=nextRooms;moreRooms=false;
+   if(currentUid&&!rooms[currentUid])stopRoom();
+   renderRooms();
+   $('listStatus').textContent='문의 '+Object.keys(rooms).length+'개 · 실시간 갱신 중';
+  },error=>{if(epoch===authEpoch)$('listStatus').textContent=friendly(error);});
+  connectionRef=sdk.db.ref('.info/connected');connectionRef.on('value',snap=>{if(epoch!==authEpoch)return;$('listStatus').textContent=snap.val()?'서버 연결됨 · 최근 문의를 실시간으로 확인합니다.':'서버 연결이 끊겼습니다. 연결이 복구되면 자동 갱신됩니다.';});
+ }catch(error){if(epoch===authEpoch){$('loginError').textContent=friendly(error);$('gateLogout').hidden=false;}}
+}
+if(!sdk||sdk.offline){$('gateInfo').textContent='관리자 기능은 서버 연결이 필요합니다. 인터넷 연결과 Firebase 설정을 확인하고 새로고침해 주세요.';return;}
+sdk.ready.then(()=>sdk.auth.onAuthStateChanged(authChanged)).catch(error=>{$('gateInfo').textContent=friendly(error);});
+window.addEventListener('pagehide',()=>{stopAll();});
+window.addEventListener('pageshow',event=>{if(event.persisted)authChanged(sdk.auth.currentUser);});
+})();
 </script>
 </body>
 </html>
