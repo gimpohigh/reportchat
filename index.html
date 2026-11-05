@@ -321,7 +321,63 @@ window.App = (() => {
   return api;
 })();
 </script>
-<script>/* Private inquiry attachments for the existing Firebase Realtime Database. */
+<script>/* The thumbnail and the enlarged view use the same stored, full-resolution image. */
+(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory;else root.InquiryPreview=factory(root,root.document);})(typeof globalThis!=='undefined'?globalThis:this,function(view,doc){
+'use strict';
+let dialog,photo,stage,title,zoomLabel,download,previousFocus,ownedUrl=null,revision=0,scale=1,fitting=true;
+const bound=new WeakSet();
+function node(tag,text){const n=doc.createElement(tag);if(text)n.textContent=text;return n;}
+function revoke(){if(ownedUrl){view.URL.revokeObjectURL(ownedUrl);ownedUrl=null;}}
+function updateSize(){
+ if(!dialog?.open||!photo.naturalWidth)return;
+ if(fitting)scale=Math.min(1,Math.max(1,stage.clientWidth-32)/photo.naturalWidth,Math.max(1,stage.clientHeight-32)/photo.naturalHeight);
+ photo.style.width=Math.max(1,Math.round(photo.naturalWidth*scale))+'px';photo.style.height='auto';
+ zoomLabel.textContent=Math.round(scale*100)+'%';
+}
+function zoom(next){fitting=false;scale=Math.max(.05,Math.min(4,next));updateSize();}
+function ensure(){
+ if(dialog)return;
+ const style=node('style');style.textContent=`
+ dialog.inquiry-image-viewer{box-sizing:border-box;position:fixed;inset:12px;margin:auto;padding:0;border:0;border-radius:14px;width:calc(100vw - 24px);max-width:1400px;height:calc(100vh - 24px);height:calc(100dvh - 24px);max-height:none;background:#15171b;color:#fff;overflow:hidden}
+ dialog.inquiry-image-viewer::backdrop{background:rgba(0,0,0,.78)}
+ .inquiry-image-viewer .image-viewer-layout{height:100%;display:grid;grid-template-rows:auto minmax(0,1fr) auto;min-width:0}
+ .inquiry-image-viewer .image-viewer-header,.inquiry-image-viewer .image-viewer-tools{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:10px 12px;min-width:0}
+ .inquiry-image-viewer .image-viewer-title{flex:1;min-width:0;overflow-wrap:anywhere;margin:0;font:600 15px/1.4 system-ui}
+ .inquiry-image-viewer button,.inquiry-image-viewer a{font:14px/1.4 system-ui;color:#fff;background:#30343d;border:1px solid #646c7a;border-radius:8px;padding:9px 12px;margin:0;min-height:40px;cursor:pointer;text-decoration:none;flex-shrink:0;width:auto}
+ .inquiry-image-viewer button:focus-visible,.inquiry-image-viewer a:focus-visible{outline:3px solid #92b9ff;outline-offset:2px}
+ .inquiry-image-viewer .image-viewer-stage{min-width:0;min-height:0;overflow:auto;overscroll-behavior:contain;padding:16px;box-sizing:border-box;text-align:center;touch-action:pan-x pan-y pinch-zoom}
+ .inquiry-image-viewer .image-viewer-photo{display:block;margin:auto;max-width:none!important;max-height:none!important;border-radius:0!important;object-fit:contain}
+ .inquiry-image-viewer .image-viewer-zoom{font:14px system-ui;min-width:42px;text-align:center}
+ `;doc.head.append(style);
+ dialog=node('dialog');dialog.className='inquiry-image-viewer';dialog.setAttribute('aria-label','사진 확대 보기');
+ const layout=node('div');layout.className='image-viewer-layout';const header=node('div');header.className='image-viewer-header';title=node('h2');title.className='image-viewer-title';
+ const close=node('button','닫기');close.type='button';close.addEventListener('click',()=>dialog.close());header.append(title,close);
+ stage=node('div');stage.className='image-viewer-stage';photo=node('img');photo.className='image-viewer-photo';photo.addEventListener('load',updateSize);stage.append(photo);
+ const tools=node('div');tools.className='image-viewer-tools';
+ for(const [label,action] of [['축소',()=>zoom(scale/1.25)],['확대',()=>zoom(scale*1.25)],['100%',()=>zoom(1)],['화면 맞춤',()=>{fitting=true;updateSize();}]]){const b=node('button',label);b.type='button';b.addEventListener('click',action);tools.append(b);}
+ zoomLabel=node('span');zoomLabel.className='image-viewer-zoom';download=node('a','이미지 저장');tools.append(zoomLabel,download);layout.append(header,stage,tools);dialog.append(layout);doc.body.append(dialog);
+ dialog.addEventListener('close',()=>{revision++;photo.removeAttribute('src');download.removeAttribute('href');revoke();if(previousFocus?.isConnected)previousFocus.focus({preventScroll:true});});
+ view.addEventListener('resize',updateSize);view.visualViewport?.addEventListener('resize',updateSize);
+}
+async function open(img){
+ const source=img.currentSrc||img.src;if(!source||! /^(blob:|https?:|data:image\/(png|jpeg|webp);base64,)/.test(source))return;
+ ensure();const ticket=++revision;revoke();previousFocus=img;fitting=true;title.textContent=img.alt||'문의 사진';photo.alt=title.textContent;photo.src=source;download.href=source;download.download=title.textContent;
+ if(!dialog.open)dialog.showModal();stage.scrollTop=0;stage.scrollLeft=0;updateSize();
+ // Keep a private copy alive if a realtime chat refresh revokes its thumbnail URL.
+ if(source.startsWith('blob:'))try{
+  const response=await view.fetch(source);if(!response.ok)throw new Error('image-unavailable');const blob=await response.blob();
+  if(ticket!==revision||!dialog.open)return;
+  ownedUrl=view.URL.createObjectURL(blob);photo.src=ownedUrl;download.href=ownedUrl;
+ }catch{ /* The already-decoded thumbnail remains available in the viewer. */ }
+}
+function bind(img){
+ if(!img||bound.has(img))return;bound.add(img);img.style.cursor='zoom-in';img.tabIndex=0;img.setAttribute('role','button');img.setAttribute('aria-label',(img.alt||'사진')+' 크게 보기');
+ img.addEventListener('click',()=>open(img));img.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();open(img);}});
+}
+return {bind,open,close(){if(dialog?.open)dialog.close();}};
+});
+
+/* Private inquiry attachments for the existing Firebase Realtime Database. */
 (function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.InquiryMedia=factory();})(typeof globalThis!=='undefined'?globalThis:this,function(){
 'use strict';
 const MAX_SOURCE=5*1024*1024,MAX_BYTES=300*1024,MAX_EDGE=1600;
@@ -424,7 +480,7 @@ return {create,decodeRecord,signature,MAX_BYTES,MAX_SOURCE,MAX_EDGE};
    const media=root.InquiryMedia.create({db:app.db,auth:app.auth,serverTimestamp:()=>firebase.database.ServerValue.TIMESTAMP});
    const legacyImage=app.imageElement;
    app.uploadImages=(uid,files)=>media.uploadImages(uid,files);
-   app.imageElement=image=>image?.dbPath?media.imageElement(image):legacyImage(image);
+   app.imageElement=async image=>{const node=await (image?.dbPath?media.imageElement(image):legacyImage(image));node.querySelectorAll('img').forEach(img=>root.InquiryPreview?.bind(img));return node;};
    app.canAttachImages=()=>Boolean(app.auth.currentUser);
   }
  }
@@ -485,7 +541,16 @@ return {create,decodeRecord,signature,MAX_BYTES,MAX_SOURCE,MAX_EDGE};
  return {create,normalizeProfile,WEB_APP_URL};
 });
 </script>
-<script>/* Keep a chat's visible message in place; only an explicit jump follows new replies. */
+<script>/* Use persisted send time, never storage-key spelling, to order inquiry messages. */
+(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.ChatOrder=factory();})(typeof globalThis!=='undefined'?globalThis:this,function(){
+'use strict';
+function timestamp(message){return typeof message?.timestamp==='number'&&Number.isFinite(message.timestamp)?message.timestamp:null;}
+function compare(a,b){const x=timestamp(a[1]),y=timestamp(b[1]);if(x!==y)return x===null?-1:y===null?1:x-y;return a[0]===b[0]?0:a[0]<b[0]?-1:1;}
+function sorted(entries){return Array.from(entries).filter(([,value])=>value&&typeof value==='object').sort(compare);}
+return {timestamp,compare,sorted};
+});
+
+/* Preserve reading position; follow an own send only when already near the end. */
 (function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.ChatScroll=factory();})(typeof globalThis!=='undefined'?globalThis:this,function(){
 'use strict';
 function create({container,button,environment={}}){
@@ -499,11 +564,22 @@ function create({container,button,environment={}}){
  const previousOverflowAnchor=container.style.overflowAnchor;
  container.style.overflowAnchor='none';
  let disposed=false,loaded=false,initialPending=true,anchor=null,frame=null,mutating=false;
- const unread=new Set(),observed=new Set();
+ const unread=new Set(),observed=new Set(),ownSends=new Set();let followId=null;
  const rows=()=>Array.from(container.querySelectorAll('[data-message-id]'));
  const visible=()=>container.clientHeight>0&&container.getClientRects().length>0;
  const top=()=>container.getBoundingClientRect().top+(container.clientTop||0);
  const atBottom=()=>container.scrollHeight-container.clientHeight-container.scrollTop<=3;
+ function nearBottom(){
+  if(!visible())return false;
+  if(container.scrollHeight-container.clientHeight-container.scrollTop<=64)return true;
+  const end=top()+container.clientHeight;
+  return rows().slice(-3).some(node=>node.getBoundingClientRect().top<=end+2);
+ }
+ function prepareOwnSend(id){
+  const key=String(id);ownSends.delete(key);
+  if(nearBottom())ownSends.add(key);
+ }
+ function cancelOwnSend(id){ownSends.delete(String(id));if(followId===String(id))followId=null;}
  function snapshot(){
   if(!visible())return anchor;
   const start=top(),items=rows().map(node=>({id:node.dataset.messageId,offset:node.getBoundingClientRect().top-start,bottom:node.getBoundingClientRect().bottom-start}));
@@ -522,9 +598,15 @@ function create({container,button,environment={}}){
  }
  function restore(saved=anchor){
   if(disposed||!loaded||!visible())return;
+  const current=rows();
+  if(followId&&current.at(-1)?.dataset.messageId!==followId)followId=null;
+  const sent=current.find(node=>ownSends.has(node.dataset.messageId));
+  if(sent){ownSends.delete(sent.dataset.messageId);followId=current.at(-1)?.dataset.messageId||null;}
   if(initialPending){
    container.scrollTop=Math.max(0,container.scrollHeight-container.clientHeight);
    initialPending=false;unread.clear();anchor=snapshot();
+  }else if(followId){
+   container.scrollTop=Math.max(0,container.scrollHeight-container.clientHeight);unread.clear();anchor=snapshot();
   }else if(saved){
    const byId=new Map(rows().map(node=>[node.dataset.messageId,node]));
    const match=saved.items.find(item=>byId.has(item.id));
@@ -567,6 +649,8 @@ function create({container,button,environment={}}){
   if(anchor&&(anchor.height!==container.clientHeight||anchor.contentHeight!==container.scrollHeight)){
    restore();schedule();return;
   }
+  if(!atBottom())followId=null;
+  if(!nearBottom())ownSends.clear();
   anchor=snapshot();if(atBottom())unread.clear();renderButton();
  }
  function toBottom(event){
@@ -577,7 +661,7 @@ function create({container,button,environment={}}){
  function reset(){
   if(disposed)return;
   if(frame!==null){cancelFrame(frame);frame=null;}
-  loaded=false;initialPending=true;anchor=null;unread.clear();button.hidden=true;
+  loaded=false;initialPending=true;anchor=null;followId=null;ownSends.clear();unread.clear();button.hidden=true;
  }
  function onVisibility(){if(documentObject?.visibilityState!=='hidden')refresh();}
  container.addEventListener('scroll',onScroll,{passive:true});
@@ -586,10 +670,10 @@ function create({container,button,environment={}}){
  view?.visualViewport?.addEventListener('resize',schedule);
  documentObject?.addEventListener('visibilitychange',onVisibility);
  button.hidden=true;
- return {update,capture,restore,refresh,toBottom,reset,dispose(){
+ return {update,capture,restore,refresh,toBottom,reset,prepareOwnSend,cancelOwnSend,nearBottom,dispose(){
   if(disposed)return;disposed=true;
   if(frame!==null)cancelFrame(frame);
-  resizeObserver?.disconnect();mutationObserver?.disconnect();observed.clear();unread.clear();
+  resizeObserver?.disconnect();mutationObserver?.disconnect();observed.clear();unread.clear();ownSends.clear();followId=null;
   container.removeEventListener('scroll',onScroll);button.removeEventListener('click',toBottom);
   view?.removeEventListener('resize',schedule);view?.visualViewport?.removeEventListener('resize',schedule);
   documentObject?.removeEventListener('visibilitychange',onVisibility);
@@ -611,7 +695,7 @@ function textNode(tag,className,text){const node=document.createElement(tag);if(
 function friendly(error){return sdk ? sdk.error(error) : '서비스 연결에 실패했습니다. 인터넷 연결을 확인하고 새로고침해 주세요.';}
 function releaseImages(){if(sdk?.releaseImages)sdk.releaseImages($('messages'));}
 function clearPreview(){previewUrls.forEach(url=>URL.revokeObjectURL(url));previewUrls=[];files=[];$('images').value='';$('previews').replaceChildren();$('previews').hidden=true;}
-function stopRoom(){roomEpoch++;renderEpoch++;if(contactRef)contactRef.off();contactRef=null;if(messageQuery)messageQuery.off();messageQuery=null;chatScroll.reset();roomLoaded=false;messages.clear();liveKeys.clear();releaseImages();$('messages').replaceChildren();currentUid=null;hasOlder=false;loadingOlder=false;pending=null;clearPreview();$('reply').value='';$('messages').hidden=true;$('messageViewport').hidden=true;$('composer').hidden=true;$('roomEmpty').hidden=false;$('deleteRoom').disabled=true;$('roomTitle').textContent='문의를 선택해 주세요';$('roomAccount').textContent='';$('roomStatus').textContent='';$('sendError').textContent='';$('workspace').classList.remove('room-open');}
+function stopRoom(){globalThis.InquiryPreview?.close();roomEpoch++;renderEpoch++;if(contactRef)contactRef.off();contactRef=null;if(messageQuery)messageQuery.off();messageQuery=null;chatScroll.reset();roomLoaded=false;messages.clear();liveKeys.clear();releaseImages();$('messages').replaceChildren();currentUid=null;hasOlder=false;loadingOlder=false;pending=null;clearPreview();$('reply').value='';$('messages').hidden=true;$('messageViewport').hidden=true;$('composer').hidden=true;$('roomEmpty').hidden=false;$('deleteRoom').disabled=true;$('roomTitle').textContent='문의를 선택해 주세요';$('roomAccount').textContent='';$('roomStatus').textContent='';$('sendError').textContent='';$('workspace').classList.remove('room-open');}
 function stopAll(){stopRoom();if(roleRef)roleRef.off();roleRef=null;fullAdmin=false;if(roomRef)roomRef.off();if(connectionRef)connectionRef.off();roomRef=null;connectionRef=null;rooms={};liveRoomKeys.clear();moreRooms=false;loadingRooms=false;$('roomList').replaceChildren();}
 function setBusy(){const locked=sending||deleting,attach=canAttachImages();$('send').disabled=locked;$('send').textContent=sending?'전송 중…':'전송';$('reply').readOnly=deleting;$('images').disabled=locked||!attach;$('deleteRoom').disabled=locked||!currentUid||!fullAdmin;document.querySelector('.attach').setAttribute('aria-disabled',String(locked||!attach));document.querySelector('.attach').style.opacity=attach?'':'0.45';document.querySelector('.attach').style.pointerEvents=locked||!attach?'none':'';}
 function studentDisplayName(name){const value=String(name||'익명 문의');return /^\d{1,2}반\s+\d{1,2}번\s+/.test(value)?'1학년 '+value:value;}
@@ -632,7 +716,7 @@ function renderMessages(options={}){
  releaseImages();const fragment=document.createDocumentFragment();
  if(hasOlder){const older=textNode('button','older',loadingOlder?'불러오는 중…':'이전 대화 불러오기');older.type='button';older.disabled=loadingOlder;older.addEventListener('click',loadOlder);fragment.append(older);}
  let lastDate='';
- [...messages.entries()].sort(([a],[b])=>a.localeCompare(b)).forEach(([id,msg])=>{
+ ChatOrder.sorted(messages.entries()).forEach(([id,msg])=>{
   if(!msg||typeof msg!=='object')return;
   const ts=typeof msg.timestamp==='number'&&Number.isFinite(msg.timestamp)?msg.timestamp:null,date=ts?formatDate(ts):'전송 중',admin=msg.role==='admin';
   if(date!==lastDate){fragment.append(dateSeparator(date));lastDate=date;}
@@ -660,9 +744,9 @@ function watchRoomContact(uid,epoch){
   $('roomAccount').textContent=typeof contact?.email==='string'?(contact.email.trim()||'비회원 · 이메일 없음'):'이메일 정보 없음';
  },()=>{if(epoch===roomEpoch&&uid===currentUid)$('roomAccount').textContent='이메일 조회 실패';});
 }
-function openRoom(uid){if(uid===currentUid){$('workspace').classList.add('room-open');chatScroll.refresh();return;}stopRoom();currentUid=uid;const epoch=roomEpoch;$('workspace').classList.add('room-open');$('roomTitle').textContent=rooms[uid]?.name||'익명 문의';$('roomEmpty').hidden=true;$('messages').hidden=false;$('messageViewport').hidden=false;$('composer').hidden=false;$('roomStatus').textContent='대화를 불러오는 중입니다.';watchRoomContact(uid,epoch);setBusy();renderRooms();messageQuery=sdk.db.ref('v2/inquiries/'+uid).orderByKey().limitToLast(100);messageQuery.on('value',snap=>{if(epoch!==roomEpoch||uid!==currentUid)return;const data=snap.val()||{},newKeys=Object.keys(data).sort(),initial=!roomLoaded,incomingIds=initial?[]:newKeys.filter(key=>!messages.has(key)&&data[key]?.role==='user');const min=newKeys[0];liveKeys.forEach(key=>{if(!Object.hasOwn(data,key)&&(!min||key>=min))messages.delete(key);});Object.entries(data).forEach(([key,value])=>messages.set(key,value));liveKeys=new Set(newKeys);hasOlder=newKeys.length===100&&messages.size<=100?true:hasOlder;$('roomStatus').textContent='최근 대화 '+messages.size+'개';renderMessages({initial,incomingIds});roomLoaded=true;},error=>{if(epoch===roomEpoch)$('roomStatus').textContent=friendly(error);});}
-async function loadOlder(){if(!currentUid||loadingOlder||!messages.size)return;const uid=currentUid,epoch=roomEpoch,oldest=[...messages.keys()].sort()[0];loadingOlder=true;renderMessages();try{const snap=await sdk.db.ref('v2/inquiries/'+uid).orderByKey().endAt(oldest).limitToLast(101).once('value');if(epoch!==roomEpoch)return;const entries=Object.entries(snap.val()||{}).filter(([id])=>id!==oldest);entries.forEach(([id,msg])=>messages.set(id,msg));hasOlder=entries.length===100;}catch(error){if(epoch===roomEpoch)$('roomStatus').textContent=friendly(error);}finally{if(epoch===roomEpoch){loadingOlder=false;renderMessages();}}}
-function renderPreview(){previewUrls.forEach(url=>URL.revokeObjectURL(url));previewUrls=[];$('previews').replaceChildren();$('previews').hidden=!files.length;files.forEach((file,index)=>{const wrap=document.createElement('div');wrap.className='preview preview-img-wrap';const img=document.createElement('img'),url=URL.createObjectURL(file);previewUrls.push(url);img.src=url;img.alt=file.name;const remove=textNode('button','preview-del','×');remove.type='button';remove.setAttribute('aria-label',file.name+' 첨부 취소');remove.disabled=sending;remove.addEventListener('click',()=>{if(sending)return;files.splice(index,1);pending=null;renderPreview();});wrap.append(img,remove);$('previews').append(wrap);});}
+function openRoom(uid){if(uid===currentUid){$('workspace').classList.add('room-open');chatScroll.refresh();return;}stopRoom();currentUid=uid;const epoch=roomEpoch;$('workspace').classList.add('room-open');$('roomTitle').textContent=rooms[uid]?.name||'익명 문의';$('roomEmpty').hidden=true;$('messages').hidden=false;$('messageViewport').hidden=false;$('composer').hidden=false;$('roomStatus').textContent='대화를 불러오는 중입니다.';watchRoomContact(uid,epoch);setBusy();renderRooms();messageQuery=sdk.db.ref('v2/inquiries/'+uid).orderByChild('timestamp').limitToLast(100);messageQuery.on('value',snap=>{if(epoch!==roomEpoch||uid!==currentUid)return;const data=snap.val()||{},newKeys=Object.keys(data).sort(),initial=!roomLoaded,incomingIds=initial?[]:newKeys.filter(key=>!messages.has(key)&&data[key]?.role==='user');const min=ChatOrder.sorted(Object.entries(data))[0];liveKeys.forEach(key=>{if(!Object.hasOwn(data,key)&&(!min||ChatOrder.compare([key,messages.get(key)],min)>=0))messages.delete(key);});Object.entries(data).forEach(([key,value])=>messages.set(key,value));liveKeys=new Set(newKeys);hasOlder=newKeys.length===100&&messages.size<=100?true:hasOlder;$('roomStatus').textContent='최근 대화 '+messages.size+'개';renderMessages({initial,incomingIds});roomLoaded=true;},error=>{if(epoch===roomEpoch)$('roomStatus').textContent=friendly(error);});}
+async function loadOlder(){if(!currentUid||loadingOlder||!messages.size)return;const uid=currentUid,epoch=roomEpoch,oldest=ChatOrder.sorted(messages.entries())[0];loadingOlder=true;renderMessages();try{const snap=await sdk.db.ref('v2/inquiries/'+uid).orderByChild('timestamp').endAt(ChatOrder.timestamp(oldest[1]),oldest[0]).limitToLast(101).once('value');if(epoch!==roomEpoch)return;const entries=Object.entries(snap.val()||{}).filter(([id])=>id!==oldest[0]);entries.forEach(([id,msg])=>messages.set(id,msg));hasOlder=entries.length===100;}catch(error){if(epoch===roomEpoch)$('roomStatus').textContent=friendly(error);}finally{if(epoch===roomEpoch){loadingOlder=false;renderMessages();}}}
+function renderPreview(){previewUrls.forEach(url=>URL.revokeObjectURL(url));previewUrls=[];$('previews').replaceChildren();$('previews').hidden=!files.length;files.forEach((file,index)=>{const wrap=document.createElement('div');wrap.className='preview preview-img-wrap';const img=document.createElement('img'),url=URL.createObjectURL(file);previewUrls.push(url);img.src=url;img.alt=file.name;globalThis.InquiryPreview?.bind(img);const remove=textNode('button','preview-del','×');remove.type='button';remove.setAttribute('aria-label',file.name+' 첨부 취소');remove.disabled=sending;remove.addEventListener('click',()=>{if(sending)return;files.splice(index,1);pending=null;renderPreview();});wrap.append(img,remove);$('previews').append(wrap);});}
 $('images').addEventListener('change',event=>{if(sending||!canAttachImages())return;const additions=Array.from(event.target.files||[]);event.target.value='';if(files.length+additions.length>3){$('sendError').textContent='사진은 한 번에 3장까지 첨부할 수 있습니다.';return;}if(additions.some(file=>!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>5*1024*1024||file.size===0)){$('sendError').textContent='JPG/PNG/WebP 이미지이며 각 파일이 5MB 이하여야 합니다.';return;}files.push(...additions);pending=null;$('sendError').textContent='';renderPreview();});
 $('reply').addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing){event.preventDefault();$('composer').requestSubmit();}});
 async function persistReply(ref,payload,request){
@@ -671,7 +755,7 @@ async function persistReply(ref,payload,request){
  request.attempted=true;
  try{await ref.set(payload);}catch(error){try{const existing=await ref.once('value');if(matches(existing.val()))return;}catch{}throw error;}
 }
-$('composer').addEventListener('submit',async event=>{event.preventDefault();if(sending||deleting||!currentUid)return;const text=$('reply').value.trim(),uid=currentUid,epoch=authEpoch,room=roomEpoch,chosen=[...files];if(!text&&!chosen.length)return;sending=true;setBusy();renderPreview();$('sendError').textContent='';try{if(!pending||pending.uid!==uid||pending.text!==text||pending.files.length!==chosen.length||pending.files.some((f,i)=>f!==chosen[i]))pending={uid,text,files:chosen,key:sdk.db.ref('v2/inquiries/'+uid).push().key,images:null};const request=pending;if(!request.images)request.images=await sdk.uploadImages(uid,chosen);if(epoch!==authEpoch)throw new Error('로그인 계정이 변경되어 전송을 중단했습니다.');const payload={role:'admin',senderName:'개발자',text,timestamp:firebase.database.ServerValue.TIMESTAMP};if(request.images.length)payload.images=request.images;await persistReply(sdk.db.ref('v2/inquiries/'+uid+'/'+request.key),payload,request);if(currentUid===uid&&roomEpoch===room){if($('reply').value.trim()===text)$('reply').value='';clearPreview();pending=null;$('sendError').textContent='';sdk.toast('답변을 전송했습니다.');}}catch(error){if(currentUid===uid&&roomEpoch===room)$('sendError').textContent=friendly(error);}finally{sending=false;setBusy();renderPreview();}});
+$('composer').addEventListener('submit',async event=>{event.preventDefault();if(sending||deleting||!currentUid)return;const text=$('reply').value.trim(),uid=currentUid,epoch=authEpoch,room=roomEpoch,chosen=[...files];if(!text&&!chosen.length)return;sending=true;setBusy();renderPreview();$('sendError').textContent='';try{if(!pending||pending.uid!==uid||pending.text!==text||pending.files.length!==chosen.length||pending.files.some((f,i)=>f!==chosen[i]))pending={uid,text,files:chosen,key:sdk.db.ref('v2/inquiries/'+uid).push().key,images:null};const request=pending;chatScroll.prepareOwnSend?.(request.key);if(!request.images)request.images=await sdk.uploadImages(uid,chosen);if(epoch!==authEpoch)throw new Error('로그인 계정이 변경되어 전송을 중단했습니다.');const payload={role:'admin',senderName:'개발자',text,timestamp:firebase.database.ServerValue.TIMESTAMP};if(request.images.length)payload.images=request.images;await persistReply(sdk.db.ref('v2/inquiries/'+uid+'/'+request.key),payload,request);if(currentUid===uid&&roomEpoch===room){if($('reply').value.trim()===text)$('reply').value='';clearPreview();pending=null;$('sendError').textContent='';sdk.toast('답변을 전송했습니다.');}}catch(error){chatScroll.cancelOwnSend?.(pending?.key);if(currentUid===uid&&roomEpoch===room)$('sendError').textContent=friendly(error);}finally{sending=false;setBusy();renderPreview();}});
 $('deleteRoom').addEventListener('click',async()=>{if(!fullAdmin||!currentUid||sending||deleting)return;const uid=currentUid,name=rooms[uid]?.name||'이 문의';if(!confirm(name+'의 대화와 첨부 이미지를 삭제할까요? 이 작업은 되돌릴 수 없습니다.'))return;deleting=true;setBusy();try{await sdk.functions.httpsCallable('deleteInquiry')({uid});if(currentUid===uid)stopRoom();sdk.toast('대화를 삭제했습니다.');}catch(error){$('roomStatus').textContent=friendly(error);}finally{deleting=false;setBusy();}});
 $('back').addEventListener('click',()=>$('workspace').classList.remove('room-open'));
 $('roomSearch').addEventListener('input',renderRooms);
@@ -705,13 +789,13 @@ async function authChanged(user){
    if(epoch!==authEpoch)return;
    const nextRooms={};
    snap.forEach(roomSnapshot=>{
-    let last=null,lastUser=null;
+    let last=null,lastUser=null;const entries=[];
     roomSnapshot.forEach(messageSnapshot=>{
      const message=messageSnapshot.val();
      if(!message||typeof message!=='object')return;
-     last=message;
-     if(message.role==='user')lastUser=message;
+     entries.push([messageSnapshot.key,message]);
     });
+    ChatOrder.sorted(entries).forEach(([,message])=>{last=message;if(message.role==='user')lastUser=message;});
     if(!last)return;
     nextRooms[roomSnapshot.key]={name:studentDisplayName(lastUser?.senderName),lastText:typeof last.text==='string'?last.text.slice(0,300):'',updatedAt:Number(last.timestamp)||0};
    });
