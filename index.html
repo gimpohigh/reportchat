@@ -115,7 +115,10 @@ body{color:var(--text-black)}
 .chat-room-panel:has(.room-empty:not([hidden])) .room-header,.chat-room-panel:has(.room-empty:not([hidden])) .room-status{display:none}
 .room-status{font-size:11px;line-height:1.5;color:#6B7684;padding:6px 20px 0;overflow-wrap:anywhere}.room-status:empty{display:none}
 .room-empty{padding:20px;text-align:center;line-height:1.6;min-height:0}
-.room-messages{min-height:0;overscroll-behavior:contain}
+.message-viewport{position:relative;display:flex;flex-direction:column;flex:1;min-height:0}
+.room-messages{min-height:0;overscroll-behavior:contain;overflow-anchor:none}
+.room-messages>.msg-container,.room-messages>.date-separator,.room-messages>.older{flex-shrink:0}
+.message-jump{position:absolute;right:20px;bottom:12px;max-width:calc(100% - 32px);padding:9px 14px;border:1px solid #D1D6DB;border-radius:20px;background:white;color:var(--primary-dark);box-shadow:0 2px 8px rgba(0,0,0,.12);font-size:12px;font-weight:bold;z-index:1}
 .older{align-self:center;background:rgba(255,255,255,.85);color:#2A52BE;border:0;border-radius:20px;padding:6px 14px;font-size:11px}
 .msg-content{min-width:0;max-width:100%;display:flex;flex-direction:column;gap:4px}.msg-admin-container .msg-content{align-items:flex-end}
 .msg-bubble{min-width:0;max-width:100%;white-space:pre-wrap}
@@ -155,7 +158,7 @@ body{color:var(--text-black)}
 </div></section>
 <main id="workspace" class="workspace" hidden>
 <aside class="list-panel chat-list-panel" aria-label="문의 목록"><header class="panel-header"><h1>학생 문의 관리</h1><button id="logout" type="button">로그아웃</button></header><div id="accountInfo" class="panel-meta"></div><label class="search-label">문의 이름 검색<input id="roomSearch" type="search" placeholder="이름 또는 닉네임" autocomplete="off"></label><div id="roomList" class="user-list" aria-label="채팅방"></div><div id="listStatus" class="panel-meta" role="status"></div></aside>
-<section class="room-panel chat-room-panel" aria-label="문의 대화"><header class="room-header"><button id="back" class="back secondary" type="button">← 목록</button><h2 id="roomTitle">문의를 선택해 주세요</h2><button id="deleteRoom" class="danger delete-room-btn" type="button" disabled>대화방 삭제</button></header><div id="roomStatus" class="room-status" role="status"></div><div id="roomEmpty" class="room-empty empty-state">왼쪽에서 대화방을 선택해주세요.</div><div id="messages" class="messages room-messages" role="log" aria-label="대화 내용" hidden></div>
+<section class="room-panel chat-room-panel" aria-label="문의 대화"><header class="room-header"><button id="back" class="back secondary" type="button">← 목록</button><h2 id="roomTitle">문의를 선택해 주세요</h2><button id="deleteRoom" class="danger delete-room-btn" type="button" disabled>대화방 삭제</button></header><div id="roomStatus" class="room-status" role="status"></div><div id="roomEmpty" class="room-empty empty-state">왼쪽에서 대화방을 선택해주세요.</div><div id="messageViewport" class="message-viewport" hidden><div id="messages" class="messages room-messages" role="log" aria-label="대화 내용" hidden></div><button id="messageJump" class="message-jump" type="button" hidden>새 메시지 · 아래로 이동</button></div>
 <form id="composer" class="composer room-input-container" hidden><div id="previews" class="previews preview-area" hidden></div><div class="composer-row room-input-area"><label class="attach attach-btn" title="이미지 첨부" aria-label="이미지 첨부" for="images"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></label><input id="images" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden><textarea class="room-input" id="reply" rows="1" maxlength="4000" placeholder="답변을 입력하세요" aria-label="답변"></textarea><button id="send" class="send room-send-btn" type="submit">전송</button></div><p class="hint">Enter 전송 · Shift+Enter 줄바꿈 · JPG/PNG/WebP 3장, 각 5MB 이하</p><p id="sendError" class="error" role="alert"></p></form>
 </section></main>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
@@ -317,20 +320,135 @@ window.App = (() => {
   return api;
 })();
 </script>
+<script>/* Keep a chat's visible message in place; only an explicit jump follows new replies. */
+(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.ChatScroll=factory();})(typeof globalThis!=='undefined'?globalThis:this,function(){
+'use strict';
+function create({container,button,environment={}}){
+ if(!container||!button)throw new TypeError('ChatScroll requires a container and a button.');
+ const view=environment.window||container.ownerDocument?.defaultView||(typeof window!=='undefined'?window:null);
+ const documentObject=container.ownerDocument;
+ const requestFrame=environment.requestFrame||(view?.requestAnimationFrame?view.requestAnimationFrame.bind(view):fn=>setTimeout(fn,0));
+ const cancelFrame=environment.cancelFrame||(view?.cancelAnimationFrame?view.cancelAnimationFrame.bind(view):clearTimeout);
+ const Resize=environment.ResizeObserver||view?.ResizeObserver;
+ const Mutation=environment.MutationObserver||view?.MutationObserver;
+ const previousOverflowAnchor=container.style.overflowAnchor;
+ container.style.overflowAnchor='none';
+ let disposed=false,loaded=false,initialPending=true,anchor=null,frame=null,mutating=false;
+ const unread=new Set(),observed=new Set();
+ const rows=()=>Array.from(container.querySelectorAll('[data-message-id]'));
+ const visible=()=>container.clientHeight>0&&container.getClientRects().length>0;
+ const top=()=>container.getBoundingClientRect().top+(container.clientTop||0);
+ const atBottom=()=>container.scrollHeight-container.clientHeight-container.scrollTop<=3;
+ function snapshot(){
+  if(!visible())return anchor;
+  const start=top(),items=rows().map(node=>({id:node.dataset.messageId,offset:node.getBoundingClientRect().top-start,bottom:node.getBoundingClientRect().bottom-start}));
+  let index=items.findIndex(item=>item.bottom>0);
+  if(index<0)index=Math.max(0,items.length-1);
+  // Retain fallback anchors too: a live query can evict the oldest visible row.
+  return {scrollTop:container.scrollTop,height:container.clientHeight,contentHeight:container.scrollHeight,items:items.slice(index).concat(items.slice(0,index).reverse())};
+ }
+ function capture(){if(!disposed&&!initialPending)anchor=snapshot();return anchor;}
+ function renderButton(){
+  if(!visible()){button.hidden=true;return;}
+  const end=top()+container.clientHeight,byId=new Map(rows().map(node=>[node.dataset.messageId,node]));
+  for(const id of unread){const node=byId.get(id);if(!node||node.getBoundingClientRect().bottom<=end+2)unread.delete(id);}
+  button.hidden=unread.size===0;
+  if(unread.size){button.textContent='새 메시지 · 아래로 이동';button.setAttribute('aria-label','새 메시지 보기, 대화 아래로 이동');}
+ }
+ function restore(saved=anchor){
+  if(disposed||!loaded||!visible())return;
+  if(initialPending){
+   container.scrollTop=Math.max(0,container.scrollHeight-container.clientHeight);
+   initialPending=false;unread.clear();anchor=snapshot();
+  }else if(saved){
+   const byId=new Map(rows().map(node=>[node.dataset.messageId,node]));
+   const match=saved.items.find(item=>byId.has(item.id));
+   const desired=match?container.scrollTop+byId.get(match.id).getBoundingClientRect().top-top()-match.offset:saved.scrollTop;
+   container.scrollTop=Math.max(0,Math.min(desired,Math.max(0,container.scrollHeight-container.clientHeight)));
+   anchor=snapshot();
+  }else anchor=snapshot();
+  renderButton();
+ }
+ function schedule(){
+  if(disposed||frame!==null)return;
+  frame=requestFrame(()=>{frame=null;restore();});
+ }
+ const resizeObserver=Resize?new Resize(()=>{if(!mutating)schedule();}):null;
+ function observeRows(){
+  if(!resizeObserver)return;
+  const next=new Set([container,...rows()]);
+  for(const node of observed)if(!next.has(node)){resizeObserver.unobserve(node);observed.delete(node);}
+  for(const node of next)if(!observed.has(node)){resizeObserver.observe(node);observed.add(node);}
+ }
+ const mutationObserver=Mutation?new Mutation(()=>{observeRows();schedule();}):null;
+ mutationObserver?.observe(container,{childList:true,subtree:true,characterData:true});
+ observeRows();
+ function update(render,{incomingIds=[]}={}){
+  if(disposed)return render();
+  // Capture before replacing DOM, including before the browser clamps an emptied log.
+  if(!initialPending&&visible())anchor=snapshot();
+  const wasInitial=initialPending;
+  mutating=true;
+  let result;
+  try{result=render();loaded=true;if(!wasInitial)for(const id of incomingIds)unread.add(String(id));}
+  finally{mutating=false;observeRows();restore();schedule();}
+  return result;
+ }
+ function refresh(){if(disposed)return;observeRows();restore();schedule();}
+ function onScroll(){
+  if(disposed||mutating||initialPending||!visible())return;
+  // Layout can dispatch scroll before ResizeObserver (for example when a mobile
+  // keyboard resizes the log). Do not replace the pre-layout anchor with that event.
+  if(anchor&&(anchor.height!==container.clientHeight||anchor.contentHeight!==container.scrollHeight)){
+   restore();schedule();return;
+  }
+  anchor=snapshot();if(atBottom())unread.clear();renderButton();
+ }
+ function toBottom(event){
+  event?.preventDefault();if(disposed)return;
+  if(visible()){container.scrollTop=Math.max(0,container.scrollHeight-container.clientHeight);initialPending=false;anchor=snapshot();}
+  unread.clear();renderButton();
+ }
+ function reset(){
+  if(disposed)return;
+  if(frame!==null){cancelFrame(frame);frame=null;}
+  loaded=false;initialPending=true;anchor=null;unread.clear();button.hidden=true;
+ }
+ function onVisibility(){if(documentObject?.visibilityState!=='hidden')refresh();}
+ container.addEventListener('scroll',onScroll,{passive:true});
+ button.addEventListener('click',toBottom);
+ view?.addEventListener('resize',schedule);
+ view?.visualViewport?.addEventListener('resize',schedule);
+ documentObject?.addEventListener('visibilitychange',onVisibility);
+ button.hidden=true;
+ return {update,capture,restore,refresh,toBottom,reset,dispose(){
+  if(disposed)return;disposed=true;
+  if(frame!==null)cancelFrame(frame);
+  resizeObserver?.disconnect();mutationObserver?.disconnect();observed.clear();unread.clear();
+  container.removeEventListener('scroll',onScroll);button.removeEventListener('click',toBottom);
+  view?.removeEventListener('resize',schedule);view?.visualViewport?.removeEventListener('resize',schedule);
+  documentObject?.removeEventListener('visibilitychange',onVisibility);
+  container.style.overflowAnchor=previousOverflowAnchor;button.hidden=true;
+ }};
+}
+return {create};
+});
+</script>
 <script>
 (() => {
 'use strict';
 const $ = id => document.getElementById(id);
 const sdk = window.App;
+const chatScroll = ChatScroll.create({container:$('messages'),button:$('messageJump')});
 let authEpoch=0,roomEpoch=0,renderEpoch=0,currentUid=null,rooms={},roomRef=null,messageQuery=null,connectionRef=null,roleRef=null,fullAdmin=false,files=[],previewUrls=[],sending=false,deleting=false,loadingOlder=false,hasOlder=false,pending=null;
-let messages=new Map(),liveKeys=new Set(),liveRoomKeys=new Set(),moreRooms=false,loadingRooms=false;
+let messages=new Map(),liveKeys=new Set(),liveRoomKeys=new Set(),moreRooms=false,loadingRooms=false,roomLoaded=false;
 function textNode(tag,className,text){const node=document.createElement(tag);if(className)node.className=className;node.textContent=text;return node;}
 function friendly(error){return sdk ? sdk.error(error) : '서비스 연결에 실패했습니다. 인터넷 연결을 확인하고 새로고침해 주세요.';}
 function releaseImages(){if(sdk?.releaseImages)sdk.releaseImages($('messages'));}
 function clearPreview(){previewUrls.forEach(url=>URL.revokeObjectURL(url));previewUrls=[];files=[];$('images').value='';$('previews').replaceChildren();$('previews').hidden=true;}
-function stopRoom(){roomEpoch++;renderEpoch++;if(messageQuery)messageQuery.off();messageQuery=null;messages.clear();liveKeys.clear();releaseImages();$('messages').replaceChildren();currentUid=null;hasOlder=false;loadingOlder=false;pending=null;clearPreview();$('reply').value='';$('messages').hidden=true;$('composer').hidden=true;$('roomEmpty').hidden=false;$('deleteRoom').disabled=true;$('roomTitle').textContent='문의를 선택해 주세요';$('roomStatus').textContent='';$('sendError').textContent='';$('workspace').classList.remove('room-open');}
+function stopRoom(){roomEpoch++;renderEpoch++;if(messageQuery)messageQuery.off();messageQuery=null;chatScroll.reset();roomLoaded=false;messages.clear();liveKeys.clear();releaseImages();$('messages').replaceChildren();currentUid=null;hasOlder=false;loadingOlder=false;pending=null;clearPreview();$('reply').value='';$('messages').hidden=true;$('messageViewport').hidden=true;$('composer').hidden=true;$('roomEmpty').hidden=false;$('deleteRoom').disabled=true;$('roomTitle').textContent='문의를 선택해 주세요';$('roomStatus').textContent='';$('sendError').textContent='';$('workspace').classList.remove('room-open');}
 function stopAll(){stopRoom();if(roleRef)roleRef.off();roleRef=null;fullAdmin=false;if(roomRef)roomRef.off();if(connectionRef)connectionRef.off();roomRef=null;connectionRef=null;rooms={};liveRoomKeys.clear();moreRooms=false;loadingRooms=false;$('roomList').replaceChildren();}
-function setBusy(){const locked=sending||deleting;$('send').disabled=locked;$('send').textContent=sending?'전송 중…':'전송';$('reply').disabled=locked;$('images').disabled=locked||!fullAdmin;$('deleteRoom').disabled=locked||!currentUid||!fullAdmin;document.querySelector('.attach').setAttribute('aria-disabled',String(!fullAdmin));document.querySelector('.attach').style.opacity=fullAdmin?'':'0.45';document.querySelector('.attach').style.pointerEvents=fullAdmin?'':'none';}
+function setBusy(){const locked=sending||deleting;$('send').disabled=locked;$('send').textContent=sending?'전송 중…':'전송';$('reply').readOnly=deleting;$('images').disabled=locked||!fullAdmin;$('deleteRoom').disabled=locked||!currentUid||!fullAdmin;document.querySelector('.attach').setAttribute('aria-disabled',String(!fullAdmin));document.querySelector('.attach').style.opacity=fullAdmin?'':'0.45';document.querySelector('.attach').style.pointerEvents=fullAdmin?'':'none';}
 function renderRooms(){const term=$('roomSearch').value.trim().toLocaleLowerCase('ko');const list=Object.entries(rooms).filter(([,room])=>room&&room.deleted!==true&&String(room.name||'익명 문의').toLocaleLowerCase('ko').includes(term)).sort((a,b)=>(Number(b[1].updatedAt)||0)-(Number(a[1].updatedAt)||0));const fragment=document.createDocumentFragment();list.forEach(([uid,room])=>{const button=textNode('button','user-item'+(uid===currentUid?' active':''),'');button.type='button';button.append(textNode('span','user-name',room.name||'익명 문의'),textNode('span','user-preview',room.lastText||'(사진 또는 새 문의)'));button.addEventListener('click',()=>openRoom(uid));fragment.append(button);});if(!list.length)fragment.append(textNode('p','list-empty',term?'불러온 문의 중 검색 결과가 없습니다.':'아직 접수된 문의가 없습니다.'));if(moreRooms){const button=textNode('button','user-item',loadingRooms?'불러오는 중…':'이전 문의 더 불러오기');button.type='button';button.disabled=loadingRooms;button.addEventListener('click',loadOlderRooms);fragment.append(button);}$('roomList').replaceChildren(fragment);}
 async function loadOlderRooms(){if(loadingRooms||!moreRooms)return;const entries=Object.entries(rooms).sort((a,b)=>(Number(a[1].updatedAt)||0)-(Number(b[1].updatedAt)||0)||a[0].localeCompare(b[0])),oldest=entries[0],epoch=authEpoch;if(!oldest)return;loadingRooms=true;renderRooms();try{const snapshot=await sdk.db.ref('v2/rooms').orderByChild('updatedAt').endAt(Number(oldest[1].updatedAt)||0,oldest[0]).limitToLast(201).once('value');if(epoch!==authEpoch)return;const items=Object.entries(snapshot.val()||{}).filter(([uid])=>uid!==oldest[0]);items.forEach(([uid,room])=>rooms[uid]=room);moreRooms=items.length===200;}catch(error){if(epoch===authEpoch)$('listStatus').textContent=friendly(error);}finally{if(epoch===authEpoch){loadingRooms=false;renderRooms();}}}
 function formatDate(ts){return new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'short'}).format(new Date(ts));}
@@ -341,8 +459,9 @@ function dateSeparator(label){
  [['rect',{x:3,y:4,width:18,height:18,rx:2,ry:2}],['line',{x1:16,y1:2,x2:16,y2:6}],['line',{x1:8,y1:2,x2:8,y2:6}],['line',{x1:3,y1:10,x2:21,y2:10}]].forEach(([tag,attrs])=>{const shape=document.createElementNS(ns,tag);Object.entries(attrs).forEach(([key,value])=>shape.setAttribute(key,String(value)));icon.append(shape);});
  node.append(icon,document.createTextNode(label));return node;
 }
-function renderMessages(preservePosition=false){
- const container=$('messages'),before=container.scrollHeight-container.scrollTop,nearBottom=container.scrollHeight-container.scrollTop-container.clientHeight<100,epoch=++renderEpoch;
+function renderMessages(options={}){
+ const container=$('messages'),epoch=++renderEpoch;
+ chatScroll.update(()=>{
  releaseImages();const fragment=document.createDocumentFragment();
  if(hasOlder){const older=textNode('button','older',loadingOlder?'불러오는 중…':'이전 대화 불러오기');older.type='button';older.disabled=loadingOlder;older.addEventListener('click',loadOlder);fragment.append(older);}
  let lastDate='';
@@ -356,16 +475,17 @@ function renderMessages(preservePosition=false){
   if(typeof msg.text==='string'&&msg.text)content.append(textNode('div','bubble msg-bubble '+(admin?'msg-admin':'msg-user'),msg.text));
   if(Array.isArray(msg.images)){
    const images=document.createElement('div');images.className='attachments img-list';content.append(images);
-   msg.images.slice(0,3).forEach(image=>{const holder=document.createElement('div');images.append(holder);sdk.imageElement(image).then(node=>{if(epoch===renderEpoch&&holder.isConnected)holder.append(node);else if(sdk.releaseImages){const detached=document.createElement('div');detached.append(node);sdk.releaseImages(detached);}}).catch(()=>{if(epoch===renderEpoch)holder.textContent='이미지를 불러오지 못했습니다.';});});
+   msg.images.slice(0,3).forEach(image=>{const holder=document.createElement('div');images.append(holder);sdk.imageElement(image).then(node=>{if(epoch===renderEpoch&&holder.isConnected)chatScroll.update(()=>holder.append(node));else if(sdk.releaseImages){const detached=document.createElement('div');detached.append(node);sdk.releaseImages(detached);}}).catch(()=>{if(epoch===renderEpoch&&holder.isConnected)chatScroll.update(()=>{holder.textContent='이미지를 불러오지 못했습니다.';});});});
   }
   const time=textNode('div','time msg-time',ts?formatTime(ts):'전송 확인 중');
   if(admin)row.append(time,content);else row.append(content,time);
   item.append(row);fragment.append(item);
  });
- container.replaceChildren(fragment);if(preservePosition)container.scrollTop=container.scrollHeight-before;else if(nearBottom)container.scrollTop=container.scrollHeight;
+ container.replaceChildren(fragment);
+ },options);
 }
-function openRoom(uid){if(uid===currentUid){$('workspace').classList.add('room-open');return;}stopRoom();currentUid=uid;const epoch=roomEpoch;$('workspace').classList.add('room-open');$('roomTitle').textContent=rooms[uid]?.name||'익명 문의';$('roomEmpty').hidden=true;$('messages').hidden=false;$('composer').hidden=false;$('roomStatus').textContent='대화를 불러오는 중입니다.';setBusy();renderRooms();messageQuery=sdk.db.ref('v2/inquiries/'+uid).orderByKey().limitToLast(100);messageQuery.on('value',snap=>{if(epoch!==roomEpoch||uid!==currentUid)return;const data=snap.val()||{},newKeys=Object.keys(data).sort();const min=newKeys[0];liveKeys.forEach(key=>{if(!Object.hasOwn(data,key)&&(!min||key>=min))messages.delete(key);});Object.entries(data).forEach(([key,value])=>messages.set(key,value));liveKeys=new Set(newKeys);hasOlder=newKeys.length===100&&messages.size<=100?true:hasOlder;$('roomStatus').textContent='최근 대화 '+messages.size+'개';renderMessages();},error=>{if(epoch===roomEpoch)$('roomStatus').textContent=friendly(error);});}
-async function loadOlder(){if(!currentUid||loadingOlder||!messages.size)return;const uid=currentUid,epoch=roomEpoch,oldest=[...messages.keys()].sort()[0];loadingOlder=true;renderMessages(true);try{const snap=await sdk.db.ref('v2/inquiries/'+uid).orderByKey().endAt(oldest).limitToLast(101).once('value');if(epoch!==roomEpoch)return;const entries=Object.entries(snap.val()||{}).filter(([id])=>id!==oldest);entries.forEach(([id,msg])=>messages.set(id,msg));hasOlder=entries.length===100;}catch(error){if(epoch===roomEpoch)$('roomStatus').textContent=friendly(error);}finally{if(epoch===roomEpoch){loadingOlder=false;renderMessages(true);}}}
+function openRoom(uid){if(uid===currentUid){$('workspace').classList.add('room-open');chatScroll.refresh();return;}stopRoom();currentUid=uid;const epoch=roomEpoch;$('workspace').classList.add('room-open');$('roomTitle').textContent=rooms[uid]?.name||'익명 문의';$('roomEmpty').hidden=true;$('messages').hidden=false;$('messageViewport').hidden=false;$('composer').hidden=false;$('roomStatus').textContent='대화를 불러오는 중입니다.';setBusy();renderRooms();messageQuery=sdk.db.ref('v2/inquiries/'+uid).orderByKey().limitToLast(100);messageQuery.on('value',snap=>{if(epoch!==roomEpoch||uid!==currentUid)return;const data=snap.val()||{},newKeys=Object.keys(data).sort(),initial=!roomLoaded,incomingIds=initial?[]:newKeys.filter(key=>!messages.has(key)&&data[key]?.role==='user');const min=newKeys[0];liveKeys.forEach(key=>{if(!Object.hasOwn(data,key)&&(!min||key>=min))messages.delete(key);});Object.entries(data).forEach(([key,value])=>messages.set(key,value));liveKeys=new Set(newKeys);hasOlder=newKeys.length===100&&messages.size<=100?true:hasOlder;$('roomStatus').textContent='최근 대화 '+messages.size+'개';renderMessages({initial,incomingIds});roomLoaded=true;},error=>{if(epoch===roomEpoch)$('roomStatus').textContent=friendly(error);});}
+async function loadOlder(){if(!currentUid||loadingOlder||!messages.size)return;const uid=currentUid,epoch=roomEpoch,oldest=[...messages.keys()].sort()[0];loadingOlder=true;renderMessages();try{const snap=await sdk.db.ref('v2/inquiries/'+uid).orderByKey().endAt(oldest).limitToLast(101).once('value');if(epoch!==roomEpoch)return;const entries=Object.entries(snap.val()||{}).filter(([id])=>id!==oldest);entries.forEach(([id,msg])=>messages.set(id,msg));hasOlder=entries.length===100;}catch(error){if(epoch===roomEpoch)$('roomStatus').textContent=friendly(error);}finally{if(epoch===roomEpoch){loadingOlder=false;renderMessages();}}}
 function renderPreview(){previewUrls.forEach(url=>URL.revokeObjectURL(url));previewUrls=[];$('previews').replaceChildren();$('previews').hidden=!files.length;files.forEach((file,index)=>{const wrap=document.createElement('div');wrap.className='preview preview-img-wrap';const img=document.createElement('img'),url=URL.createObjectURL(file);previewUrls.push(url);img.src=url;img.alt=file.name;const remove=textNode('button','preview-del','×');remove.type='button';remove.setAttribute('aria-label',file.name+' 첨부 취소');remove.disabled=sending;remove.addEventListener('click',()=>{if(sending)return;files.splice(index,1);pending=null;renderPreview();});wrap.append(img,remove);$('previews').append(wrap);});}
 $('images').addEventListener('change',event=>{if(sending||!fullAdmin)return;const additions=Array.from(event.target.files||[]);event.target.value='';if(files.length+additions.length>3){$('sendError').textContent='사진은 한 번에 3장까지 첨부할 수 있습니다.';return;}if(additions.some(file=>!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>5*1024*1024||file.size===0)){$('sendError').textContent='JPG/PNG/WebP 이미지이며 각 파일이 5MB 이하여야 합니다.';return;}files.push(...additions);pending=null;$('sendError').textContent='';renderPreview();});
 $('reply').addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing){event.preventDefault();$('composer').requestSubmit();}});
