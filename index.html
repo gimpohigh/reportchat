@@ -550,7 +550,7 @@ function sorted(entries){return Array.from(entries).filter(([,value])=>value&&ty
 return {timestamp,compare,sorted};
 });
 
-/* Preserve reading position; follow an own send only when already near the end. */
+/* Preserve older reading positions; follow new messages when already near the end. */
 (function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.ChatScroll=factory();})(typeof globalThis!=='undefined'?globalThis:this,function(){
 'use strict';
 function create({container,button,environment={}}){
@@ -635,9 +635,10 @@ function create({container,button,environment={}}){
   // Capture before replacing DOM, including before the browser clamps an emptied log.
   if(!initialPending&&visible())anchor=snapshot();
   const wasInitial=initialPending;
+  const followIncoming=!wasInitial&&incomingIds.length>0&&nearBottom();
   mutating=true;
   let result;
-  try{result=render();loaded=true;if(!wasInitial)for(const id of incomingIds)unread.add(String(id));}
+  try{result=render();loaded=true;if(!wasInitial)for(const id of incomingIds)unread.add(String(id));if(followIncoming)followId=rows().at(-1)?.dataset.messageId||null;}
   finally{mutating=false;observeRows();restore();schedule();}
   return result;
  }
