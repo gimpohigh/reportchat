@@ -149,6 +149,28 @@ body{color:var(--text-black)}
 }
 @media(max-width:360px){.panel-header h1{font-size:16px}.room-header h2{flex-basis:100px}.room-input-area{flex-wrap:wrap}.room-input{flex:1 1 100%;order:-1}.room-send-btn{margin-left:auto}}
 
+.workspace{flex-direction:column}.report-columns{display:flex;flex:1;min-height:0;width:100%}.report-presence{flex-shrink:0;min-height:28px;padding:6px 16px;background:#fff;color:#8b95a1;text-align:right;font-size:11px;overflow-wrap:anywhere}
+.panel-header{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;padding:18px 16px}.panel-header h1{min-width:0;overflow-wrap:anywhere;line-height:1.4}.panel-header .panel-home-arrow{border:0;color:#fff;font-size:26px;line-height:1;padding:0 3px;min-width:26px}
+.room-header{min-width:0}.room-header>*{max-width:100%}.user-name,.msg-sender{overflow-wrap:anywhere}.room-account{min-width:0}.room-input-container{min-width:0}.composer-row{min-width:0}.room-input{min-width:0}
+.studio-home,.studio-shell{width:100%;min-width:0;color:#191f28;font:14px/1.5 'Pretendard',-apple-system,system-ui,sans-serif;background:#f2f4f6}
+.studio-home{min-height:100dvh;overflow:auto}.studio-home-header{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:18px 24px;color:#fff;background:#2a52be}.studio-home-header h1{margin:0;font-size:20px;overflow-wrap:anywhere}.studio-home-header button{background:transparent;color:white;border:1px solid #ffffff70;border-radius:6px;padding:6px 10px;flex-shrink:0}
+.studio-home-content{max-width:600px;margin:clamp(20px,6vh,70px) auto;padding:20px}.studio-home-content>p{overflow-wrap:anywhere;color:#6b7684}.studio-home-menu{display:grid;gap:14px;margin:22px 0}.studio-home-menu>button{display:flex;justify-content:space-between;align-items:center;gap:12px;text-align:left;background:white;border:1px solid #e5e8eb;border-radius:12px;padding:22px 24px;color:#2a52be;font-size:18px;font-weight:700;box-shadow:0 2px 5px #00000005}.studio-home-menu>button:hover{background:#e8f0fe}.studio-home-menu>button>span{min-width:0;overflow-wrap:anywhere}
+.studio-shell{height:100dvh;display:flex;flex-direction:column;overflow:hidden}.studio-toolbar{background:#e8f0fe;border-bottom:1px solid #d1d6db;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 14px;flex-shrink:0}.studio-toolbar h1{font-size:17px;color:#2a52be;flex:1;min-width:120px;margin:0;overflow-wrap:anywhere}
+.studio-shell button,.studio-dialog button{border:1px solid transparent;background:#2a52be;color:white;border-radius:8px;padding:9px 13px;font:inherit;line-height:1.4;max-width:100%;white-space:normal;overflow-wrap:anywhere}.studio-shell button:disabled{background:#d1d6db;color:#6b7684;opacity:1;cursor:not-allowed}.studio-shell .studio-secondary,.studio-dialog .studio-secondary{border-color:#d1d6db;background:white;color:#2a52be}.studio-shell .studio-danger,.studio-dialog .studio-danger{background:#b42331;color:white}.studio-shell input,.studio-shell textarea,.studio-shell select,.studio-dialog input{font:inherit;min-width:0;max-width:100%;border:1px solid #d1d6db;border-radius:6px;padding:8px;background:white;color:#191f28;box-sizing:border-box}.studio-shell input[type=checkbox],.studio-shell input[type=radio]{accent-color:#2a52be;width:18px;height:18px;padding:0;flex-shrink:0}
+.studio-status{padding:6px 14px;min-height:30px;background:white;color:#6b7684;font-size:12px;overflow-wrap:anywhere;flex-shrink:0}.studio-status:empty{display:none}.studio-muted{font-size:12px;color:#6b7684;overflow-wrap:anywhere}.studio-error{font-size:12px;color:#b42331!important;overflow-wrap:anywhere}.studio-viewport-panel{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:white;border-bottom:1px solid #d1d6db;padding:10px 14px;flex-shrink:0}.studio-viewport-panel label{display:flex;align-items:center;gap:4px}.studio-viewport-panel input{width:80px}
+.studio-work{flex:1;min-height:0;min-width:0;display:flex;overflow:hidden}.studio-editor-grid{display:grid;grid-template-columns:210px minmax(0,1fr) 260px;width:100%;min-width:0;min-height:0}.studio-editor-grid[data-editing=false]{grid-template-columns:minmax(0,1fr)}.studio-editor-grid[data-editing=false]>.studio-inspector,.studio-editor-grid[data-editing=false]>.studio-library{display:none}
+.studio-library,.studio-inspector{padding:14px;background:#fff;overflow:auto;min-width:0;min-height:0;overscroll-behavior:contain}.studio-library{border-right:1px solid #d1d6db}.studio-inspector{border-left:1px solid #d1d6db}.studio-library h2,.studio-inspector h2{font-size:14px;color:#2a52be;margin:0 0 12px}.studio-library h3,.studio-inspector h3{font-size:13px;margin:20px 0 10px}.studio-library label,.studio-inspector label{display:grid;gap:5px;font-size:12px;margin:10px 0;min-width:0}.studio-library input,.studio-library select,.studio-inspector input,.studio-inspector textarea,.studio-inspector select{width:100%}.studio-inspector textarea{min-height:80px;resize:vertical}.studio-form-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.studio-palette{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.studio-palette button{width:24px;height:24px;padding:0;border:1px solid #d1d6db;border-radius:5px}.studio-palette input[type=color]{width:100%;height:34px;padding:2px}.studio-tools{display:flex;flex-wrap:wrap;gap:6px}.studio-tools button{font-size:12px;padding:7px 9px}.studio-layer-list{display:grid;gap:3px;max-height:50vh;overflow:auto}.studio-layer-list button{background:#f2f4f6;color:#4e5968;border:1px solid transparent;text-align:left;font-size:11px;padding:6px;min-width:0}.studio-layer-list button[aria-pressed=true]{background:#e8f0fe;border-color:#678ceb;color:#2a52be}
+.studio-canvas{position:relative;display:flex;flex-direction:column;min-width:0;min-height:0;background:#dce5f3;overflow:hidden}.studio-canvas-caption{padding:7px 12px;color:#4e5968;font-size:12px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.studio-canvas-caption select{padding:5px;font-size:12px}.studio-canvas-area{position:relative;flex:1;min-height:0;min-width:0;overflow:auto;padding:16px;display:grid;place-items:center}.studio-frame{position:relative;flex-shrink:0;background:white;box-shadow:0 3px 18px #191f2820}.studio-frame iframe{position:absolute;top:0;left:0;border:0;transform-origin:0 0;background:white}.studio-frame-resize{position:absolute;right:-8px;bottom:-8px;width:18px;height:18px;border:2px solid white;background:#2a52be;cursor:nwse-resize;touch-action:none;border-radius:3px;z-index:3}.studio-object-info{padding:8px 0;font-size:12px;overflow-wrap:anywhere}
+.studio-dialog{width:min(500px,calc(100vw - 32px));max-height:calc(100dvh - 32px);border:0;padding:0;border-radius:8px;background:white;color:#191f28;overflow:auto;font:14px/1.6 system-ui}.studio-dialog::backdrop{background:#0009}.studio-dialog form{margin:0}.studio-dialog-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:#2a52be;color:white}.studio-dialog-header h2{font-size:16px;margin:0;overflow-wrap:anywhere}.studio-dialog-header button{padding:0;width:25px;height:25px;background:#fff;color:#191f28;border:1px solid #d1d6db;border-radius:4px;flex-shrink:0}.studio-dialog-body{padding:22px;overflow-wrap:anywhere}.studio-dialog-body input{width:100%;margin-top:12px}.studio-dialog-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;padding:12px 20px;background:#f2f4f6}
+.studio-notices{display:grid;grid-template-columns:minmax(0,1fr) 280px;width:100%;min-width:0;min-height:0}.studio-notice-board{overflow:auto;padding:24px;display:flex;gap:26px;align-items:center;background:#f2f4f6;min-width:0;min-height:0}.studio-notice-card{position:relative;flex:0 0 420px;max-width:100%;padding:5px;box-sizing:content-box;border:2px solid transparent;border-radius:12px;align-self:center;touch-action:pan-y}.studio-notice-card[aria-selected=true]{border-color:#678ceb}.studio-notice-card[data-drop=true]{border-left:5px solid #2a52be}.studio-notice-number{position:absolute;right:-8px;top:-13px;z-index:2;background:#2a52be;color:white;min-width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12px}.studio-notice-card .school-notice{pointer-events:none}.studio-notice-card .school-notice-content{max-height:none}.studio-notice-policy{display:flex!important;align-items:center;gap:8px!important}.studio-notice-policy input{width:18px!important}.studio-notice-empty{margin:auto;text-align:center;color:#6b7684;line-height:1.8}.studio-notice-direction{padding:8px 14px;background:white;font-size:12px;color:#6b7684}.studio-notice-selected-part{outline:2px solid #678ceb;outline-offset:-2px}
+.studio-students{display:flex;flex-direction:column;width:100%;min-height:0;min-width:0}.student-delete-tools{display:flex;flex-wrap:wrap;gap:8px;padding:14px;background:white;border-bottom:1px solid #e5e8eb}.student-delete-tools button:nth-child(1){background:#8f1d25}.student-delete-tools button:nth-child(2){background:#b42331}.student-delete-tools button:nth-child(3){background:#c53636}.student-delete-tools button:nth-child(4){background:#a83a2d}.student-columns{display:grid;grid-template-columns:minmax(240px,30%) minmax(0,1fr);min-height:0;flex:1}.student-directory{background:white;overflow:auto;border-right:1px solid #d1d6db;padding:12px;min-width:0}.student-directory>input{width:100%;margin-bottom:12px}.student-directory .student-row{display:block;width:100%;text-align:left;background:white;color:#191f28;border-bottom:1px solid #e5e8eb;border-radius:0;padding:14px 8px}.student-row span{display:block;overflow-wrap:anywhere}.student-row[aria-selected=true]{background:#e8f0fe!important}.student-detail{overflow:auto;padding:20px;min-width:0;min-height:0}.student-profile-fields{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:16px 0}.student-profile-fields label{display:grid;gap:4px;font-size:12px}.student-account{background:white;border:1px solid #e5e8eb;padding:14px;border-radius:8px;overflow-wrap:anywhere}.student-account p{margin:5px 0}.student-semester{margin:16px 0}.student-semester summary{background:#e8f0fe;color:#2a52be;border-radius:8px;padding:13px;font-weight:700;cursor:pointer}.student-course-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:10px;margin-top:12px}.student-course{background:white;color:#191f28;border:1px solid #e5e8eb;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;min-width:0}.student-course>span{min-width:0;overflow-wrap:anywhere;flex:1}.student-course b{display:block;line-height:1.5}.student-course small{font-size:10px;color:#6b7684}.student-course input{width:18px;height:18px;accent-color:#2a52be;flex-shrink:0}.student-course em{font-style:normal;font-size:10px;color:#2a52be;background:#e8f0fe;border-radius:3px;padding:3px 5px;flex-shrink:0}.student-selection-summary{padding:10px;background:#e8f0fe;color:#2a52be;border-radius:8px;margin:12px 0}
+@media(max-width:1100px){.studio-editor-grid{grid-template-columns:170px minmax(0,1fr) 220px}.studio-notices{grid-template-columns:minmax(0,1fr) 240px}.studio-library,.studio-inspector{padding:10px}}
+@media(max-width:760px){.studio-toolbar{gap:6px;padding:8px}.studio-toolbar h1{font-size:15px}.studio-toolbar button{font-size:12px;padding:7px 10px}.studio-editor-grid{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(240px,1fr) minmax(160px,35vh)}.studio-library{max-height:140px;border-right:0;border-bottom:1px solid #d1d6db}.studio-library .studio-layer-list{display:flex;flex-wrap:wrap;max-height:70px}.studio-library h2,.studio-library h3{margin:5px 0}.studio-library>label{display:inline-grid;width:48%;margin:2px}.studio-inspector{border-left:0;border-top:1px solid #d1d6db}.studio-editor-grid[data-editing=false]{grid-template-rows:minmax(0,1fr)}.studio-notices{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(220px,1fr) minmax(160px,36vh)}.studio-notice-board{padding:18px;align-items:flex-start}.studio-notice-card{flex-basis:calc(100vw - 54px);max-width:420px}.studio-notice-card .school-notice-content{padding:22px 16px}.student-columns{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(100px,28%) minmax(0,1fr)}.student-directory{border-right:0;border-bottom:1px solid #d1d6db}.student-profile-fields{grid-template-columns:repeat(2,minmax(0,1fr))}.student-detail{padding:12px}.student-delete-tools{padding:10px}.student-delete-tools button{font-size:11px;flex:1 1 40%}.studio-home-header{padding:14px}.studio-home-header h1{font-size:18px}.studio-home-menu>button{font-size:16px;padding:18px}}
+
+.studio-notice-wrapper{display:flex;flex-direction:column;flex:1;min-height:0;min-width:0}.studio-notice-wrapper>.studio-notices{flex:1;min-height:0}.studio-notice-card .school-notice{pointer-events:auto}.studio-shell .studio-notice-move{margin:8px auto 0;display:block;background:#e8f0fe;color:#2a52be;font-size:11px;cursor:grab;touch-action:none}.studio-notice-card .school-notice-close,.studio-notice-card .school-notice-footer{pointer-events:none}
+
+.studio-shell .school-notice-footer{background:#222;color:#fff;border:0;border-radius:0;padding:14px;font-weight:700;font-size:14px}.studio-shell .school-notice-close{padding:0;border:1px solid #d1d6db;border-radius:4px;background:white;color:#191f28;font-size:13px;width:24px;height:24px;line-height:1}
+
 </style>
 </head>
 <body>
@@ -157,11 +179,36 @@ body{color:var(--text-black)}
 <form id="loginForm" hidden><label>이메일<input id="email" type="email" autocomplete="username" required maxlength="254"></label><label>비밀번호<input id="password" type="password" autocomplete="current-password" required></label><button type="submit">이메일로 로그인</button></form>
 <div class="gate-actions"><button id="googleLogin" type="button" hidden>Google 계정으로 로그인</button><button id="gateLogout" class="secondary" type="button" hidden>다른 계정으로 로그인</button><a href="../course/">수강신청 도우미로 돌아가기</a></div><p id="loginError" class="error" role="alert"></p>
 </div></section>
+<section id="studioHome" class="studio-home" hidden aria-label="관리자 홈">
+ <header class="studio-home-header"><h1>김포고 수강신청 관리</h1><button id="studioLogout" type="button">로그아웃</button></header>
+ <div class="studio-home-content"><p id="studioAccount"></p><nav class="studio-home-menu" aria-label="관리 메뉴">
+  <button type="button" data-studio-view="course"><span>수강신청 편집</span><span aria-hidden="true">›</span></button>
+  <button type="button" data-studio-view="chat"><span>학생 채팅</span><span aria-hidden="true">›</span></button>
+  <button type="button" data-studio-view="students"><span>학생 정보 편집</span><span aria-hidden="true">›</span></button>
+  <button type="button" data-studio-view="notices"><span>공지 편집</span><span aria-hidden="true">›</span></button>
+ </nav><p id="studioAccessStatus" class="studio-muted" role="status"></p></div>
+</section>
+<section id="studioShell" class="studio-shell" hidden aria-label="관리자 편집 화면">
+ <header class="studio-toolbar"><button id="studioHomeBtn" type="button" class="studio-secondary">← 홈</button><h1 id="studioTitle">수강신청 편집</h1>
+  <button id="studioEdit" type="button">수정</button><button id="studioPreview" type="button" class="studio-secondary">미리보기</button>
+  <button id="studioAddNotice" type="button" hidden>공지 추가</button><button id="studioDeleteNotice" type="button" class="studio-danger" hidden>공지 삭제</button>
+  <button id="studioReload" type="button" class="studio-secondary" hidden>최신본 불러오기</button>
+ </header>
+ <div id="studioStatus" class="studio-status" role="status"></div>
+ <div id="studioViewportPanel" class="studio-viewport-panel" hidden>
+  <button type="button" data-studio-size="1440,900">컴퓨터</button><button type="button" data-studio-size="820,1180">태블릿</button><button type="button" data-studio-size="390,844">휴대폰</button><button type="button" data-studio-size="custom">자율 조절</button>
+  <label>너비 <input id="studioWidth" type="number" min="240" max="10000" value="1440"> px</label><label>높이 <input id="studioHeight" type="number" min="240" max="10000" value="900"> px</label><span id="studioBreakpoint" class="studio-muted"></span>
+ </div>
+ <div id="studioWork" class="studio-work"></div>
+</section>
+<dialog id="studioDialog" class="studio-dialog"><form method="dialog"><header class="studio-dialog-header"><h2 id="studioDialogTitle"></h2><button type="button" id="studioDialogClose" aria-label="닫기">✖</button></header><div id="studioDialogBody" class="studio-dialog-body"></div><footer id="studioDialogActions" class="studio-dialog-actions"></footer></form></dialog>
+
 <main id="workspace" class="workspace" hidden>
-<aside class="list-panel chat-list-panel" aria-label="문의 목록"><header class="panel-header"><h1>학생 문의 관리</h1><button id="logout" type="button">로그아웃</button></header><div id="accountInfo" class="panel-meta"></div><label class="search-label">문의 이름 검색<input id="roomSearch" type="search" placeholder="이름 또는 닉네임" autocomplete="off"></label><div id="roomList" class="user-list" aria-label="채팅방"></div><div id="listStatus" class="panel-meta" role="status"></div></aside>
+<div class="report-presence">실시간 접속자 수: <strong id="reportVisitorCount">연결 확인 중</strong>명</div><div class="report-columns">
+<aside class="list-panel chat-list-panel" aria-label="문의 목록"><header class="panel-header"><button id="studioChatHome" class="panel-home-arrow" type="button" aria-label="관리자 홈으로 이동">→</button><h1>학생 문의 관리</h1><button id="logout" type="button">로그아웃</button></header><div id="accountInfo" class="panel-meta"></div><label class="search-label">문의 이름 검색<input id="roomSearch" type="search" placeholder="이름 또는 닉네임" autocomplete="off"></label><div id="roomList" class="user-list" aria-label="채팅방"></div><div id="listStatus" class="panel-meta" role="status"></div></aside>
 <section class="room-panel chat-room-panel" aria-label="문의 대화"><header class="room-header"><button id="back" class="back secondary" type="button">← 목록</button><h2 id="roomTitle">문의를 선택해 주세요</h2><div id="roomAccount" class="room-account" aria-label="문의 학생 로그인 계정"></div><button id="deleteRoom" class="danger delete-room-btn" type="button" disabled>대화방 삭제</button></header><div id="roomStatus" class="room-status" role="status"></div><div id="roomEmpty" class="room-empty empty-state">왼쪽에서 대화방을 선택해주세요.</div><div id="messageViewport" class="message-viewport" hidden><div id="messages" class="messages room-messages" role="log" aria-label="대화 내용" hidden></div><button id="messageJump" class="message-jump" type="button" hidden>새 메시지 · 아래로 이동</button></div>
 <form id="composer" class="composer room-input-container" hidden><div id="previews" class="previews preview-area" hidden></div><div class="composer-row room-input-area"><label class="attach attach-btn" title="이미지 첨부" aria-label="이미지 첨부" for="images"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></label><input id="images" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden><textarea class="room-input" id="reply" rows="1" maxlength="4000" placeholder="답변을 입력하세요" aria-label="답변"></textarea><button id="send" class="send room-send-btn" type="submit">전송</button></div><p class="hint">Enter 전송 · Shift+Enter 줄바꿈 · JPG/PNG/WebP 3장, 각 5MB 이하</p><p id="sendError" class="error" role="alert"></p></form>
-</section></main>
+</section></div></main>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
@@ -684,6 +731,568 @@ function create({container,button,environment={}}){
 return {create};
 });
 </script>
+<script>/* Live visitors only. This module never reads Firebase Authentication's account list. */
+(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.CoursePresence=factory();})(typeof globalThis!=='undefined'?globalThis:this,function(){
+'use strict';
+const HEARTBEAT_MS=30000,EXPIRES_MS=120000,REFRESH_MS=5000;
+function countVisitors(value,now){
+ if(!value||typeof value!=='object'||!Number.isFinite(now))return 0;
+ return Object.values(value).reduce((total,connections)=>total+(connections&&typeof connections==='object'&&Object.values(connections).some(lastSeen=>typeof lastSeen==='number'&&Number.isFinite(lastSeen)&&lastSeen>now-EXPIRES_MS&&lastSeen<=now+5000)?1:0),0);
+}
+function start({db,uid=null,serverTimestamp,onCount=()=>{},onConnection=()=>{},onError=()=>{},onReadSuccess=()=>{},onWriteSuccess=()=>{},clock=Date.now,schedule=setInterval,unschedule=clearInterval,events=typeof window==='undefined'?null:window,documentObject=typeof document==='undefined'?null:document}){
+ let stopped=false,connected=null,loaded=false,offset=0,data=null,current=null,generation=0,joining=0,armed=false,writing=false,lastBeat=0;
+ const listeners=[],pending=new Set();
+ const time=()=>clock()+offset;
+ const active=(version,ref)=>!stopped&&connected&&version===generation&&ref===current;
+ const removeRef=ref=>{if(ref)Promise.resolve(ref.remove()).catch(()=>{});};
+ function render(){if(!stopped&&connected&&loaded)onCount(countVisitors(data,time()));}
+ function listen(path,success,key){const ref=db.ref(path),error=e=>{if(!stopped){if(key==='presenceRead'){loaded=false;data=null;onCount(null);}onError(key,e);}};ref.on('value',success,error);listeners.push(()=>ref.off('value',success));}
+ async function beat(version=generation,ref=current){
+  if(!ref||!active(version,ref)||!armed||writing)return;
+  writing=true;
+  try{await ref.set(serverTimestamp);if(active(version,ref)){lastBeat=time();onWriteSuccess();}else removeRef(ref);}
+  catch(error){if(active(version,ref))onError('presenceWrite',error);}
+  finally{if(version===generation)writing=false;}
+ }
+ async function join(){
+  if(!uid||stopped||!connected)return;
+  const version=++generation,ref=db.ref('v2/presence/'+uid).push();
+  const previous=current;current=ref;joining=version;armed=false;writing=false;lastBeat=0;removeRef(previous);pending.add(ref);
+  try{
+   // The server must acknowledge disconnect cleanup before publishing an online record.
+   await ref.onDisconnect().remove();
+   if(!active(version,ref)){removeRef(ref);return;}
+   armed=true;await beat(version,ref);
+  }catch(error){if(active(version,ref))onError('presenceWrite',error);}
+  finally{pending.delete(ref);if(joining===version)joining=0;}
+ }
+ listen('.info/serverTimeOffset',snap=>{if(stopped)return;offset=Number.isFinite(snap.val())?snap.val():0;render();},'connection');
+ listen('v2/presence',snap=>{if(stopped)return;data=snap.val();loaded=true;onReadSuccess();render();},'presenceRead');
+ listen('.info/connected',snap=>{
+  if(stopped)return;
+  const next=snap.val()===true;if(next===connected)return;
+  connected=next;onConnection(connected);
+  if(connected){render();join();}
+  else{generation++;joining=0;armed=false;writing=false;const previous=current;current=null;removeRef(previous);onCount(null);}
+ },'connection');
+ const refresh=schedule(render,REFRESH_MS);
+ const heartbeat=schedule(()=>{if(!connected||!uid)return;if(!armed){if(joining!==generation)join();}else if(current&&time()-lastBeat>=HEARTBEAT_MS)beat();},HEARTBEAT_MS);
+ const wake=()=>{if(connected){render();if(current)beat();}};
+ const visible=()=>{if(documentObject?.visibilityState==='visible')wake();};
+ events?.addEventListener('online',wake);events?.addEventListener('focus',wake);documentObject?.addEventListener('visibilitychange',visible);
+ return {remove(){
+  if(stopped)return Promise.resolve();stopped=true;generation++;listeners.forEach(off=>off());unschedule(refresh);unschedule(heartbeat);
+  events?.removeEventListener('online',wake);events?.removeEventListener('focus',wake);documentObject?.removeEventListener('visibilitychange',visible);
+  removeRef(current);current=null;for(const ref of pending)removeRef(ref);pending.clear();return Promise.resolve();
+ }};
+}
+return {HEARTBEAT_MS,EXPIRES_MS,countVisitors,start};
+});
+
+(function(root,factory){if(typeof module === "object" && module.exports){module.exports=factory();}else{root.CourseEngine=factory();}})(typeof globalThis !== "undefined" ? globalThis : this,function(){"use strict";
+ function create(override){
+const DATA = {"version":"2026-1-v2","courses":[{"id":"11_01","sem":"1-1","name":"공통국어 1","type":"공통","cat":"국어","grade":"5단계/등급O","req":true,"cred":4},{"id":"11_02","sem":"1-1","name":"공통수학 1","type":"공통","cat":"수학","grade":"5단계/등급O","req":true,"cred":4},{"id":"11_03","sem":"1-1","name":"공통영어 1","type":"공통","cat":"영어","grade":"5단계/등급O","req":true,"cred":3},{"id":"11_04","sem":"1-1","name":"한국사 1","type":"공통","cat":"한국사","grade":"5단계/등급O","req":true,"cred":3},{"id":"11_05","sem":"1-1","name":"통합사회 1","type":"공통","cat":"사회","grade":"5단계/등급O","req":true,"cred":3},{"id":"11_06","sem":"1-1","name":"통합과학 1","type":"공통","cat":"과학","grade":"5단계/등급O","req":true,"cred":4},{"id":"11_07","sem":"1-1","name":"과학탐구실험 1","type":"공통","cat":"과학","grade":"3단계/등급X","req":true,"cred":1},{"id":"11_08","sem":"1-1","name":"체육 1","type":"공통","cat":"체육","grade":"3단계/등급X","req":true,"cred":2},{"id":"11_09","sem":"1-1","name":"음악/미술","type":"공통","cat":"예술","grade":"3단계/등급X","req":true,"cred":2},{"id":"11_10","sem":"1-1","name":"정보/한문","type":"공통","cat":"정보","grade":"5단계/등급O","req":true,"cred":3},{"id":"12_01","sem":"1-2","name":"공통국어 2","type":"공통","cat":"국어","grade":"5단계/등급O","req":true,"cred":3},{"id":"12_02","sem":"1-2","name":"공통수학 2","type":"공통","cat":"수학","grade":"5단계/등급O","req":true,"cred":4},{"id":"12_03","sem":"1-2","name":"공통영어 2","type":"공통","cat":"영어","grade":"5단계/등급O","req":true,"cred":4},{"id":"12_04","sem":"1-2","name":"한국사 2","type":"공통","cat":"한국사","grade":"5단계/등급O","req":true,"cred":3},{"id":"12_05","sem":"1-2","name":"통합사회 2","type":"공통","cat":"사회","grade":"5단계/등급O","req":true,"cred":3},{"id":"12_06","sem":"1-2","name":"통합과학 2","type":"공통","cat":"과학","grade":"5단계/등급O","req":true,"cred":4},{"id":"12_07","sem":"1-2","name":"과학탐구실험 2","type":"공통","cat":"과학","grade":"3단계/등급X","req":true,"cred":1},{"id":"12_08","sem":"1-2","name":"체육 2","type":"공통","cat":"체육","grade":"3단계/등급X","req":true,"cred":2},{"id":"12_09","sem":"1-2","name":"미술/음악","type":"공통","cat":"예술","grade":"3단계/등급X","req":true,"cred":2},{"id":"12_10","sem":"1-2","name":"한문/정보","type":"공통","cat":"한문","grade":"5단계/등급O","req":true,"cred":3},{"id":"21_01","sem":"2-1","name":"문학","type":"일반","cat":"국어","grade":"5단계/등급O","req":true,"cred":4},{"id":"21_02","sem":"2-1","name":"대수","type":"일반","cat":"수학","grade":"5단계/등급O","req":true,"cred":4},{"id":"21_03","sem":"2-1","name":"영어 I","type":"일반","cat":"영어","grade":"5단계/등급O","req":true,"cred":4},{"id":"21_04","sem":"2-1","name":"스포츠 생활 1","type":"융합","cat":"체육","grade":"3단계/등급X","req":true,"cred":2},{"id":"21_s01","sem":"2-1","name":"주제 탐구 독서","type":"진로","cat":"국어","grade":"5단계/등급O","req":false,"cred":3},{"id":"21_s02","sem":"2-1","name":"인공지능 수학","type":"진로","cat":"수학","grade":"5단계/등급O","req":false,"cred":3},{"id":"21_s03","sem":"2-1","name":"영어 독해와 작문","type":"진로","cat":"영어","grade":"5단계/등급O","req":false,"cred":3},{"id":"21_s04","sem":"2-1","name":"세계 시민과 지리","type":"일반","cat":"사회","grade":"5단계/등급O","req":false,"cred":3},{"id":"21_s05","sem":"2-1","name":"세계사","type":"일반","cat":"사회","grade":"5단계/등급O","req":false,"cred":3},{"id":"21_s06","sem":"2-1","name":"현대사회와 윤리","type":"일반","cat":"사회","grade":"5단계/등급O","req":false,"cred":3},{"id":"21_s07","sem":"2-1","name":"정치","type":"진로","cat":"사회","grade":"5단계/등급O","req":false,"cred":3},{"id":"21_s08","sem":"2-1","name":"경제","type":"진로","cat":"사회","grade":"5단계/등급O","req":false,"cred":3},{"id":"21_s09","sem":"2-1","name":"물리학","type":"일반","cat":"과학","grade":"5단계/등급O","req":false,"cred":3,"sciReq":true},{"id":"21_s10","sem":"2-1","name":"화학","type":"일반","cat":"과학","grade":"5단계/등급O","req":false,"cred":3,"sciReq":true},{"id":"21_s11","sem":"2-1","name":"생명과학","type":"일반","cat":"과학","grade":"5단계/등급O","req":false,"cred":3,"sciReq":true},{"id":"21_s12","sem":"2-1","name":"지구과학","type":"일반","cat":"과학","grade":"5단계/등급O","req":false,"cred":3,"sciReq":true},{"id":"21_s13","sem":"2-1","name":"기초 체육 전공 실기","type":"진로","cat":"체육","grade":"5단계/등급O","req":false,"cred":3,"pair":"체육실기1"},{"id":"21_s14","sem":"2-1","name":"인공지능 기초","type":"진로","cat":"정보","grade":"5단계/등급O","req":false,"cred":3},{"id":"21_s15","sem":"2-1","name":"일본어","type":"일반","cat":"제2외국어","grade":"5단계/등급O","req":false,"cred":3},{"id":"21_s16","sem":"2-1","name":"중국어","type":"일반","cat":"제2외국어","grade":"5단계/등급O","req":false,"cred":3},{"id":"22_01","sem":"2-2","name":"화법과 언어","type":"일반","cat":"국어","grade":"5단계/등급O","req":true,"cred":4},{"id":"22_02","sem":"2-2","name":"미적분 I","type":"일반","cat":"수학","grade":"5단계/등급O","req":true,"cred":4},{"id":"22_03","sem":"2-2","name":"영어 II","type":"일반","cat":"영어","grade":"5단계/등급O","req":true,"cred":4},{"id":"22_04","sem":"2-2","name":"스포츠 생활 2","type":"융합","cat":"체육","grade":"3단계/등급X","req":true,"cred":2},{"id":"22_s01","sem":"2-2","name":"문학과 영상","type":"진로","cat":"국어","grade":"5단계/등급O","req":false,"cred":3},{"id":"22_s02","sem":"2-2","name":"기하","type":"진로","cat":"수학","grade":"5단계/등급O","req":false,"cred":3},{"id":"22_s03","sem":"2-2","name":"영어 발표와 토론","type":"진로","cat":"영어","grade":"5단계/등급O","req":false,"cred":3},{"id":"22_s04","sem":"2-2","name":"동아시아 역사 기행","type":"진로","cat":"사회","grade":"5단계/등급O","req":false,"cred":3},{"id":"22_s05","sem":"2-2","name":"법과 사회","type":"진로","cat":"사회","grade":"5단계/등급O","req":false,"cred":3},{"id":"22_s06","sem":"2-2","name":"윤리와 사상","type":"진로","cat":"사회","grade":"5단계/등급O","req":false,"cred":3},{"id":"22_s07","sem":"2-2","name":"한국지리 탐구","type":"진로","cat":"사회","grade":"5단계/등급O","req":false,"cred":3},{"id":"22_s08","sem":"2-2","name":"금융과 경제생활","type":"융합","cat":"사회","grade":"5단계/등급X","req":false,"cred":3},{"id":"22_s09","sem":"2-2","name":"역학과 에너지","type":"진로","cat":"과학","grade":"5단계/등급O","req":false,"cred":3,"sciAdv":true},{"id":"22_s10","sem":"2-2","name":"물질과 에너지","type":"진로","cat":"과학","grade":"5단계/등급O","req":false,"cred":3,"sciAdv":true},{"id":"22_s11","sem":"2-2","name":"세포와 물질대사","type":"진로","cat":"과학","grade":"5단계/등급O","req":false,"cred":3,"sciAdv":true},{"id":"22_s12","sem":"2-2","name":"지구시스템 과학","type":"진로","cat":"과학","grade":"5단계/등급O","req":false,"cred":3,"sciAdv":true},{"id":"22_s13","sem":"2-2","name":"융합과학 탐구","type":"융합","cat":"과학","grade":"5단계/등급X","req":false,"cred":3},{"id":"22_s14","sem":"2-2","name":"기초 체육 전공 실기","type":"진로","cat":"체육","grade":"5단계/등급O","req":false,"cred":3,"pair":"체육실기1"},{"id":"22_s15","sem":"2-2","name":"데이터 과학","type":"진로","cat":"정보","grade":"5단계/등급O","req":false,"cred":3},{"id":"22_s16","sem":"2-2","name":"일본어 회화","type":"진로","cat":"제2외국어","grade":"5단계/등급O","req":false,"cred":3},{"id":"22_s17","sem":"2-2","name":"중국 문화","type":"융합","cat":"제2외국어","grade":"5단계/등급O","req":false,"cred":3},{"id":"31_01","sem":"3-1","name":"독서와 작문","type":"일반","cat":"국어","grade":"5단계/등급O","req":true,"cred":3},{"id":"31_02","sem":"3-1","name":"확률과 통계","type":"일반","cat":"수학","grade":"5단계/등급O","req":true,"cred":3},{"id":"31_03","sem":"3-1","name":"심화 영어 독해와 작문","type":"진로","cat":"영어","grade":"5단계/등급O","req":true,"cred":3},{"id":"31_04","sem":"3-1","name":"스포츠 문화","type":"진로","cat":"체육","grade":"3단계/등급X","req":true,"cred":1},{"id":"31_05","sem":"3-1","name":"고시외 과목","type":"융합","cat":"교양","grade":"P/F","req":true,"cred":1},{"id":"31_s01","sem":"3-1","name":"언어생활 탐구","type":"융합","cat":"국어","grade":"5단계/등급O","req":false,"cred":3},{"id":"31_s02","sem":"3-1","name":"미적분 II","type":"진로","cat":"수학","grade":"5단계/등급O","req":false,"cred":3},{"id":"31_s03","sem":"3-1","name":"세계 문화와 영어","type":"융합","cat":"영어","grade":"5단계/등급O","req":false,"cred":3},{"id":"31_s04","sem":"3-1","name":"도시의 미래 탐구","type":"진로","cat":"사회","grade":"5단계/등급O","req":false,"cred":3},{"id":"31_s05","sem":"3-1","name":"사회와 문화","type":"일반","cat":"사회","grade":"5단계/등급O","req":false,"cred":3},{"id":"31_s06","sem":"3-1","name":"인문학과 윤리","type":"진로","cat":"사회","grade":"5단계/등급O","req":false,"cred":3},{"id":"31_s07","sem":"3-1","name":"역사로 탐구하는 현대 세계","type":"융합","cat":"사회","grade":"5단계/등급X","req":false,"cred":3},{"id":"31_s08","sem":"3-1","name":"기후변화와 지속 가능한 세계","type":"융합","cat":"사회","grade":"5단계/등급X","req":false,"cred":3,"pair":"기후지속"},{"id":"31_s09","sem":"3-1","name":"전자기와 양자","type":"진로","cat":"과학","grade":"5단계/등급O","req":false,"cred":3,"sciAdv":true,"pair":"전자기"},{"id":"31_s10","sem":"3-1","name":"화학 반응의 세계","type":"진로","cat":"과학","grade":"5단계/등급O","req":false,"cred":3,"sciAdv":true,"pair":"화학반응"},{"id":"31_s11","sem":"3-1","name":"생물의 유전","type":"진로","cat":"과학","grade":"5단계/등급O","req":false,"cred":3,"sciAdv":true,"pair":"유전"},{"id":"31_s12","sem":"3-1","name":"행성우주과학","type":"진로","cat":"과학","grade":"5단계/등급O","req":false,"cred":3,"sciAdv":true,"pair":"행성"},{"id":"31_s13","sem":"3-1","name":"기후변화와 환경생태","type":"융합","cat":"과학","grade":"5단계/등급X","req":false,"cred":3,"pair":"기후환경"},{"id":"31_s14","sem":"3-1","name":"음악 연주와 창작","type":"진로","cat":"예술","grade":"3단계/등급X","req":false,"cred":3},{"id":"31_s15","sem":"3-1","name":"미술 창작","type":"진로","cat":"예술","grade":"3단계/등급X","req":false,"cred":3},{"id":"31_s16","sem":"3-1","name":"심화 체육 전공 실기","type":"진로","cat":"체육","grade":"5단계/등급O","req":false,"cred":3,"pair":"체육실기2"},{"id":"31_s17","sem":"3-1","name":"정보 과학","type":"진로","cat":"정보","grade":"5단계/등급O","req":false,"cred":3},{"id":"31_s18","sem":"3-1","name":"일본 문화","type":"융합","cat":"제2외국어","grade":"5단계/등급O","req":false,"cred":3},{"id":"31_s19","sem":"3-1","name":"관광 중국어","type":"진로","cat":"제2외국어","grade":"5단계/등급O","req":false,"cred":3},{"id":"31_s20","sem":"3-1","name":"논리와 사고","type":"진로","cat":"교양","grade":"P/F","req":false,"cred":3,"pair":"논리"},{"id":"32_01","sem":"3-2","name":"독서 토론과 글쓰기","type":"융합","cat":"국어","grade":"5단계/등급O","req":true,"cred":3},{"id":"32_02","sem":"3-2","name":"수학과 문화","type":"융합","cat":"수학","grade":"5단계/등급O","req":true,"cred":3},{"id":"32_03","sem":"3-2","name":"심화 영어","type":"진로","cat":"영어","grade":"5단계/등급O","req":true,"cred":3},{"id":"32_04","sem":"3-2","name":"스포츠 과학","type":"진로","cat":"체육","grade":"3단계/등급X","req":true,"cred":1},{"id":"32_05","sem":"3-2","name":"고시외 과목","type":"융합","cat":"교양","grade":"P/F","req":true,"cred":1},{"id":"32_s01","sem":"3-2","name":"매체 의사소통","type":"융합","cat":"국어","grade":"5단계/등급O","req":false,"cred":3,"g":0},{"id":"32_s02","sem":"3-2","name":"경제 수학","type":"진로","cat":"수학","grade":"5단계/등급O","req":false,"cred":3,"g":0},{"id":"32_s03","sem":"3-2","name":"전문 수학","type":"진로","cat":"수학","grade":"5단계/등급O","req":false,"cred":3,"g":0},{"id":"32_s04","sem":"3-2","name":"미디어 영어","type":"융합","cat":"영어","grade":"5단계/등급O","req":false,"cred":3,"g":0},{"id":"32_s05","sem":"3-2","name":"윤리문제 탐구","type":"융합","cat":"사회","grade":"5단계/등급X","req":false,"cred":3,"g":0},{"id":"32_s06","sem":"3-2","name":"여행지리","type":"융합","cat":"사회","grade":"5단계/등급X","req":false,"cred":3,"g":0},{"id":"32_s07","sem":"3-2","name":"문화로 보는 한국사","type":"융합","cat":"사회","grade":"5단계/등급O","req":false,"cred":3,"g":0},{"id":"32_s08","sem":"3-2","name":"전자기와 양자","type":"진로","cat":"과학","grade":"5단계/등급O","req":false,"cred":3,"sciAdv":true,"pair":"전자기","g":0},{"id":"32_s09","sem":"3-2","name":"화학 반응의 세계","type":"진로","cat":"과학","grade":"5단계/등급O","req":false,"cred":3,"sciAdv":true,"pair":"화학반응","g":0},{"id":"32_s10","sem":"3-2","name":"생물의 유전","type":"진로","cat":"과학","grade":"5단계/등급O","req":false,"cred":3,"sciAdv":true,"pair":"유전","g":0},{"id":"32_s11","sem":"3-2","name":"행성우주과학","type":"진로","cat":"과학","grade":"5단계/등급O","req":false,"cred":3,"sciAdv":true,"pair":"행성","g":0},{"id":"32_s12","sem":"3-2","name":"음악 감상과 비평","type":"진로","cat":"예술","grade":"3단계/등급X","req":false,"cred":3,"g":0},{"id":"32_s13","sem":"3-2","name":"미술 감상과 비평","type":"진로","cat":"예술","grade":"3단계/등급X","req":false,"cred":3,"g":0},{"id":"32_s14","sem":"3-2","name":"심화 체육 전공 실기","type":"진로","cat":"체육","grade":"5단계/등급O","req":false,"cred":3,"pair":"체육실기2","g":0},{"id":"32_s15","sem":"3-2","name":"소프트웨어와 생활","type":"융합","cat":"정보","grade":"5단계/등급O","req":false,"cred":3,"g":0},{"id":"32_s16","sem":"3-2","name":"심화 일본어","type":"진로","cat":"제2외국어","grade":"5단계/등급O","req":false,"cred":3,"g":0},{"id":"32_s17","sem":"3-2","name":"중국어 회화","type":"진로","cat":"제2외국어","grade":"5단계/등급O","req":false,"cred":3,"g":0},{"id":"32_s18","sem":"3-2","name":"논리와 사고","type":"진로","cat":"교양","grade":"P/F","req":false,"cred":3,"pair":"논리","g":0},{"id":"32_s19","sem":"3-2","name":"기후변화와 지속 가능한 세계","type":"융합","cat":"사회","grade":"5단계/등급X","req":false,"cred":3,"pair":"기후지속","g":1},{"id":"32_s20","sem":"3-2","name":"사회문제 탐구","type":"융합","cat":"사회","grade":"5단계/등급X","req":false,"cred":3,"g":1},{"id":"32_s21","sem":"3-2","name":"과학의 역사와 문화","type":"융합","cat":"과학","grade":"5단계/등급X","req":false,"cred":3,"g":2},{"id":"32_s22","sem":"3-2","name":"기후변화와 환경생태","type":"융합","cat":"과학","grade":"5단계/등급X","req":false,"cred":3,"pair":"기후환경","g":2}],"semesters":[{"key":"1-1","title":"1학년 1학기","limit":0},{"key":"1-2","title":"1학년 2학기","limit":0},{"key":"2-1","title":"2학년 1학기","limit":5},{"key":"2-2","title":"2학년 2학기","limit":5},{"key":"3-1","title":"3학년 1학기","limit":6},{"key":"3-2","title":"3학년 2학기","limit":6}]};
+  const effective=override||DATA;
+  const courses = effective.courses.map(c => Object.freeze(c));
+  const semesters = effective.semesters.map(s => Object.freeze(s));
+  const byId = new Map(courses.map(c => [c.id, c]));
+  const required = courses.filter(c => c.req).map(c => c.id);
+  const baseScience = courses.filter(c => c.sciReq).map(c => c.id);
+  const groupDefs = [
+    {key:'2-1',sem:'2-1',limit:5}, {key:'2-2',sem:'2-2',limit:5},
+    {key:'3-1',sem:'3-1',limit:6}, {key:'3-2:0',sem:'3-2',g:0,limit:4},
+    {key:'3-2:1',sem:'3-2',g:1,limit:1}, {key:'3-2:2',sem:'3-2',g:2,limit:1}
+  ];
+  const groupOf = c => c.sem === '3-2' ? c.sem+':'+c.g : c.sem;
+  const groupMap = new Map(groupDefs.map(g=>[g.key,g]));
+  const unique = value => Array.isArray(value) ? [...new Set(value.filter(x=>typeof x==='string'))] : [];
+  function normalize(input = {}) {
+    input = input && typeof input === 'object' ? input : {};
+    const chosen = new Set(unique(input.courses).filter(id=>byId.has(id)));
+    required.forEach(id=>chosen.add(id));
+    const sciTrack = input.sciTrack === true;
+    if(sciTrack) baseScience.forEach(id=>chosen.add(id));
+    return {courses:courses.filter(c=>chosen.has(c.id)).map(c=>c.id),
+      // Recommendation pins are preferences. They do not select or lock practice courses.
+      pinned:unique(input.pinned).filter(id=>byId.has(id)&&!byId.get(id).req),sciTrack};
+  }
+  function analyze(input = {}) {
+    input = input && typeof input === 'object' ? input : {};
+    const errors=[],warnings=[], ids=unique(input.courses), chosen=new Set(ids);
+    const totals={total:0,kys:0,msi:0,kor:0,math:0,eng:0,his:0,soc:0,sci:0,pe:0,art:0,etc:0,info:0};
+    const counts=Object.fromEntries(semesters.map(s=>[s.key,0])), groups={0:0,1:0,2:0};
+    const categoryKeys={'국어':'kor','수학':'math','영어':'eng','한국사':'his','사회':'soc','과학':'sci','체육':'pe','예술':'art'};
+    let advanced=0,mathElectives=0; const pairs=new Map();
+    if(input.courses !== undefined && !Array.isArray(input.courses)) errors.push('저장된 과목 목록 형식이 올바르지 않습니다.');
+    for(const id of ids) {
+      const c=byId.get(id);
+      if(!c){errors.push('현재 교육과정에 없는 과목 ID가 있습니다: '+id);continue;}
+      totals.total+=c.cred;
+      totals[categoryKeys[c.cat]||'etc']+=c.cred;
+      if(c.cat==='정보')totals.info+=c.cred;
+      if(!c.req){counts[c.sem]++;if(c.sem==='3-2')groups[c.g]++;}
+      if(c.sciAdv)advanced++;
+      if(!c.req&&c.cat==='수학')mathElectives++;
+      if(c.pair){if(pairs.has(c.pair))errors.push(c.name+' 과목은 다른 학기와 중복 선택할 수 없습니다.');pairs.set(c.pair,c.id);}
+    }
+    totals.kys=totals.kor+totals.math+totals.eng;
+    totals.msi=totals.math+totals.sci+totals.info;
+    if(required.some(id=>!chosen.has(id)))errors.push('학교 지정 필수 과목이 누락되었습니다.');
+    for(const g of groupDefs){const count=g.sem==='3-2'?groups[g.g]:counts[g.sem];
+      if(count!==g.limit)errors.push((semesters.find(s=>s.key===g.sem).title)+(g.sem==='3-2'?' '+(g.g===0?'택4':'택1-'+g.g):'')+'는 '+g.limit+'과목을 선택해야 합니다. (현재 '+count+'과목)');}
+    if(totals.total!==174)errors.push('총 교과 학점은 174학점이어야 합니다. (현재 '+totals.total+'학점)');
+    if(totals.kys>81)errors.push('국·영·수 합계가 81학점을 초과합니다. (현재 '+totals.kys+'학점)');
+    const minima={kor:8,math:8,eng:8,his:6,soc:8,sci:10,pe:10,art:6,etc:15};
+    const labels={kor:'국어',math:'수학',eng:'영어',his:'한국사',soc:'사회',sci:'과학',pe:'체육',art:'예술',etc:'정보·제2외국어·한문·교양'};
+    for(const [key,min]of Object.entries(minima))if(totals[key]<min)errors.push(labels[key]+' 최소 '+min+'학점을 충족하지 못했습니다. (현재 '+totals[key]+'학점)');
+    if(input.sciTrack===true){
+      if(baseScience.some(id=>!chosen.has(id)))errors.push('과학중점 과정은 물리학·화학·생명과학·지구과학이 모두 필요합니다.');
+      if(advanced<6)errors.push('과학중점 심화 지정 과목은 6과목 이상이어야 합니다. (현재 '+advanced+'과목)');
+      if(totals.msi<79)errors.push('과학중점 수학·과학·정보 합계는 79학점 이상이어야 합니다. (현재 '+totals.msi+'학점)');
+      if(mathElectives<4)warnings.push('과학중점 과정은 수학 선택과목 4과목 이상을 권장합니다.');
+    }
+    const links=[['21_s09',['22_s09'],'역학과 에너지'],['21_s10',['22_s10'],'물질과 에너지'],['21_s11',['22_s11'],'세포와 물질대사'],['21_s12',['22_s12'],'지구시스템 과학'],['21_s09',['31_s09','32_s08'],'전자기와 양자'],['21_s10',['31_s10','32_s09'],'화학 반응의 세계'],['21_s11',['31_s11','32_s10'],'생물의 유전'],['21_s12',['31_s12','32_s11'],'행성우주과학']];
+    for(const [base,advancedIds,name]of links)if(!chosen.has(base)&&advancedIds.some(id=>chosen.has(id)))warnings.push(name+((name.charCodeAt(name.length-1)-0xAC00)%28===0?'는 ':'은 ')+byId.get(base).name+'과 연계되므로 '+byId.get(base).name+'을 듣는 것을 권장드립니다.');
+    return {valid:errors.length===0,errors,warnings,totals,counts,groups,advanced,mathElectives};
+  }
+  function partialError(ids) {
+    const counts=new Map(),pairs=new Set();let kys=0;
+    for(const id of ids){const c=byId.get(id);if(!c)continue;
+      if(['국어','수학','영어'].includes(c.cat))kys+=c.cred;
+      if(c.req)continue;const key=groupOf(c),count=(counts.get(key)||0)+1;counts.set(key,count);
+      if(groupMap.has(key)&&count>groupMap.get(key).limit)return '해당 학기 또는 선택 그룹의 과목 수 한도를 초과합니다.';
+      if(c.pair){if(pairs.has(c.pair))return c.name+' 과목이 다른 학기와 중복됩니다.';pairs.add(c.pair);}
+    }
+    if(kys>81)return '국·영·수 합계 81학점을 초과합니다.';
+    return '';
+  }
+  function canToggle(input,id) {
+    const state=normalize(input),c=byId.get(id);
+    if(!c)return {ok:false,reason:'존재하지 않는 과목입니다.',state};
+    if(c.req)return {ok:false,reason:'지정된 과목은 취소할 수 없습니다.',state};
+    if(state.sciTrack&&c.sciReq)return {ok:false,reason:'과학 중점 과정 필수 과목입니다.',state};
+    const selected=new Set(state.courses);
+    if(selected.has(id))selected.delete(id);
+    else{selected.add(id);const reason=partialError(selected);if(reason)return {ok:false,reason,state};}
+    return {ok:true,reason:'',state:normalize({...state,courses:[...selected]})};
+  }
+  function toggleTrack(input) {
+    const state=normalize(input);
+    if(state.sciTrack)return {ok:true,reason:'',state:normalize({...state,sciTrack:false,courses:state.courses.filter(id=>!baseScience.includes(id))})};
+    const selected=new Set([...state.courses,...baseScience]);
+    const nonSci=courses.filter(c=>c.sem==='2-1'&&!c.req&&!c.sciReq&&selected.has(c.id));
+    nonSci.slice(1).forEach(c=>selected.delete(c.id));
+    return {ok:true,reason:nonSci.length>1?'과학 중점 필수 지정으로 인해 기존 선택 과목이 취소되었습니다.':'',state:normalize({...state,courses:[...selected],sciTrack:true})};
+  }
+  // Specific majors precede general words. In particular, 천문학 must not match 문학.
+  const careerRules=[
+    {test:/천문|천체|우주|항공우주|astronom|astrophys/i,primary:['지구과학','물리학','지구시스템 과학','행성우주과학'],names:['기하','미적분 II','역학과 에너지','전자기와 양자','인공지능 수학','데이터 과학','정보 과학']},
+    {test:/컴공|컴퓨터|소프트|개발|로봇|전기|전자|정보보안|\bit\b|\bai\b/i,primary:['물리학','인공지능 수학','인공지능 기초'],names:['정보 과학','데이터 과학','미적분 II','소프트웨어와 생활','기하','역학과 에너지','전자기와 양자']},
+    {test:/의학|의대|의약|간호|생명|약대|보건|의사|약학/,primary:['생명과학','화학'],names:['세포와 물질대사','생물의 유전','미적분 II','화학 반응의 세계','물질과 에너지']},
+    {test:/경영|경제|회계|금융/,primary:['경제','경제 수학','금융과 경제생활'],names:['사회문제 탐구','확률과 통계','데이터 과학','미적분 II']},
+    {test:/심리|상담/,primary:['생명과학','현대사회와 윤리'],names:['사회문제 탐구','논리와 사고','확률과 통계']},
+    {test:/언론|미디어|신문|방송|영상/,primary:['매체 의사소통','문학과 영상'],names:['미디어 영어','사회문제 탐구','정치','현대사회와 윤리']},
+    {test:/사범|교육|교사/,primary:['현대사회와 윤리'],names:['사회문제 탐구','윤리문제 탐구','논리와 사고','주제 탐구 독서']},
+    {test:/예체능|미술|미대|디자인/,primary:['미술 창작','미술 감상과 비평'],names:['문학과 영상','매체 의사소통']},
+    {test:/음악|음대/,primary:['음악 연주와 창작','음악 감상과 비평'],names:[]},
+    {test:/체대|체육|스포츠/,primary:['기초 체육 전공 실기','심화 체육 전공 실기'],names:[]},
+    {test:/환경|기후|지구|지리/,primary:['지구과학','지구시스템 과학'],names:['행성우주과학','기후변화와 지속 가능한 세계','기후변화와 환경생태','세계 시민과 지리']},
+    {test:/물리|기계|항공/,primary:['물리학','역학과 에너지'],names:['전자기와 양자','기하','미적분 II','인공지능 수학','데이터 과학']},
+    {test:/화학|화공|신소재/,primary:['화학','물질과 에너지','화학 반응의 세계'],names:['물리학','미적분 II','생명과학']},
+    {test:/수학|통계/,primary:['인공지능 수학','기하','미적분 II'],names:['전문 수학','경제 수학','데이터 과학','물리학']},
+    {test:/공학|공대/,primary:['물리학','기하'],names:['미적분 II','역학과 에너지','전자기와 양자','인공지능 수학','데이터 과학']},
+    {test:/인문|문과|어문|문학|국어|역사|철학/,primary:['주제 탐구 독서','세계사','현대사회와 윤리'],names:['언어생활 탐구','인문학과 윤리','논리와 사고','역사로 탐구하는 현대 세계','문화로 보는 한국사']}
+  ];
+  function recommend(input,keyword='') {
+    const state=normalize(input),fixed=new Set([...required,...state.pinned,...(state.sciTrack?baseScience:[])]);
+    const conflict=partialError(fixed);if(conflict)return {ok:false,state,reason:'고정 과목을 유지하면 '+conflict};
+    const text=String(keyword).slice(0,500),matched=careerRules.find(r=>r.test.test(text));
+    const primary=new Set(matched?.primary||[]),targets=new Set([...(matched?.primary||[]),...(matched?.names||[])]);
+    const pairNames=[...new Set(courses.filter(c=>c.pair).map(c=>c.pair))];
+    const pairBit=c=>c.pair?1<<pairNames.indexOf(c.pair):0;
+    const fixedPairs=new Set([...fixed].map(id=>byId.get(id).pair).filter(Boolean));
+    // The existing school's validation criteria are unchanged.
+    const metric=c=>[['국어','수학','영어'].includes(c.cat)?c.cred:0,c.cat==='사회'?c.cred:0,c.cat==='예술'?c.cred:0,['정보','제2외국어','한문','교양'].includes(c.cat)?c.cred:0,['수학','과학','정보'].includes(c.cat)?c.cred:0,c.sciAdv?1:0];
+    const add=(a,b)=>a.map((v,i)=>v+b[i]);
+    const base=required.reduce((sum,id)=>add(sum,metric(byId.get(id))),Array(6).fill(0));
+    const minima=[0,8,6,15,state.sciTrack?79:0,state.sciTrack?6:0];
+    const score=c=>(primary.has(c.name)?5000:targets.has(c.name)?500:0)+(state.sciTrack&&c.sciAdv?20:0)+(state.sciTrack&&c.cat==='수학'?10:0);
+    const prepared=new Map(courses.map(c=>[c.id,{c,bit:pairBit(c),m:metric(c),score:score(c)-(targets.has(c.name)?0:metric(c)[0])}]));
+    const tasks=groupDefs.map(g=>{
+      const sem=g.sem,limit=g.limit;
+      const all=courses.filter(c=>!c.req&&groupOf(c)===g.key),mandatory=all.filter(c=>fixed.has(c.id));
+      const optional=all.filter(c=>!fixed.has(c.id)&&(!c.pair||!fixedPairs.has(c.pair))).map(c=>prepared.get(c.id)),need=limit-mandatory.length,options=new Map();
+      let initialMask=0,initialMetrics=Array(6).fill(0),initialValue=0;
+      for(const c of mandatory){const p=prepared.get(c.id);initialMask|=p.bit;initialMetrics=add(initialMetrics,p.m);initialValue+=p.score;}
+      function emit(chosen,mask,m,value){
+        // No future semester can distinguish candidates with the same constraints.
+        // Keep the better career choice before searching combinations of semesters.
+        const key=mask+'|'+m.join(','),previous=options.get(key);
+        if(!previous||value>previous.score)options.set(key,{ids:[...mandatory.map(c=>c.id),...chosen],mask,m,score:value});
+      }
+      function combine(start,left,chosen,mask,m,value){if(left===0){emit(chosen,mask,m,value);return;}
+        for(let i=start;i<=optional.length-left;i++){const p=optional[i];if(mask&p.bit)continue;const next=add(m,p.m);
+          if(base[0]+next[0]>81)continue;
+          chosen.push(p.c.id);combine(i+1,left-1,chosen,mask|p.bit,next,value+p.score);chosen.pop();
+        }}
+      if(need>=0)combine(0,need,[],initialMask,initialMetrics,initialValue);
+      return {key:sem,options:[...options.values()].sort((a,b)=>b.score-a.score||a.ids.join().localeCompare(b.ids.join()))};
+    });
+    if(tasks.some(t=>!t.options.length))return {ok:false,state,reason:'고정 과목과 학기별 선택 개수를 동시에 만족할 수 없습니다.'};
+    tasks.sort((a,b)=>a.options.length-b.options.length);
+    const remaining=[];remaining[tasks.length]={max:Array(6).fill(0),min:Array(6).fill(0),score:0};
+    for(let i=tasks.length-1;i>=0;i--){const task=tasks[i],next=remaining[i+1];const max=Array(6).fill(-Infinity),min=Array(6).fill(Infinity);
+      for(const option of task.options)for(let k=0;k<6;k++){max[k]=Math.max(max[k],option.m[k]);min[k]=Math.min(min[k],option.m[k]);}
+      remaining[i]={max:add(max,next.max),min:add(min,next.min),score:task.options[0].score+next.score};
+    }
+    let nodes=0,answer=null,bestScore=-Infinity,lastImprovement=0,limited=false;const MAX_NODES=350000,IMPROVEMENT_BUDGET=10000,visited=new Map();
+    function search(index,mask,total,ids,value){
+      // Bound both the initial feasibility search and extra work after a valid result.
+      // A bounded result is never described as a globally optimal configuration.
+      if(++nodes>MAX_NODES||answer&&nodes-lastImprovement>IMPROVEMENT_BUDGET){limited=true;return;}
+      if(value+remaining[index].score<=bestScore||total[0]+remaining[index].min[0]>81)return;
+      for(let k=1;k<6;k++)if(total[k]+remaining[index].max[k]<minima[k])return;
+      if(index===tasks.length){const candidate={courses:[...required,...ids],pinned:[...state.pinned],sciTrack:state.sciTrack};
+        if(analyze(candidate).valid){answer=candidate;bestScore=value;lastImprovement=nodes;}return;}
+      const key=index+':'+mask+':'+total[0]+':'+total.slice(1).map((v,i)=>Math.min(v,minima[i+1])).join(',');
+      if((visited.get(key)??-Infinity)>=value)return;visited.set(key,value);
+      for(const option of tasks[index].options){if(mask&option.mask)continue;
+        if(value+option.score+remaining[index+1].score<=bestScore)break;
+        search(index+1,mask|option.mask,add(total,option.m),[...ids,...option.ids],value+option.score);
+        if(limited)return;
+      }
+    }
+    search(0,0,base,[],0);
+    if(!answer)return {ok:false,state,reason:limited?'정해진 탐색 범위에서 조건에 맞는 구성을 찾지 못했습니다. 고정 과목을 줄여 다시 시도해주세요.':'고정 과목을 유지하면서 모든 이수 조건을 만족하는 구성이 없습니다.'};
+    const missingPrimary=[...primary].filter(name=>!answer.courses.some(id=>byId.get(id).name===name));
+    return {ok:true,state:normalize(answer),reason:targets.size?'이수 조건을 확인한 진로 맞춤 구성을 만들었습니다.':'이수 조건을 확인한 기본 구성을 만들었습니다. 진로 키워드를 입력하면 선호 과목을 반영합니다.',missingPrimary};
+  }
+  return Object.freeze({version:effective.version,courses:Object.freeze(courses),semesters:Object.freeze(semesters),normalize,analyze,canToggle,toggleTrack,recommend});
+ }
+ return Object.freeze({...create(),create});
+});
+
+/* Declarative, JSON-only editor data. Shared by browser and authenticated server. */
+(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.StudioModel=factory();})(typeof globalThis!=='undefined'?globalThis:this,function(){
+'use strict';
+const MODES=['all','desktop','tablet','phone'],POLICIES=['legacy','visit','daily','interval'];
+const PALETTE=['#2A52BE','#678CEB','#E8F0FE','#B2C7E7','#FFFFFF','#F2F4F6','#191F28','#4E5968','#8B95A1','#D1D6DB','#B42331','#E53935','#FF5252','#FFF0F0','#222222'];
+const numeric={width:[1,100],height:[0,2000],fontSize:[8,100],lineHeight:[1,3],padding:[0,80],radius:[0,100],gap:[0,100],marginTop:[0,1000],marginBottom:[0,1000],marginLeft:[0,95],order:[-2000,2000]};
+const bad=message=>{throw Error(message);};
+const record=value=>value&&typeof value==='object'&&!Array.isArray(value)&&![Object.prototype,Array.prototype].includes(value);
+const own=(value,key)=>Object.prototype.hasOwnProperty.call(value,key);
+function text(value,max,label){if(typeof value!=='string'||value.length>max)return bad(label+' 형식 또는 길이를 확인해 주세요.');return value;}
+function key(value){if(typeof value!=='string'||!value.length||value.length>240||/[\u0000-\u001f]/.test(value)||['__proto__','constructor','prototype'].includes(value))bad('오브젝트 ID가 올바르지 않습니다.');return value;}
+function plain(value){if(Array.isArray(value))return value.map(plain);if(record(value)){const out={};for(const k of Object.keys(value).sort()){if(['__proto__','prototype','constructor'].includes(k))bad('지원하지 않는 속성입니다.');if(value[k]!==undefined)out[k]=plain(value[k]);}return out;}if(value===null||['string','boolean'].includes(typeof value)||typeof value==='number'&&Number.isFinite(value))return value;bad('저장할 수 없는 값입니다.');}
+const canonical=value=>JSON.stringify(plain(value));
+const clone=value=>JSON.parse(JSON.stringify(value));
+function styles(value={}){
+ if(!record(value))bad('스타일 형식이 올바르지 않습니다.');const result={};
+ for(const mode of Object.keys(value)){if(!MODES.includes(mode))bad('지원하지 않는 화면 구간입니다.');if(!record(value[mode]))bad('스타일 형식이 올바르지 않습니다.');const item={};
+  for(const [field,v]of Object.entries(value[mode])){
+   if(numeric[field]){const [min,max]=numeric[field];if(typeof v!=='number'||!Number.isFinite(v)||v<min||v>max)bad(field+' 값의 범위를 확인해 주세요.');item[field]=v;}
+   else if(['color','background','borderColor'].includes(field)){if(typeof v!=='string'||!/^#[0-9a-f]{6}$/i.test(v))bad('색상은 RGB 형식이어야 합니다.');item[field]=v.toUpperCase();}
+   else if(field==='align'){if(!['left','center','right'].includes(v))bad('정렬이 올바르지 않습니다.');item[field]=v;}
+   else if(field==='weight'){if(![400,500,600,700,800,900].includes(v))bad('글꼴 굵기를 확인해 주세요.');item[field]=v;}
+   else bad('지원하지 않는 스타일 속성: '+field);
+  }if(Object.keys(item).length)result[mode]=item;
+ }return result;
+}
+function object(value){if(!record(value))bad('오브젝트 형식을 확인해 주세요.');const result={};
+ for(const [field,v]of Object.entries(value)){
+  if(field==='text')result.text=text(v,10000,'텍스트');
+  else if(field==='hidden'){if(typeof v!=='boolean')bad('숨김 설정이 올바르지 않습니다.');if(v)result.hidden=true;}
+  else if(field==='styles'){const s=styles(v);if(Object.keys(s).length)result.styles=s;}
+  else if(field==='placements'){if(!record(v))bad('배치 형식을 확인해 주세요.');const p={};for(const [mode,placement]of Object.entries(v)){if(!MODES.includes(mode)||!record(placement))bad('배치 화면 구간을 확인해 주세요.');const item={};for(const [name,target]of Object.entries(placement)){if(!['parent','after'].includes(name))bad('배치 위치를 확인해 주세요.');item[name]=name==='after'&&target===null?null:key(target);}if(Object.keys(item).length)p[mode]=item;}if(Object.keys(p).length)result.placements=p;}
+  else if(['parent','after'].includes(field)){if(field==='after'&&v===null)result.after=null;else result[field]=key(v);}
+  else bad('지원하지 않는 오브젝트 속성: '+field);
+ }return result;
+}
+function blankCourse(){return{version:1,objects:{},extras:[],catalogue:{}};}
+function course(value){
+ if(!record(value)||value.version!==1)bad('편집 자료의 버전을 확인해 주세요.');const out=blankCourse();
+ if(!record(value.objects)||Object.keys(value.objects).length>3000)bad('오브젝트 수를 확인해 주세요.');
+ for(const [id,v]of Object.entries(value.objects)){const normalized=object(v);if(Object.keys(normalized).length)out.objects[key(id)]=normalized;}
+ if(!Array.isArray(value.extras)||value.extras.length>1000)bad('추가 오브젝트 수를 확인해 주세요.');const ids=new Set();
+ out.extras=value.extras.map(v=>{if(!record(v))bad('추가 오브젝트 형식을 확인해 주세요.');const id=key(v.id);if(ids.has(id))bad('중복 오브젝트 ID입니다.');ids.add(id);if(!['text','button','box','tag','ellipse','clone'].includes(v.kind))bad('지원하지 않는 도형입니다.');const n={id,kind:v.kind,...object(Object.fromEntries(Object.entries(v).filter(([k])=>!['id','kind','source'].includes(k))))};if(v.kind==='clone')n.source=key(v.source);return n;});
+ if(!record(value.catalogue))bad('과목표 형식을 확인해 주세요.');
+ for(const [id,v]of Object.entries(value.catalogue)){if(!/^(11|12|21|22|31|32)_(s)?\d\d$/.test(id)||!record(v))bad('과목 ID를 확인해 주세요.');const n={};for(const [field,x]of Object.entries(v)){
+  if(field==='name')n.name=text(x,120,'과목명');
+  else if(field==='cred'){if(!Number.isInteger(x)||x<0||x>30)bad('학점은 0~30 사이의 정수여야 합니다.');n.cred=x;}
+  else if(field==='cat'){if(!['국어','수학','영어','한국사','사회','과학','체육','예술','정보','제2외국어','한문','교양'].includes(x))bad('교과 영역을 확인해 주세요.');n.cat=x;}
+  else if(field==='type'){if(!['공통','일반','진로','융합'].includes(x))bad('과목 유형을 확인해 주세요.');n.type=x;}
+  else if(field==='grade'){if(!['5단계/등급O','5단계/등급X','3단계/등급X','P/F'].includes(x))bad('성취도와 등급 산출을 확인해 주세요.');n.grade=x;}
+  else if(['req','sciReq','sciAdv'].includes(field)){if(typeof x!=='boolean')bad('필수 과목 설정을 확인해 주세요.');n[field]=x;}
+  else if(field==='pair')n.pair=text(x,60,'중복 선택 그룹');
+  else if(field==='sem'){if(!['1-1','1-2','2-1','2-2','3-1','3-2'].includes(x))bad('학기를 확인해 주세요.');n.sem=x;}
+  else if(field==='g'){if(![0,1,2].includes(x))bad('3학년 2학기 선택 그룹을 확인해 주세요.');n.g=x;}
+  else bad('지원하지 않는 과목 속성입니다.');
+ }if(Object.keys(n).length)out.catalogue[id]=n;}return out;
+}
+function catalogue(base,edits){const known=new Set(base.courses.map(c=>c.id));for(const id of Object.keys(edits))if(!known.has(id))bad('원본에 없는 과목 ID입니다.');return{...clone(base),courses:base.courses.map(c=>{const n={...c,...edits[c.id]};if(n.sem==='3-2'&&!n.req&&![0,1,2].includes(n.g))n.g=0;return n;})};}
+function newNotice(id){return{id:key(id),header:'김포고 수강신청 도우미 공지',title:'새 공지',body:'공지 내용을 입력해 주세요.',dismissText:'다시 보지 않기',policy:'legacy',intervalDays:'1',styles:{},items:[]};}
+function notices(value){if(!Array.isArray(value)||value.length>100)bad('공지는 100개 이내로 작성해 주세요.');const ids=new Set();return value.map(item=>{
+ if(!record(item))bad('공지 형식을 확인해 주세요.');const id=key(item.id);if(ids.has(id))bad('공지 ID가 중복되었습니다.');ids.add(id);
+ const n={id,header:text(item.header,200,'공지 머리말'),title:text(item.title,300,'공지 제목'),body:text(item.body,30000,'공지 내용'),dismissText:text(item.dismissText,120,'다시 보지 않기 문구'),policy:item.policy,intervalDays:String(item.intervalDays||'1'),styles:{},items:[]};
+ if(!POLICIES.includes(n.policy))bad('공지 표시 방식을 선택해 주세요.');if(!/^[1-9]\d*$/.test(n.intervalDays))bad('일수는 1 이상의 정수로 입력해 주세요.');
+ if(!record(item.styles))bad('공지 색상 형식을 확인해 주세요.');for(const [k,v]of Object.entries(item.styles)){if(!['header','title','body','footer','box'].includes(k))bad('공지 요소를 확인해 주세요.');const style=styles(v);if(Object.keys(style).length)n.styles[k]=style;}
+ if(!Array.isArray(item.items)||item.items.length>100)bad('공지 오브젝트 수를 확인해 주세요.');const itemIds=new Set();n.items=item.items.map(v=>{const iid=key(v.id);if(itemIds.has(iid))bad('공지 오브젝트 ID가 중복되었습니다.');itemIds.add(iid);if(!['text','image','box','button','tag','ellipse'].includes(v.kind))bad('공지 오브젝트 종류를 확인해 주세요.');const r={id:iid,kind:v.kind,text:text(v.text||'',10000,'텍스트'),styles:styles(v.styles||{})};if(v.kind==='image'){if(typeof v.src!=='string'||v.src.length>750000||!/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/]+={0,2}$/.test(v.src))bad('이미지는 JPG·PNG·WebP 형식으로 첨부해 주세요.');r.src=v.src;}return r;});return n;
+});}
+function section(kind,value){const result=kind==='course'?course(value):kind==='notices'?notices(value):bad('편집 종류를 확인해 주세요.');if(canonical(result).length>6000000)bad('편집 자료가 너무 큽니다. 이미지나 복사한 오브젝트를 줄여 주세요.');return result;}
+const breakpoint=width=>width<=600?'phone':width<=1024?'tablet':'desktop';
+const computedStyle=(value,width)=>({...value?.all,...value?.[breakpoint(width)]});
+const dayNumber=now=>Math.floor((Number(now)+9*60*60*1000)/86400000);
+function eligible(notice,receipt,version,now){
+ if(notice.policy==='visit')return true;
+ if(!receipt||!Number.isFinite(Number(receipt.seenAt)))return true;
+ if(notice.policy==='legacy'&&receipt.hiddenVersion===version)return false;
+ if(notice.policy==='legacy'&&receipt.version!==version)return true;
+ const elapsed=Math.max(0,dayNumber(now)-dayNumber(receipt.seenAt));
+ return notice.policy==='interval'?BigInt(elapsed)>=BigInt(notice.intervalDays):elapsed>=1;
+}
+function move(list,from,before){const next=list.slice(),index=next.findIndex(item=>item.id===from);if(index<0||from===before)return next;const [item]=next.splice(index,1),target=next.findIndex(v=>v.id===before);next.splice(target<0?next.length:target,0,item);return next;}
+const deletePhrase=scope=>({all:'정말로 모든 학생 정보를 삭제합니다',grade1:'정말로 1학년 학생 정보를 삭제합니다',grade2:'정말로 2학년 학생 정보를 삭제합니다',previous:'정말로 작년에 생성된 학생 계정과 정보를 삭제합니다'})[scope]||bad('삭제 범위를 확인해 주세요.');
+function creationYear(createdAt){const ts=Number(createdAt);return ts>0&&Number.isFinite(ts)?new Date(ts+9*60*60*1000).getUTCFullYear():null;}
+function selectedForDeletion(student,scope,now){if(student.privileged)return false;if(scope==='all')return true;if(scope==='grade1'||scope==='grade2')return Boolean(student.profile)&&Number(student.profile.grade||1)===Number(scope.slice(-1));if(scope==='previous')return creationYear(student.createdAt)===creationYear(now)-1;return false;}
+return{PALETTE,MODES,POLICIES,canonical,clone,styles,section,course,notices,blankCourse,newNotice,catalogue,breakpoint,computedStyle,dayNumber,eligible,move,deletePhrase,creationYear,selectedForDeletion};
+});
+
+/* Shared notice renderer and ordered, revision-aware display policy. */
+(()=>{'use strict';const M=StudioModel;
+const css=`.school-notice{width:420px;max-width:100%;background:var(--box-bg,#fff);color:var(--text-black,#191f28);border-radius:8px;overflow:hidden;box-shadow:0 8px 30px #0003;display:flex;flex-direction:column;box-sizing:border-box}.school-notice>*{min-width:0;box-sizing:border-box}.school-notice-header{background:#2a52be;color:#fff;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:15px;font-weight:700;line-height:1.4;overflow-wrap:anywhere}.school-notice-header>span{min-width:0;flex:1}.school-notice-close{flex:0 0 24px;width:24px;height:24px;padding:0;border:1px solid #d1d6db;border-radius:4px;background:#fff;color:#191f28;font-size:13px;cursor:pointer}.school-notice-content{padding:30px 20px 40px;display:flex;flex-direction:column;gap:12px;overflow-wrap:anywhere;min-height:0;overflow:auto;max-height:calc(100dvh - 170px)}.school-notice-title{margin:0;font-size:22px;font-weight:900;line-height:1.3;word-break:keep-all}.school-notice-body{white-space:pre-wrap;font-size:15px;line-height:1.5;word-break:keep-all;margin:0}.school-notice-footer{background:#222;color:#fff;padding:14px;border:0;width:100%;font-size:14px;font-weight:700;cursor:pointer;overflow-wrap:anywhere}.school-notice-item{max-width:100%;min-width:0;box-sizing:border-box;overflow-wrap:anywhere;white-space:pre-wrap}.school-notice-item img{display:block;max-width:100%;height:auto;border-radius:6px}.school-notice .middle-asterisk{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;line-height:1;height:1em;position:relative;top:.08em}.school-notice-dialog{padding:0;border:0;background:transparent;width:min(420px,calc(100vw - 32px));max-width:calc(100vw - 32px);max-height:calc(100dvh - 32px);overflow:auto}.school-notice-dialog::backdrop{background:#0009}`;
+const style=document.createElement('style');style.textContent=css;document.head.append(style);
+const element=(tag,cls,text)=>{const node=document.createElement(tag);node.className=cls||'';if(text!==undefined)node.textContent=text;return node;};
+function richText(node,text){const parts=String(text).split('*');parts.forEach((part,index)=>{if(index)node.append(element('span','middle-asterisk','*'));node.append(document.createTextNode(part));});}
+function paint(node,style,width){const value=M.computedStyle(style,width),map={width:'width',height:'minHeight',fontSize:'fontSize',lineHeight:'lineHeight',padding:'padding',radius:'borderRadius',gap:'gap',marginTop:'marginTop',marginBottom:'marginBottom',marginLeft:'marginInlineStart',color:'color',background:'backgroundColor',borderColor:'borderColor',align:'textAlign',weight:'fontWeight',order:'order'};for(const [key,v]of Object.entries(value))node.style[map[key]]=String(v)+(['width','marginLeft'].includes(key)?'%':['height','fontSize','padding','radius','gap','marginTop','marginBottom'].includes(key)?'px':'');}
+function render(notice,{width=innerWidth,onClose=()=>{},onHide=()=>{},editor=false}={}){
+ const box=element('section','school-notice');box.dataset.noticePart='box';paint(box,notice.styles.box,width);
+ const header=element('div','school-notice-header'),label=element('span','',notice.header),close=element('button','school-notice-close','✖');header.dataset.noticePart='header';paint(header,notice.styles.header,width);close.type='button';close.setAttribute('aria-label','공지 닫기');close.onclick=onClose;header.append(label,close);
+ const body=element('div','school-notice-content'),title=element('h2','school-notice-title',notice.title),text=element('p','school-notice-body');title.dataset.noticePart='title';text.dataset.noticePart='body';richText(text,notice.body);paint(title,notice.styles.title,width);paint(text,notice.styles.body,width);body.append(title,text);
+ for(const item of notice.items){const node=element(item.kind==='button'?'button':'div','school-notice-item');node.dataset.noticeItem=item.id;if(item.kind==='image'){const image=element('img','');image.alt=item.text||'공지 첨부 이미지';image.src=item.src;node.append(image);}else richText(node,item.text);if(item.kind==='button'){node.type='button';node.style.cssText='background:#2a52be;color:white;border:0;border-radius:8px;padding:12px';}if(['box','ellipse'].includes(item.kind))node.style.cssText='background:#e8f0fe;min-height:70px;border-radius:'+(item.kind==='ellipse'?'50%':'10px');paint(node,item.styles,width);body.append(node);}
+ const footer=element('button','school-notice-footer',notice.dismissText);footer.dataset.noticePart='footer';footer.type='button';footer.onclick=onHide;footer.hidden=notice.policy!=='legacy';paint(footer,notice.styles.footer,width);
+ box.append(header,body,footer);if(editor){box.querySelectorAll('button').forEach(button=>button.tabIndex=-1);body.style.maxHeight='none';}return box;
+}
+window.SchoolNotices={render,paint,richText};
+if(!window.App||App.studioPreview||!document.getElementById('courseList')||!App.db)return;
+let queue=[],active=null,version='',loaded=false;const seen=new Set();
+const dialog=element('dialog','school-notice-dialog');dialog.setAttribute('aria-label','학교 공지');document.body.append(dialog);
+function receipt(id){return App.cache.read('gimpo_notice_'+id);}
+function dismiss(permanent=false){if(!active)return;const current=active;App.cache.write('gimpo_notice_'+current.id,{seenAt:Date.now(),version,hiddenVersion:permanent?version:null});seen.add(version+':'+current.id);active=null;dialog.close();next();}
+function next(){if(active||!loaded||document.querySelector('dialog[open]'))return;while(queue.length){const notice=queue.shift();if(seen.has(version+':'+notice.id)||!M.eligible(notice,receipt(notice.id),version,Date.now()))continue;active=notice;dialog.replaceChildren(render(notice,{onClose:()=>dismiss(false),onHide:()=>dismiss(true)}));dialog.showModal();break;}}
+dialog.addEventListener('cancel',event=>{event.preventDefault();dismiss(false);});
+document.addEventListener('close',()=>requestAnimationFrame(next),true);
+App.db.ref('v2/siteContent/notices').on('value',snapshot=>{try{const value=snapshot.val();queue=M.notices(value?.dataJSON?JSON.parse(value.dataJSON):[]);version=String(value?.revision||0);loaded=true;if(active){active=null;dialog.close();}next();}catch{App.toast('공지를 불러오지 못했습니다. 잠시 후 다시 확인해 주세요.');}},()=>{});
+})();
+
+/* Private device drafts; only the explicit publish operation writes public data. */
+(function(root){'use strict';
+let dbPromise;
+function db(){return dbPromise||(dbPromise=new Promise((resolve,reject)=>{const request=indexedDB.open('gimpo-admin-studio',1);request.onupgradeneeded=()=>request.result.createObjectStore('drafts');request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error);}));}
+async function operation(mode,key,value){const store=await db();return new Promise((resolve,reject)=>{const transaction=store.transaction('drafts',mode),bucket=transaction.objectStore('drafts'),request=mode==='readonly'?bucket.get(key):value===null?bucket.delete(key):bucket.put(value,key);let result;request.onsuccess=()=>result=request.result;transaction.oncomplete=()=>resolve(result||null);transaction.onerror=()=>reject(transaction.error);transaction.onabort=()=>reject(transaction.error||Error('임시 저장이 취소되었습니다.'));});}
+root.StudioDrafts={load:(uid,kind)=>operation('readonly',uid+':'+kind),save:(uid,kind,value)=>operation('readwrite',uid+':'+kind,value),clear:(uid,kind)=>operation('readwrite',uid+':'+kind,null)};
+})(window);
+
+(()=>{'use strict';
+const endpoint='https://script.google.com/macros/s/AKfycbzHSzopZm8oQcPGqSmteuCJKanULIptcelUfvqG9OgGlz4vD019ZgndZnYNwGZy9EcMoA/exec';
+const messages={'studio-forbidden':'이 계정 또는 기기에는 편집 권한이 없습니다. 운영자가 관리자 편집 권한을 등록해야 합니다.','studio-busy':'다른 관리자 작업이 진행 중입니다. 잠시 후 다시 시도해 주세요.','studio-conflict':'다른 기기에서 내용이 바뀌었습니다. 임시 편집 내용은 유지됩니다. 최신 내용을 확인한 뒤 다시 반영해 주세요.','studio-targets-changed':'삭제 대상이 바뀌었습니다. 목록을 새로 확인하고 삭제 범위를 다시 선택해 주세요.','studio-protected':'관리자 계정은 학생 정보 삭제·편집 대상에서 제외됩니다.','studio-confirmation':'확인 문구 또는 요청 유효 시간을 확인해 주세요.','studio-auth-403':'학생 계정 조회·삭제를 위한 Firebase Authentication 서버 권한이 필요합니다.','invalid-auth':'로그인 연결이 만료되었습니다. 다시 로그인해 주세요.','invalid-profile':'학년·반·번호·이름을 확인해 주세요.','invalid-selection':'선택 과목 형식을 확인해 주세요.'};
+async function call(action,data={}){const user=App.auth.currentUser;if(!user)throw Error('관리자 로그인이 필요합니다.');const owner=user.uid,token=await user.getIdToken();
+ const response=await fetch(endpoint,{method:'POST',mode:'cors',credentials:'omit',redirect:'follow',referrerPolicy:'no-referrer',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({action,idToken:token,...data}),signal:AbortSignal.timeout(90000)});
+ if(!response.ok||response.type==='opaque')throw Error('관리자 서버 응답을 읽지 못했습니다. 임시 저장은 유지됩니다.');const value=await response.json();if(App.auth.currentUser?.uid!==owner)throw Error('로그인 계정이 변경되어 작업을 중단했습니다.');
+ if(value.ok!==true){const error=Error(value.message||messages[value.code]||'서버 요청에 실패했습니다. 잠시 후 다시 시도해 주세요.');error.code=value.code;throw error;}return value.result;
+}
+window.StudioAPI={call};
+})();
+
+(()=>{'use strict';
+const $=id=>document.getElementById(id),M=StudioModel,factories=new Map();
+let user=null,epoch=0,viewEpoch=0,controller=null,view='home',busy=false,allowed=false,presence=null,persistChain=Promise.resolve();
+let viewport={width:1440,height:900};
+const make=(tag,cls,text)=>{const node=document.createElement(tag);if(cls)node.className=cls;if(text!==undefined)node.textContent=text;return node;};
+function status(text,error=false){$('studioStatus').textContent=text;$('studioStatus').classList.toggle('studio-error',error);}
+function update(){const editing=controller?.editing===true,dirty=controller?.dirty?.()===true;$('studioEdit').textContent=editing?'수정 완료':'수정';$('studioEdit').disabled=busy||!allowed||!controller||(editing&&!dirty);$('studioPreview').hidden=view==='students';$('studioAddNotice').hidden=view!=='notices';$('studioDeleteNotice').hidden=view!=='notices';$('studioAddNotice').disabled=busy||!allowed;$('studioDeleteNotice').disabled=busy||!allowed||!controller?.hasSelection?.();}
+function persist(){if(!user||!controller?.draft)return Promise.resolve();const uid=user.uid,kind=controller.draftKey||view,data=controller.draft();const version=viewEpoch;
+ persistChain=persistChain.catch(()=>{}).then(()=>StudioDrafts.save(uid,kind,data)).then(()=>{if(version===viewEpoch&&user?.uid===uid)status('임시 저장됨 · '+(controller?.dirty?.()?'수정 완료를 누르면 실제 사이트에 반영됩니다.':'반영할 변경 사항이 없습니다.'));}).catch(error=>{if(version===viewEpoch)status('임시 저장 실패: '+error.message,true);throw error;});return persistChain;
+}
+function changed(){update();persist().catch(()=>{});}
+async function loadDraft(kind,empty){const uid=user.uid,[snapshot,saved]=await Promise.all([App.db.ref('v2/siteContent/'+kind).once('value'),StudioDrafts.load(uid,kind)]);if(user?.uid!==uid)throw Error('로그인 계정이 변경되었습니다.');const record=snapshot.val()||{revision:0,dataJSON:M.canonical(empty)},remote=M.section(kind,JSON.parse(record.dataJSON));
+ if(saved&&saved.data&&saved.base){try{return{data:M.section(kind,saved.data),base:saved.base,editing:saved.editing===true,defaults:saved.defaults||{},remote};}catch{App.toast('이전 임시 편집 자료를 읽지 못해 게시된 내용을 불러옵니다.');}}
+ return{data:remote,base:{revision:record.revision,dataJSON:M.canonical(remote)},editing:false,remote};
+}
+function modal(title,content,{confirmText='예',cancelText='아니요',phrase=null,danger=false}={}){
+ return new Promise(resolve=>{const dialog=$('studioDialog');$('studioDialogTitle').textContent=title;$('studioDialogBody').replaceChildren(typeof content==='string'?make('p','',content):content);$('studioDialogActions').replaceChildren();let input,error,done=false;
+  if(phrase){$('studioDialogBody').append(make('p','',"삭제하려면 '"+phrase+"'를 입력해 주세요."));input=make('input');input.type='text';input.autocomplete='off';input.setAttribute('aria-label','삭제 확인 문구');error=make('p','studio-error');error.setAttribute('role','alert');$('studioDialogBody').append(input,error);}
+  function onClose(){if(dialog.open)return;dialog.removeEventListener('close',onClose);if(!done){done=true;resolve(false);}}
+  const finish=value=>{if(done)return;done=true;dialog.removeEventListener('close',onClose);dialog.close();resolve(value);},no=make('button','studio-secondary',cancelText),yes=make('button',danger?'studio-danger':'',confirmText);no.type=yes.type='button';no.onclick=()=>finish(false);const accept=()=>{if(input&&input.value!==phrase){error.textContent='정확하게 그대로 입력해 주십시오.';input.focus();return;}finish(input?input.value:true);};yes.onclick=accept;
+  $('studioDialogClose').onclick=()=>finish(false);dialog.querySelector('form').onsubmit=event=>{event.preventDefault();accept();};dialog.addEventListener('close',onClose);$('studioDialogActions').append(no,yes);dialog.showModal();(input||no).focus();
+ });
+}
+function renderViewport(){const {width,height}=viewport;$('studioWidth').value=width;$('studioHeight').value=height;$('studioBreakpoint').textContent=width<=600?'휴대폰 배치 · 600px 이하':width<=1024?'태블릿 배치 · 601~1024px':'컴퓨터 배치 · 1025px 이상';controller?.viewport?.(viewport);}
+function setViewport(value){viewport={width:Math.max(240,Math.min(10000,Math.round(value.width))),height:Math.max(240,Math.min(10000,Math.round(value.height)))};renderViewport();}
+async function open(name){if(!user||busy)return;persist().catch(()=>{});controller?.destroy?.();controller=null;view=name;const version=++viewEpoch;$('studioHome').hidden=true;$('studioShell').hidden=true;$('workspace').hidden=true;$('studioViewportPanel').hidden=true;$('studioReload').hidden=true;
+ if(name==='home'){$('studioHome').hidden=false;return;}if(name==='chat'){$('workspace').hidden=false;window.dispatchEvent(new Event('resize'));return;}
+ $('studioShell').hidden=false;$('studioWork').inert=false;$('studioWork').replaceChildren();$('studioTitle').textContent={course:'수강신청 편집',students:'학생 정보 편집',notices:'공지 편집'}[name];status('불러오는 중입니다.');update();
+ try{const factory=factories.get(name);if(!factory)throw Error('편집 화면을 준비하지 못했습니다.');const context={root:$('studioWork'),user,make,modal,changed,status,loadDraft,persist,get viewport(){return viewport;},setViewport,isActive:()=>version===viewEpoch&&Boolean(user),setController:value=>{controller=value;update();}};
+  const next=await factory(context);if(version!==viewEpoch){next?.destroy?.();return;}controller=next;renderViewport();update();status(controller.editing?'이전에 편집하던 임시 내용을 불러왔습니다. 수정 완료 전에는 실제 사이트에 반영되지 않습니다.':'수정 버튼을 눌러 편집을 시작하세요.');
+ }catch(error){if(version===viewEpoch)status(error.message,true);}
+}
+async function publish(){if(!controller||busy||!allowed)return;if(!controller.editing){controller.setEditing(true);changed();return;}if(!controller.dirty())return;busy=true;$('studioWork').inert=true;$('studioHomeBtn').disabled=true;update();status('변경 내용을 반영하고 있습니다.');const active=controller,version=viewEpoch;
+ try{await persistChain.catch(()=>{});await active.save();if(version!==viewEpoch)return;active.setEditing(false);await persist();status('수정한 내용을 실제 사이트에 반영했습니다.');}
+ catch(error){if(version===viewEpoch){status(error.message,true);if(error.code==='studio-conflict')$('studioReload').hidden=false;}}
+ finally{busy=false;$('studioWork').inert=false;$('studioHomeBtn').disabled=false;update();}
+}
+async function start(next){stop();user=next;const version=++epoch;$('studioAccount').textContent=next.email||'등록된 관리자 기기';$('studioAccessStatus').textContent='편집 권한을 확인하고 있습니다.';open('home');
+ presence=CoursePresence.start({db:App.db,onCount:count=>{if(version===epoch)$('reportVisitorCount').textContent=count===null?'연결 확인 중':String(count);},onConnection:online=>{if(version===epoch&&!online)$('reportVisitorCount').textContent='연결 끊김';},onError:()=>{if(version===epoch)$('reportVisitorCount').textContent='조회 실패';}});
+ try{await StudioAPI.call('studioAccess');if(version!==epoch)return;allowed=true;$('studioAccessStatus').textContent='관리자 편집 권한이 확인되었습니다.';update();}catch(error){if(version===epoch){allowed=false;$('studioAccessStatus').textContent=error.message;update();}}
+}
+function stop(){epoch++;viewEpoch++;persist().catch(()=>{});controller?.destroy?.();controller=null;user=null;allowed=false;busy=false;presence?.remove().catch(()=>{});presence=null;$('studioHome').hidden=true;$('studioShell').hidden=true;if($('studioDialog').open)$('studioDialog').close();}
+$('studioHomeBtn').onclick=()=>open('home');$('studioChatHome').onclick=()=>open('home');$('studioLogout').onclick=()=>App.signOut().catch(error=>App.toast(App.error(error)));
+document.querySelectorAll('[data-studio-view]').forEach(button=>button.onclick=()=>open(button.dataset.studioView));$('studioEdit').onclick=publish;$('studioPreview').onclick=()=>{$('studioViewportPanel').hidden=!$('studioViewportPanel').hidden;controller?.viewport?.(viewport);};
+document.querySelectorAll('[data-studio-size]').forEach(button=>button.onclick=()=>{if(button.dataset.studioSize==='custom'){$('studioWidth').focus();return;}const [width,height]=button.dataset.studioSize.split(',').map(Number);setViewport({width,height});});
+for(const id of ['studioWidth','studioHeight'])$(id).onchange=()=>{const width=Number($('studioWidth').value),height=Number($('studioHeight').value);if(Number.isFinite(width)&&Number.isFinite(height))setViewport({width,height});};
+$('studioAddNotice').onclick=()=>controller?.add?.();$('studioDeleteNotice').onclick=()=>controller?.remove?.();
+$('studioReload').onclick=async()=>{if(!user||!controller)return;if(!await modal('최신 내용 불러오기','현재 임시 편집 내용은 기기에 별도로 보관하고, 실제 사이트의 최신 내용을 불러오시겠습니까?'))return;await StudioDrafts.save(user.uid,view+':conflict-backup',controller.draft());await StudioDrafts.clear(user.uid,view);open(view);};
+window.addEventListener('pagehide',()=>{persist().catch(()=>{});});
+window.StudioAdmin={start,stop,home:()=>open('home'),register:(name,factory)=>factories.set(name,factory),make,modal,changed};
+})();
+
+(()=>{'use strict';const M=StudioModel;
+StudioAdmin.register('course',async ctx=>{
+ const loaded=await ctx.loadDraft('course',M.blankCourse());let data=loaded.data,base=loaded.base,editing=loaded.editing,selected=null,objects=[],catalogue=CourseEngine,tab=2,ready=false,interacting=false,clipboard=null,undo=[],redo=[],defaults=loaded.defaults||{};
+ const {make}=ctx;const layout=make('div','studio-editor-grid'),library=make('aside','studio-library'),canvas=make('div','studio-canvas'),inspector=make('aside','studio-inspector');layout.dataset.editing=editing;layout.append(library,canvas,inspector);ctx.root.append(layout);
+ library.append(make('h2','','오브젝트 꺼내기'));const tools=make('div','studio-tools');for(const [kind,label]of [['text','텍스트'],['button','버튼'],['box','둥근 상자'],['ellipse','원'],['tag','분류 태그'],['clone','과목 카드']]){const button=make('button','studio-secondary',label);button.type='button';button.onclick=()=>add(kind);tools.append(button);}library.append(tools,make('h3','','화면 오브젝트'));
+ const search=make('input');search.type='search';search.placeholder='오브젝트 검색';search.setAttribute('aria-label','오브젝트 검색');const layers=make('div','studio-layer-list');library.append(search,layers);search.oninput=renderLayers;
+ const caption=make('div','studio-canvas-caption'),captionText=make('span','','미리보기'),tabSelect=make('select');tabSelect.setAttribute('aria-label','편집할 화면');['AI 채팅','과목 선택률','수강연습','AI 추천','문의'].forEach((label,index)=>{const option=make('option','',label);option.value=index;option.selected=index===2;tabSelect.append(option);});const interact=make('button','studio-secondary','화면 조작');interact.type='button';interact.title='과목표 펼치기와 기존 버튼 동작을 미리 확인합니다. 실제 학생 정보는 저장하지 않습니다.';interact.onclick=()=>{interacting=!interacting;interact.textContent=interacting?'오브젝트 선택':'화면 조작';configure();};caption.append(captionText,tabSelect,interact);const area=make('div','studio-canvas-area'),frame=make('div','studio-frame'),iframe=make('iframe'),resizer=make('div','studio-frame-resize');iframe.title='수강신청 실제 화면 미리보기';iframe.src='../course/?studio-preview=1';resizer.setAttribute('role','separator');resizer.setAttribute('aria-label','미리보기 화면 크기 조절');resizer.tabIndex=0;frame.append(iframe,resizer);area.append(frame);canvas.append(caption,area);
+ let size=ctx.viewport,scale=1;function fit(){const availableW=Math.max(180,area.clientWidth-32),availableH=Math.max(180,area.clientHeight-32);scale=Math.min(1,availableW/size.width,availableH/size.height);frame.style.width=size.width*scale+'px';frame.style.height=size.height*scale+'px';iframe.style.width=size.width+'px';iframe.style.height=size.height+'px';iframe.style.transform='scale('+scale+')';captionText.textContent=size.width+' × '+size.height+' · '+({phone:'휴대폰',tablet:'태블릿',desktop:'컴퓨터'}[M.breakpoint(size.width)])+' 배치';}
+ const resizeObserver=new ResizeObserver(fit);resizeObserver.observe(area);let resizing=null;resizer.onpointerdown=event=>{event.preventDefault();resizer.setPointerCapture(event.pointerId);resizing={x:event.clientX,y:event.clientY,width:size.width,height:size.height,scale};};resizer.onpointermove=event=>{if(resizing)ctx.setViewport({width:resizing.width+(event.clientX-resizing.x)/resizing.scale,height:resizing.height+(event.clientY-resizing.y)/resizing.scale});};resizer.onpointerup=()=>resizing=null;resizer.onpointercancel=()=>resizing=null;
+ resizer.onkeydown=event=>{const delta=event.shiftKey?50:10;if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key)){event.preventDefault();ctx.setViewport({width:size.width+(event.key==='ArrowLeft'?-delta:event.key==='ArrowRight'?delta:0),height:size.height+(event.key==='ArrowUp'?-delta:event.key==='ArrowDown'?delta:0)});}};
+ const send=(type,payload={})=>iframe.contentWindow?.postMessage({channel:'gimpo-studio',type,...payload},location.origin);
+ function configure(){if(ready)send('configure',{data,editing:editing&&!interacting,selected});layout.dataset.editing=editing;fit();}
+ tabSelect.onchange=()=>{tab=Number(tabSelect.value);send('tab',{index:tab});};
+ function dirty(){return M.canonical(M.course(data))!==base.dataJSON;}
+ function remember(){undo.push(M.clone(data));if(undo.length>50)undo.shift();redo=[];}
+ function commit(fn){if(!editing)return;const before=M.canonical(data);fn();try{data=M.course(data);}catch(error){data=JSON.parse(before);App.toast(error.message);return;}if(before===M.canonical(data))return;undo.push(JSON.parse(before));if(undo.length>50)undo.shift();redo=[];configure();ctx.changed();renderLayers();}
+ function target(){return data.extras.find(item=>item.id===selected)||data.objects[selected]||{};}
+ function patch(id,value){if(!editing||!id)return;commit(()=>{const extra=data.extras.find(item=>item.id===id);if(extra)Object.assign(extra,value);else data.objects[id]={...data.objects[id],...value};});}
+ function select(id){selected=id;send('select',{id});renderInspector();renderLayers();}
+ function add(kind){if(!editing){App.toast('수정 버튼을 눌러 편집을 시작해 주세요.');return;}const description=objects.find(item=>item.id===selected),id='extra:'+crypto.randomUUID(),source=description?.course?(tab===3?'recommend':'practice')+':course:'+description.course:'practice:course:21_s01';
+  commit(()=>data.extras.push({id,kind,parent:'id:panel-'+tab,...(kind==='clone'?{source}:{text:{text:'새 텍스트',button:'새 버튼',box:'',ellipse:'',tag:'새 태그'}[kind]}),styles:{all:{...(kind==='button'?{background:'#2A52BE',color:'#FFFFFF',padding:12,radius:8}:{}),...(kind==='tag'?{background:'#E8F0FE',color:'#2A52BE',padding:6,radius:4}:{}),...(kind==='text'?{fontSize:16}:{}),width:kind==='text'?100:kind==='tag'?25:kind==='clone'?100:40,marginTop:12}}}));select(id);
+ }
+ function copy(){if(!selected)return;clipboard={id:selected,value:M.clone(target()),extra:Boolean(data.extras.find(item=>item.id===selected))};App.toast('오브젝트를 복사했습니다. Ctrl+V로 붙여 넣을 수 있습니다.');}
+ function paste(){if(!editing||!clipboard)return;const id='extra:'+crypto.randomUUID(),description=objects.find(item=>item.id===clipboard.id);commit(()=>{const value=clipboard.extra?{...clipboard.value,id}:{id,kind:'clone',source:clipboard.id,...clipboard.value};value.parent=value.parent||description?.parent||'id:panel-'+tab;value.after=selected||clipboard.id;data.extras.push(value);});select(id);}
+ function remove(){if(!editing||!selected)return;commit(()=>{if(data.extras.some(item=>item.id===selected))data.extras=data.extras.filter(item=>item.id!==selected);else data.objects[selected]={...data.objects[selected],hidden:true};});selected=null;renderInspector();}
+ function shortcut(key,shift=false){if(!editing)return;if(key==='c')copy();else if(key==='v')paste();else if(key==='delete')remove();else if(key==='z'){const from=shift?redo:undo,to=shift?undo:redo;if(!from.length)return;to.push(M.clone(data));data=from.pop();configure();ctx.changed();renderInspector();}}
+ function renderLayers(){const term=search.value.trim().toLowerCase(),visible=objects.filter(item=>(item.label+' '+item.id).toLowerCase().includes(term)).slice(0,250);layers.replaceChildren();for(const item of visible){const button=make('button','',item.label||item.id);button.type='button';button.setAttribute('aria-pressed',String(item.id===selected));button.title=item.id;button.onclick=()=>select(item.id);layers.append(button);}for(const [id,value]of Object.entries(data.objects))if(value.hidden&&!objects.some(item=>item.id===id)){const button=make('button','','숨긴 오브젝트 · '+id);button.type='button';button.onclick=()=>select(id);layers.append(button);}}
+ function field(parent,label,value,callback,{type='text',options,min,max,step}={}){const wrap=make('label','',label),input=make(options?'select':type==='textarea'?'textarea':'input');input.setAttribute('aria-label',label);if(options)for(const option of options){const [v,text]=Array.isArray(option)?option:[option,option];const el=make('option','',text);el.value=v;input.append(el);}else if(type!=='textarea')input.type=type;input.value=value??'';if(min!==undefined)input.min=min;if(max!==undefined)input.max=max;if(step)input.step=step;input.disabled=!editing;input.addEventListener(!options&&['textarea','text','color','number'].includes(type)?'input':'change',()=>{if(type==='number'&&(input.value===''||!input.checkValidity()))return;callback(input.value);});wrap.append(input);parent.append(wrap);return input;}
+ function styleValue(key,value){const mode=M.breakpoint(size.width),item=target(),next={...item.styles?.[mode]},defaultValue=defaults[selected]?.[mode]?.[key],baseValue=JSON.parse(base.dataJSON).objects[selected]?.styles?.[mode]?.[key];if(value===defaultValue){if(baseValue===undefined)delete next[key];else next[key]=baseValue;}else next[key]=value;patch(selected,{styles:{...item.styles,[mode]:next}});}
+ function color(parent,label,key,initial){const wrap=make('div','studio-palette');field(parent,label,initial||'#2A52BE',value=>styleValue(key,value),{type:'color'});for(const hex of M.PALETTE){const button=make('button');button.type='button';button.style.background=hex;button.title=label+' '+hex;button.setAttribute('aria-label',label+' '+hex);button.disabled=!editing;button.onclick=()=>styleValue(key,hex);wrap.append(button);}parent.append(wrap);}
+ function renderInspector(){inspector.replaceChildren(make('h2','','오브젝트 속성'));if(!selected){inspector.append(make('p','studio-muted','화면에서 오브젝트를 선택하세요. 드래그로 이동하고 오른쪽 아래 점으로 크기를 조절할 수 있습니다.'),make('p','studio-muted','Ctrl+C / Ctrl+V 복사·붙여넣기 · Delete 삭제 · Ctrl+Z 실행 취소'));return;}
+  const description=objects.find(item=>item.id===selected),item=target(),mode=M.breakpoint(size.width),style={...description?.style,...item.styles?.all,...item.styles?.[mode]};
+  defaults[selected]??={};defaults[selected][mode]??={...style,text:description?.text||''};inspector.append(make('p','studio-object-info',description?.label||selected));
+  const actions=make('div','studio-tools');for(const [text,fn]of [['복사',copy],['붙여넣기',paste],['삭제',remove]]){const button=make('button','studio-secondary',text);button.disabled=!editing;button.type='button';button.onclick=fn;actions.append(button);}inspector.append(actions);
+  if(item.hidden){const restore=make('button','studio-secondary','다시 표시');restore.type='button';restore.onclick=()=>patch(selected,{hidden:false});inspector.append(restore);return;}
+  if(description?.text||item.text!==undefined||data.extras.some(v=>v.id===selected&&v.kind!=='clone'))field(inspector,'텍스트',item.text??description?.text??'',value=>{const baseObject=JSON.parse(base.dataJSON).objects[selected],defaultText=defaults[selected][mode].text;if(value===defaultText&&!baseObject?.text&&!data.extras.some(v=>v.id===selected)){commit(()=>{delete data.objects[selected]?.text;});}else patch(selected,{text:value});},{type:'textarea'});
+  inspector.append(make('p','studio-muted','이 배치는 '+({phone:'휴대폰(600px 이하)',tablet:'태블릿(601~1024px)',desktop:'컴퓨터(1025px 이상)'}[mode])+'에 적용됩니다.'));
+  const pair=make('div','studio-form-pair');for(const [key,label,min,max,step]of [['width','너비 (%)',1,100,'0.1'],['height','최소 높이 (px)',0,2000,'1'],['marginLeft','왼쪽 여백 (%)',0,95,'0.1'],['marginTop','위 여백 (px)',0,1000,'1'],['fontSize','글자 크기 (px)',8,100,'1'],['padding','안쪽 여백 (px)',0,80,'1'],['radius','모서리 (px)',0,100,'1'],['gap','요소 간격 (px)',0,100,'1']])field(pair,label,style[key]??(key==='width'?100:key==='height'?description?.height:0),value=>{if(value!==''&&Number.isFinite(Number(value)))styleValue(key,Number(value));},{type:'number',min,max,step});inspector.append(pair);
+  field(inspector,'배치 영역',item.placements?.[mode]?.parent||item.parent||description?.parent||'id:panel-'+tab,value=>patch(selected,{placements:{...item.placements,[mode]:{parent:value}}}),{options:objects.filter(o=>['div','section','header','footer','nav','aside','main'].includes(o.tag)&&o.id!==selected&&!o.id.startsWith(selected+'/')).map(o=>[o.id,o.label+' ('+o.id+')'])});
+  field(inspector,'텍스트 정렬',style.align||'left',value=>styleValue('align',value),{options:[['left','왼쪽'],['center','가운데'],['right','오른쪽']]});field(inspector,'글꼴 굵기',style.weight||400,value=>styleValue('weight',Number(value)),{options:[[400,'보통'],[500,'중간'],[600,'조금 굵게'],[700,'굵게'],[900,'매우 굵게']]});color(inspector,'글자 색','color',style.color);color(inspector,'배경색','background',style.background);color(inspector,'테두리 색','borderColor',style.borderColor);
+  if(description?.course){const course=catalogue.courses.find(c=>c.id===description.course);if(course){inspector.append(make('h3','','과목 정보 · 모든 기기에 적용'));for(const [key,label,options]of [['name','과목명'],['cred','학점'],['cat','교과 영역',['국어','수학','영어','한국사','사회','과학','체육','예술','정보','제2외국어','한문','교양']],['type','과목 유형',['공통','일반','진로','융합']],['grade','성취도·등급 산출',['5단계/등급O','5단계/등급X','3단계/등급X','P/F']],['sem','학년·학기',['1-1','1-2','2-1','2-2','3-1','3-2']],['g','3학년 2학기 선택 그룹',[[0,'택 4'],[1,'택 1 (1)'],[2,'택 1 (2)']]],['pair','동일 과목 중복 선택 그룹']])field(inspector,label,course[key]??'',value=>commit(()=>{const next=['cred','g'].includes(key)?Number(value):value,original=CourseEngine.courses.find(c=>c.id===course.id),published=JSON.parse(base.dataJSON).catalogue[course.id]?.[key];data.catalogue[course.id]??={};if(next===(published??original[key])){if(published===undefined)delete data.catalogue[course.id][key];else data.catalogue[course.id][key]=published;}else data.catalogue[course.id][key]=next;}),{options,type:key==='cred'?'number':'text',min:0,max:30});
+   for(const [key,label]of [['req','학교 지정 필수'],['sciReq','과학 중점 기초 필수'],['sciAdv','과학 중점 심화 과목']]){const wrap=make('label','studio-notice-policy',label),input=make('input');input.type='checkbox';input.checked=course[key]===true;input.disabled=!editing;input.onchange=()=>commit(()=>{const original=CourseEngine.courses.find(c=>c.id===course.id),published=JSON.parse(base.dataJSON).catalogue[course.id]?.[key];data.catalogue[course.id]??={};if(input.checked===(published??original[key]===true)){if(published===undefined)delete data.catalogue[course.id][key];else data.catalogue[course.id][key]=published;}else data.catalogue[course.id][key]=input.checked;});wrap.prepend(input);inspector.append(wrap);}
+  }}
+ }
+ function onMessage(event){if(event.source!==iframe.contentWindow||event.origin!==location.origin||event.data?.channel!=='gimpo-studio')return;const message=event.data;if(message.type==='ready'){ready=true;configure();}else if(message.type==='objects'){objects=message.objects||[];catalogue=message.catalogue||catalogue;const changed=selected!==message.selected;selected=message.selected;renderLayers();if(changed||!inspector.children.length)renderInspector();}else if(message.type==='change')patch(message.id,message.patch);else if(message.type==='shortcut'){selected=message.id;shortcut(message.key,message.shift);}else if(message.type==='edit-text'){selected=message.id;renderInspector();inspector.querySelector('textarea')?.focus();}else if(message.type==='error')App.toast(message.message);}
+ const onKey=event=>{if(!ctx.isActive()||!editing||event.target.matches('input,textarea,select,[contenteditable]'))return;if((event.ctrlKey||event.metaKey)&&['c','v','z'].includes(event.key.toLowerCase())){event.preventDefault();shortcut(event.key.toLowerCase(),event.shiftKey);}else if(event.key==='Delete'){event.preventDefault();remove();}};
+ window.addEventListener('message',onMessage);window.addEventListener('keydown',onKey);renderInspector();fit();
+ return{get editing(){return editing;},setEditing(value){editing=value;configure();renderInspector();},dirty,draft:()=>({data,base,editing,defaults}),hasSelection:()=>Boolean(selected),viewport(value){size=value;fit();renderInspector();},async save(){const result=await StudioAPI.call('studioPublish',{kind:'course',data:M.course(data),expectedRevision:base.revision});base={revision:result.record.revision,dataJSON:result.record.dataJSON};data=JSON.parse(base.dataJSON);defaults={};undo=[];redo=[];configure();},destroy(){resizeObserver.disconnect();window.removeEventListener('message',onMessage);window.removeEventListener('keydown',onKey);iframe.remove();}};
+});
+})();
+
+(()=>{'use strict';const M=StudioModel;
+StudioAdmin.register('notices',async ctx=>{
+ const loaded=await ctx.loadDraft('notices',[]);let data=loaded.data,base=loaded.base,editing=loaded.editing,selected=data[0]?.id||null,part='box',clipboard=null,width=ctx.viewport.width,undo=[],redo=[];
+ const {make}=ctx,wrap=make('div','studio-notice-wrapper'),direction=make('div','studio-notice-direction','왼쪽 → 오른쪽 순서로 공지가 표시됩니다. 순서 변경도 수정 완료를 눌러야 반영됩니다.'),layout=make('div','studio-notices'),board=make('div','studio-notice-board'),inspector=make('aside','studio-inspector');layout.append(board,inspector);wrap.append(direction,layout);ctx.root.append(wrap);
+ const current=()=>data.find(item=>item.id===selected),dirty=()=>M.canonical(M.notices(data))!==base.dataJSON;
+ function commit(change,{refresh=true,start=false}={}){if(!editing&&!start)return;const old=M.canonical(data);change();try{data=M.notices(data);}catch(error){data=JSON.parse(old);App.toast(error.message);return;}if(old===M.canonical(data))return;undo.push(JSON.parse(old));if(undo.length>50)undo.shift();redo=[];if(start)editing=true;renderBoard();if(refresh)renderInspector();ctx.changed();}
+ function select(id,element='box'){selected=id;part=element;renderBoard();renderInspector();ctx.changed();}
+ function add(){commit(()=>{const notice=M.newNotice('notice_'+crypto.randomUUID());const index=data.findIndex(n=>n.id===selected);data.splice(index<0?data.length:index+1,0,notice);selected=notice.id;part='box';},{start:true});}
+ async function remove(){if(!current())return;if(!await ctx.modal('공지 삭제','정말로 삭제하시겠습니까?',{danger:true}))return;commit(()=>{const index=data.findIndex(n=>n.id===selected);data.splice(index,1);selected=data[Math.min(index,data.length-1)]?.id||null;part='box';},{start:true});}
+ function copy(){const notice=current();if(!notice)return;if(part.startsWith('item:')){const item=notice.items.find(i=>i.id===part.slice(5));if(item)clipboard={type:'item',value:M.clone(item)};}else clipboard={type:'notice',value:M.clone(notice)};App.toast('복사했습니다. Ctrl+V로 붙여 넣을 수 있습니다.');}
+ function paste(){if(!editing||!clipboard)return;commit(()=>{if(clipboard.type==='notice'){const next={...M.clone(clipboard.value),id:'notice_'+crypto.randomUUID()};const index=data.findIndex(n=>n.id===selected);data.splice(index<0?data.length:index+1,0,next);selected=next.id;part='box';}else if(current()){const item={...M.clone(clipboard.value),id:'item_'+crypto.randomUUID()},index=current().items.findIndex(i=>'item:'+i.id===part);current().items.splice(index<0?current().items.length:index+1,0,item);part='item:'+item.id;}});}
+ function moveNotice(id,before){commit(()=>{data=M.move(data,id,before);},{start:true});}
+ function renderBoard(){const scroll=board.scrollLeft;board.replaceChildren();if(!data.length){board.append(make('p','studio-notice-empty','등록된 공지가 없습니다.\n공지 추가를 누르면 기존 공지 디자인으로 작성할 수 있습니다.'));return;}
+  for(const [index,notice]of data.entries()){const card=make('article','studio-notice-card');card.dataset.noticeId=notice.id;card.setAttribute('aria-selected',String(selected===notice.id));card.tabIndex=0;card.style.flexBasis=Math.min(420,width-32)+'px';const preview=SchoolNotices.render(notice,{width,editor:true});card.append(preview);
+   if(data.length>1){const number=make('span','studio-notice-number',String(index+1));number.setAttribute('aria-label',(index+1)+'번째 공지');card.append(number);}
+   const handle=make('button','studio-notice-move','↔ 순서 이동');handle.type='button';handle.setAttribute('aria-label',(index+1)+'번째 공지 순서 이동');handle.draggable=true;handle.ondragstart=event=>{event.dataTransfer.setData('text/plain',notice.id);event.dataTransfer.effectAllowed='move';};card.append(handle);
+   card.ondragover=event=>{event.preventDefault();card.dataset.drop='true';};card.ondragleave=()=>delete card.dataset.drop;card.ondrop=event=>{event.preventDefault();delete card.dataset.drop;const id=event.dataTransfer.getData('text/plain');const after=event.clientX>card.getBoundingClientRect().left+card.clientWidth/2;moveNotice(id,after?data[index+1]?.id:notice.id);};
+   // Pointer dragging also works on tablets; the small handle leaves card scrolling intact.
+   let dragging=null;handle.onpointerdown=event=>{if(event.pointerType==='mouse')return;handle.setPointerCapture(event.pointerId);dragging={x:event.clientX,y:event.clientY};event.preventDefault();};handle.onpointerup=event=>{if(!dragging)return;dragging=null;const target=document.elementFromPoint(event.clientX,event.clientY)?.closest('[data-notice-id]');if(target&&target!==card){const targetIndex=data.findIndex(n=>n.id===target.dataset.noticeId),after=event.clientX>target.getBoundingClientRect().left+target.clientWidth/2;moveNotice(notice.id,after?data[targetIndex+1]?.id:target.dataset.noticeId);}};
+   handle.onkeydown=event=>{if(!['ArrowLeft','ArrowRight'].includes(event.key))return;event.preventDefault();if(event.key==='ArrowLeft'&&index>0)moveNotice(notice.id,data[index-1].id);if(event.key==='ArrowRight'&&index<data.length-1)moveNotice(notice.id,data[index+2]?.id);};
+   card.onclick=event=>{if(event.target===handle)return;const item=event.target.closest('[data-notice-item]'),el=event.target.closest('[data-notice-part]');select(notice.id,item?'item:'+item.dataset.noticeItem:el?.dataset.noticePart||'box');};card.onkeydown=event=>{if(event.target===card&&event.key==='Enter')select(notice.id);};
+   if(selected===notice.id){const node=part.startsWith('item:')?[...preview.querySelectorAll('[data-notice-item]')].find(n=>n.dataset.noticeItem===part.slice(5)):preview.querySelector('[data-notice-part="'+part+'"]')||(part==='box'?preview:null);node?.classList.add('studio-notice-selected-part');}board.append(card);
+  }board.scrollLeft=scroll;
+ }
+ function field(parent,label,value,change,{type='text',min,max,options}={}){const row=make('label','',label),input=make(options?'select':type==='textarea'?'textarea':'input');if(options)options.forEach(([v,t])=>{const o=make('option','',t);o.value=v;input.append(o);});else if(type!=='textarea')input.type=type;input.value=value??'';input.disabled=!editing;input.setAttribute('aria-label',label);if(min!==undefined)input.min=min;if(max!==undefined)input.max=max;input.addEventListener(!options&&['text','textarea','color','number'].includes(type)?'input':'change',()=>{if(type==='number'&&(input.value===''||!input.checkValidity()))return;change(input.value);});row.append(input);parent.append(row);return input;}
+ function editText(key,value){commit(()=>{current()[key]=value;},{refresh:false});}
+ function selectedItem(){return part.startsWith('item:')?current()?.items.find(i=>i.id===part.slice(5)):null;}
+ function styleChange(key,value){commit(()=>{const notice=current(),item=selectedItem(),mode=M.breakpoint(width);const target=item?item.styles:(notice.styles[part]??={});target[mode]={...target[mode],[key]:value};},{refresh:false});}
+ function palette(parent,label,key,value){field(parent,label,value||'#2A52BE',v=>styleChange(key,v),{type:'color'});const row=make('div','studio-palette');for(const color of M.PALETTE){const button=make('button');button.type='button';button.style.background=color;button.title=label+' '+color;button.setAttribute('aria-label',button.title);button.disabled=!editing;button.onclick=()=>styleChange(key,color);row.append(button);}parent.append(row);}
+ async function attach(file){if(!file||!editing)return;if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>5*1024*1024){App.toast('JPG·PNG·WebP 이미지(5MB 이하)를 선택해 주세요.');return;}try{const bitmap=await createImageBitmap(file),ratio=Math.min(1,1800/Math.max(bitmap.width,bitmap.height)),canvas=document.createElement('canvas');canvas.width=Math.round(bitmap.width*ratio);canvas.height=Math.round(bitmap.height*ratio);canvas.getContext('2d').drawImage(bitmap,0,0,canvas.width,canvas.height);bitmap.close();let src=canvas.toDataURL('image/webp',.86);if(src.length>750000)src=canvas.toDataURL('image/webp',.65);if(src.length>750000)throw Error('이미지가 큽니다. 작은 이미지를 선택해 주세요.');commit(()=>{const item={id:'item_'+crypto.randomUUID(),kind:'image',text:file.name,src,styles:{}};current().items.push(item);part='item:'+item.id;});}catch(error){App.toast(error.message);}}
+ function renderInspector(){inspector.replaceChildren(make('h2','','공지 속성'));const notice=current();if(!notice){inspector.append(make('p','studio-muted','공지 추가를 눌러 시작하세요.'));return;}
+  const tools=make('div','studio-tools');for(const [label,fn]of [['공지 복사',()=>{part='box';copy();}],['붙여 넣기',paste]]){const button=make('button','studio-secondary',label);button.disabled=!editing;button.onclick=fn;tools.append(button);}inspector.append(tools);
+  field(inspector,'머리말',notice.header,v=>editText('header',v));field(inspector,'제목',notice.title,v=>editText('title',v));field(inspector,'내용',notice.body,v=>editText('body',v),{type:'textarea'});field(inspector,'다시 보지 않기 문구',notice.dismissText,v=>editText('dismissText',v));
+  inspector.append(make('h3','','표시 방식'));for(const [value,label]of [['legacy','기존 방식으로 표시'],['visit','접속할 때마다 표시'],['daily','하루마다 표시'],['interval','지정한 일수마다 표시']]){const row=make('label','studio-notice-policy',label),input=make('input');input.type='checkbox';input.checked=notice.policy===value;input.disabled=!editing;input.onchange=()=>{if(!input.checked){input.checked=true;return;}commit(()=>{current().policy=value;});};row.prepend(input);inspector.append(row);}
+  if(notice.policy==='interval'){const input=field(inspector,'표시 간격 (일)',notice.intervalDays,value=>{if(/^[1-9]\d*$/.test(value)){input.setCustomValidity('');commit(()=>{current().intervalDays=value;},{refresh:false});}else input.setCustomValidity('1 이상의 정수를 입력해 주세요.');});input.inputMode='numeric';}
+  inspector.append(make('p','studio-muted',notice.policy==='legacy'?'하루마다 표시합니다. 다시 보지 않기를 누른 경우, 공지 내용을 변경하거나 새 공지를 게시하면 다시 표시합니다.':'다시 보지 않기 버튼 없이 선택한 주기로 표시합니다.'));
+  inspector.append(make('h3','','오브젝트'));const items=make('div','studio-tools');for(const [kind,label]of [['text','텍스트 추가'],['box','상자 추가'],['button','버튼 추가'],['ellipse','원 추가']]){const button=make('button','studio-secondary',label);button.disabled=!editing;button.onclick=()=>commit(()=>{const item={id:'item_'+crypto.randomUUID(),kind,text:kind==='text'?'새 텍스트':kind==='button'?'새 버튼':'',styles:{}};current().items.push(item);part='item:'+item.id;});items.append(button);}const file=make('input');file.type='file';file.accept='image/png,image/jpeg,image/webp';file.hidden=true;file.onchange=()=>{attach(file.files[0]);file.value='';};const attachButton=make('button','studio-secondary','이미지 첨부');attachButton.disabled=!editing;attachButton.onclick=()=>file.click();items.append(attachButton,file);inspector.append(items);
+  const options=[['box','공지 상자'],['header','머리말'],['title','제목'],['body','내용'],['footer','다시 보지 않기'],...notice.items.map(item=>['item:'+item.id,item.kind==='image'?'첨부 이미지':item.text||'도형'])];field(inspector,'선택한 요소',part,value=>{part=value;renderBoard();renderInspector();},{options});
+  const item=selectedItem(),style=M.computedStyle(item?.styles||notice.styles[part],width);if(item){field(inspector,item.kind==='image'?'이미지 설명':'텍스트',item.text,value=>commit(()=>{selectedItem().text=value;},{refresh:false}),{type:'textarea'});const actions=make('div','studio-tools');for(const [text,fn]of [['앞으로',()=>{const index=current().items.findIndex(i=>i.id===item.id);if(index>0)commit(()=>{current().items=M.move(current().items,item.id,current().items[index-1].id);});}],['뒤로',()=>{const index=current().items.findIndex(i=>i.id===item.id);if(index<current().items.length-1)commit(()=>{current().items=M.move(current().items,item.id,current().items[index+2]?.id);});}],['복사',copy],['요소 삭제',()=>commit(()=>{current().items=current().items.filter(i=>i.id!==item.id);part='box';})]]){const button=make('button','studio-secondary',text);button.disabled=!editing;button.onclick=fn;actions.append(button);}inspector.append(actions);}
+  const pair=make('div','studio-form-pair');for(const [key,label,min,max,value]of [['width','너비 (%)',1,100,style.width??100],['fontSize','글자 크기',8,100,style.fontSize??15],['padding','안쪽 여백',0,80,style.padding??0],['marginTop','위 여백',0,1000,style.marginTop??0],['radius','모서리',0,100,style.radius??8]])field(pair,label,value,v=>{if(v!==''&&Number(v)>=min&&Number(v)<=max)styleChange(key,Number(v));},{type:'number',min,max});inspector.append(pair);palette(inspector,'글자 색','color',style.color||((part==='header'||part==='footer')?'#FFFFFF':'#191F28'));palette(inspector,'배경색','background',style.background||(part==='header'?'#2A52BE':part==='footer'?'#222222':'#FFFFFF'));
+  const reset=make('button','studio-secondary','선택 요소의 배치·색상 초기화');reset.disabled=!editing;reset.onclick=()=>commit(()=>{if(selectedItem())selectedItem().styles={};else delete current().styles[part];});inspector.append(reset);
+ }
+ function onKey(event){if(!ctx.isActive()||event.target.matches('input,textarea,select,[contenteditable]')||document.querySelector('dialog[open]'))return;if((event.ctrlKey||event.metaKey)&&['c','v','z'].includes(event.key.toLowerCase())){event.preventDefault();const key=event.key.toLowerCase();if(key==='c')copy();if(key==='v')paste();if(key==='z'&&editing){const from=event.shiftKey?redo:undo,to=event.shiftKey?undo:redo;if(from.length){to.push(M.clone(data));data=from.pop();renderBoard();renderInspector();ctx.changed();}}}}
+ window.addEventListener('keydown',onKey);renderBoard();renderInspector();
+ return{get editing(){return editing;},setEditing(value){editing=value;renderInspector();},dirty,hasSelection:()=>Boolean(current()),draft:()=>({data,base,editing}),add,remove,viewport(value){width=value.width;renderBoard();renderInspector();},async save(){const result=await StudioAPI.call('studioPublish',{kind:'notices',data:M.notices(data),expectedRevision:base.revision});base={revision:result.record.revision,dataJSON:result.record.dataJSON};data=JSON.parse(base.dataJSON);undo=[];redo=[];renderBoard();},destroy(){window.removeEventListener('keydown',onKey);}};
+});})();
+
+(()=>{'use strict';const M=StudioModel;
+StudioAdmin.register('students',async ctx=>{
+ const [result,saved,content]=await Promise.all([StudioAPI.call('studioStudents'),StudioDrafts.load(ctx.user.uid,'students'),App.db.ref('v2/siteContent/course').once('value')]);if(!ctx.isActive())throw Error('화면이 변경되었습니다.');
+ const config=M.course(content.val()?.dataJSON?JSON.parse(content.val().dataJSON):M.blankCourse()),E=CourseEngine.create(M.catalogue({version:CourseEngine.version,courses:CourseEngine.courses,semesters:CourseEngine.semesters},config.catalogue));
+ let students=result.students,selected=saved?.selected||students[0]?.uid||null,editing=saved?.editing===true,edits=saved?.edits||{},baselines=saved?.baselines||{},job=saved?.job||null,stopped=false,deleting=false;
+ // Removed or newly privileged accounts cannot be edited from an old local draft.
+ const ids=new Set(students.map(s=>s.uid));for(const uid of Object.keys(edits))if(!ids.has(uid)){delete edits[uid];delete baselines[uid];}if(!ids.has(selected))selected=students[0]?.uid||null;
+ const {make}=ctx,wrap=make('div','studio-students'),deleteTools=make('div','student-delete-tools'),columns=make('div','student-columns'),directory=make('aside','student-directory'),detail=make('section','student-detail'),search=make('input'),list=make('div');search.type='search';search.placeholder='이름, 학년, 반, 번호, 계정 검색';search.setAttribute('aria-label','학생 검색');directory.append(search,list);columns.append(directory,detail);wrap.append(deleteTools,columns);ctx.root.append(wrap);
+ for(const [scope,label]of [['all','모든 학생 정보 지우기'],['grade1','1학년 학생 정보 지우기'],['grade2','2학년 학생 정보 지우기'],['previous','작년 학생 정보 지우기']]){const button=make('button','studio-danger',label);button.type='button';button.onclick=()=>removeScope(scope).catch(error=>ctx.status(error.message,true));deleteTools.append(button);}
+ search.oninput=renderList;
+ const minimalProfile=profile=>({grade:Number(profile?.grade||1),classNum:String(profile?.classNum||''),studentNum:String(profile?.studentNum||''),name:profile?.name||''});
+ const normalized=student=>({profile:minimalProfile(student.profile),selection:E.normalize(student.selection||{})});
+ const current=()=>students.find(student=>student.uid===selected);
+ function value(uid=selected){return edits[uid]||normalized(students.find(s=>s.uid===uid)||{});}
+ function ensure(){if(!edits[selected]){const student=current();edits[selected]=normalized(student);baselines[selected]={profileHash:student.profileHash,revision:Number(student.selection?.revision||0),data:M.canonical(edits[selected])};}return edits[selected];}
+ function dirtyIds(){return Object.keys(edits).filter(uid=>M.canonical(edits[uid])!==baselines[uid]?.data);}
+ function changed(){ctx.changed();renderList();}
+ function label(student){const p=edits[student.uid]?.profile||student.profile;return p?`${p.grade||1}학년 ${p.classNum||'?'}반 ${p.studentNum||'?'}번 ${p.name||'이름 미등록'}`:'프로필 미등록';}
+ function renderList(){list.replaceChildren();const query=search.value.trim().toLowerCase();for(const student of students.filter(s=>(label(s)+' '+s.email).toLowerCase().includes(query)).sort((a,b)=>label(a).localeCompare(label(b),'ko',{numeric:true}))){const button=make('button','student-row');button.type='button';button.setAttribute('aria-selected',String(selected===student.uid));button.append(make('span','',label(student)),make('span','studio-muted',student.email||'계정 정보 없음'));if(edits[student.uid]&&M.canonical(edits[student.uid])!==baselines[student.uid]?.data)button.append(make('span','studio-muted','임시 수정 중'));button.onclick=()=>{selected=student.uid;renderList();renderDetail();ctx.changed();};list.append(button);}if(!list.children.length)list.append(make('p','studio-muted','표시할 학생이 없습니다.'));}
+ function renderDetail(){const open=[...detail.querySelectorAll('details[open]')].map(d=>d.dataset.sem);detail.replaceChildren();const student=current();if(!student){detail.append(make('p','studio-muted','왼쪽에서 학생을 선택해 주세요.'));return;}const data=value(),account=make('div','student-account');account.append(make('strong','',label(student)),make('p','','접속 계정: '+(student.email||'정보 없음')),make('p','','로그인 방식: '+(student.providers.map(p=>p==='password'?'이메일·비밀번호':p==='google.com'?'Google':p).join(', ')||'기존 DB 정보')),make('p','','계정 생성: '+(student.createdAt?new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Seoul'}).format(new Date(student.createdAt)):'생성 날짜 확인 불가')),make('p','studio-muted','비밀번호: Firebase는 원래 비밀번호를 제공하지 않습니다. 이 화면에서도 조회하거나 저장하지 않습니다.'));detail.append(account);
+  const profile=make('div','student-profile-fields');for(const [key,text,min,max]of [['grade','학년',1,3],['classNum','반',1,12],['studentNum','번호',1,35],['name','이름']]){const row=make('label','',text),input=make('input');input.type=key==='name'?'text':'number';input.value=data.profile[key];input.disabled=!editing||deleting;if(min){input.min=min;input.max=max;}else input.maxLength=40;input.setAttribute('aria-label','학생 '+text);input.oninput=()=>{ensure().profile[key]=key==='grade'?Number(input.value):input.value;changed();};row.append(input);profile.append(row);}detail.append(profile);
+  const track=make('label','studio-notice-policy','과학 중점 과정'),check=make('input');check.type='checkbox';check.checked=data.selection.sciTrack;check.disabled=!editing||deleting;check.onchange=()=>{const next=E.toggleTrack(value().selection);if(!next.ok){App.toast(next.reason);check.checked=!check.checked;return;}ensure().selection=next.state;if(next.reason)App.toast(next.reason);changed();renderDetail();};track.prepend(check);detail.append(track);
+  const analysis=E.analyze(data.selection),summary=make('p','student-selection-summary','선택한 교과 총 '+analysis.totals.total+'학점');detail.append(summary);
+  for(const semester of E.semesters){const sem=typeof semester==='string'?semester:semester.key;const box=make('details','student-semester');box.dataset.sem=sem;box.open=open.includes(sem);box.append(make('summary','',sem.replace('-','학년 ')+'학기'));const grid=make('div','student-course-grid');for(const course of E.courses.filter(c=>c.sem===sem)){const row=make('label','student-course'),input=make('input'),description=make('span'),isSelected=data.selection.courses.includes(course.id);input.type='checkbox';input.checked=isSelected;input.disabled=!editing||deleting;input.setAttribute('aria-label',sem+' '+course.name);input.onchange=()=>{const next=E.canToggle(value().selection,course.id);if(!next.ok){input.checked=isSelected;App.toast(next.reason);return;}ensure().selection=next.state;changed();renderDetail();};description.append(make('b','',course.name),make('small','',course.cat+' · '+course.type+' · '+course.grade));row.append(input,description,make('em','',course.cred+'학점'));grid.append(row);}box.append(grid);detail.append(box);}
+ }
+ function lock(value){deleting=value;deleteTools.querySelectorAll('button').forEach(button=>button.disabled=value);detail.inert=value;}
+ async function removeScope(scope){if(deleting)return;const preview=await StudioAPI.call('studioDeletePreview',{scope});if(!ctx.isActive())return;if(!preview.count){await ctx.modal('학생 정보 삭제','해당 조건의 학생이 없습니다.',{confirmText:'확인',cancelText:'닫기'});return;}
+  const text=scope==='previous'?`${preview.year}년에 생성된 학생 계정 ${preview.count}개와 연결된 학생 정보를 정말로 삭제하시겠습니까?`:`학생 ${preview.count}명의 계정과 연결된 정보를 정말로 삭제하시겠습니까?`;
+  if(!await ctx.modal('정말로 삭제하시겠습니까?',text+'\n삭제하면 복구할 수 없습니다. 관리자 계정은 제외됩니다.',{danger:true}))return;
+  const confirmation=await ctx.modal('삭제 범위 최종 확인','로그인 계정, 프로필, 선택 과목, 저장 구성, AI 대화와 문의가 삭제됩니다.',{phrase:preview.phrase,confirmText:'삭제',danger:true});if(!confirmation)return;
+  lock(true);try{job=await StudioAPI.call('studioDeleteStart',{planId:preview.planId,confirmation});ctx.changed();await resumeJob();}finally{lock(false);}
+ }
+ async function resumeJob(){if(!job||job.status==='complete'||stopped)return;lock(true);try{while(!stopped&&job.status!=='complete'){ctx.status(`학생 정보 삭제 중: ${job.deleted} / ${job.total}명`);job=await StudioAPI.call('studioDeleteStep',{jobId:job.jobId});ctx.changed();if(job.status==='retry'){ctx.status('삭제 중 일부 요청에 실패했습니다. 서버가 남은 작업을 재시도합니다. 이 화면을 다시 열면 진행 상황을 확인할 수 있습니다.',true);return;}}
+   if(!stopped){const next=await StudioAPI.call('studioStudents');students=next.students;const remaining=new Set(students.map(s=>s.uid));for(const uid of Object.keys(edits))if(!remaining.has(uid)){delete edits[uid];delete baselines[uid];}if(!remaining.has(selected))selected=students[0]?.uid||null;const count=job.deleted;job=null;ctx.changed();renderList();renderDetail();ctx.status(count+'명의 계정과 학생 정보를 삭제했습니다.');}
+  }catch(error){ctx.status('삭제 진행 상황을 확인하지 못했습니다. 서버의 남은 작업은 유지됩니다. '+error.message,true);}finally{lock(false);}
+ }
+ renderList();renderDetail();if(job)setTimeout(()=>{if(ctx.isActive())resumeJob();},0);
+ return{get editing(){return editing;},setEditing(value){editing=value;renderDetail();},dirty:()=>dirtyIds().length>0,draft:()=>({selected,editing,edits,baselines,job}),viewport(){},async save(){if(deleting)throw Error('학생 삭제가 끝난 뒤 수정해 주세요.');for(const uid of dirtyIds()){const data=edits[uid],original=baselines[uid];if(!data.profile.name.trim()||![1,2,3].includes(Number(data.profile.grade))||!/^([1-9]|1[0-2])$/.test(data.profile.classNum)||!/^([1-9]|[12][0-9]|3[0-5])$/.test(data.profile.studentNum))throw Error('학생의 학년·반·번호·이름을 확인해 주세요.');const result=await StudioAPI.call('studioSaveStudent',{uid,profile:data.profile,selection:data.selection,expectedProfileHash:original.profileHash,expectedRevision:original.revision});const student=students.find(s=>s.uid===uid);Object.assign(student,result);delete edits[uid];delete baselines[uid];await ctx.persist();}renderList();renderDetail();},destroy(){stopped=true;}};
+});})();
+</script>
 <script>
 (() => {
 'use strict';
@@ -697,7 +1306,7 @@ function friendly(error){return sdk ? sdk.error(error) : '서비스 연결에 �
 function releaseImages(){if(sdk?.releaseImages)sdk.releaseImages($('messages'));}
 function clearPreview(){previewUrls.forEach(url=>URL.revokeObjectURL(url));previewUrls=[];files=[];$('images').value='';$('previews').replaceChildren();$('previews').hidden=true;}
 function stopRoom(){globalThis.InquiryPreview?.close();roomEpoch++;renderEpoch++;if(contactRef)contactRef.off();contactRef=null;if(messageQuery)messageQuery.off();messageQuery=null;chatScroll.reset();roomLoaded=false;messages.clear();liveKeys.clear();releaseImages();$('messages').replaceChildren();currentUid=null;hasOlder=false;loadingOlder=false;pending=null;clearPreview();$('reply').value='';$('messages').hidden=true;$('messageViewport').hidden=true;$('composer').hidden=true;$('roomEmpty').hidden=false;$('deleteRoom').disabled=true;$('roomTitle').textContent='문의를 선택해 주세요';$('roomAccount').textContent='';$('roomStatus').textContent='';$('sendError').textContent='';$('workspace').classList.remove('room-open');}
-function stopAll(){stopRoom();if(roleRef)roleRef.off();roleRef=null;fullAdmin=false;if(roomRef)roomRef.off();if(connectionRef)connectionRef.off();roomRef=null;connectionRef=null;rooms={};liveRoomKeys.clear();moreRooms=false;loadingRooms=false;$('roomList').replaceChildren();}
+function stopAll(){window.StudioAdmin?.stop();stopRoom();if(roleRef)roleRef.off();roleRef=null;fullAdmin=false;if(roomRef)roomRef.off();if(connectionRef)connectionRef.off();roomRef=null;connectionRef=null;rooms={};liveRoomKeys.clear();moreRooms=false;loadingRooms=false;$('roomList').replaceChildren();}
 function setBusy(){const locked=sending||deleting,attach=canAttachImages();$('send').disabled=locked;$('send').textContent=sending?'전송 중…':'전송';$('reply').readOnly=deleting;$('images').disabled=locked||!attach;$('deleteRoom').disabled=locked||!currentUid||!fullAdmin;document.querySelector('.attach').setAttribute('aria-disabled',String(locked||!attach));document.querySelector('.attach').style.opacity=attach?'':'0.45';document.querySelector('.attach').style.pointerEvents=locked||!attach?'none':'';}
 function studentDisplayName(name){const value=String(name||'익명 문의');return /^\d{1,2}반\s+\d{1,2}번\s+/.test(value)?'1학년 '+value:value;}
 function canAttachImages(){return Boolean(sdk?.canAttachImages?.()??fullAdmin);}
@@ -778,7 +1387,7 @@ async function authChanged(user){
   if(!fullAdmin&&permission.val()!==true){$('gateInfo').textContent=user.isAnonymous?'관리자 권한이 등록된 계정으로 로그인해 주세요.':'이 계정에는 문의 관리 권한이 없습니다. 기존 관리자 계정으로 로그인해 주세요.';$('loginForm').hidden=!user.isAnonymous;$('googleLogin').hidden=!user.isAnonymous;$('gateLogout').hidden=user.isAnonymous;return;}
   $('deleteRoom').hidden=!fullAdmin;
   document.querySelector('.composer .hint').textContent=canAttachImages()?'Enter 전송 · Shift+Enter 줄바꿈 · JPG/PNG/WebP 3장, 각 5MB 이하':'Enter 전송 · Shift+Enter 줄바꿈';
-  $('gate').hidden=true;$('workspace').hidden=false;$('accountInfo').textContent=user.email||'관리자';$('listStatus').textContent='문의 목록을 불러오는 중입니다.';
+  $('gate').hidden=true;StudioAdmin.start(user);$('accountInfo').textContent=user.email||'관리자';$('listStatus').textContent='문의 목록을 불러오는 중입니다.';
   if(!fullAdmin){
    roleRef=sdk.db.ref(rolePath);
    roleRef.on('value',snapshot=>{if(epoch===authEpoch&&snapshot.val()!==true)authChanged(user);},()=>{if(epoch===authEpoch)authChanged(user);});
