@@ -209,6 +209,21 @@ body{color:var(--text-black)}
 @media(max-width:1100px) and (min-width:761px){.studio-editor-grid.studio-resizable-panel{grid-template-columns:170px minmax(0,1fr) var(--studio-inspector-width,220px)}.studio-editor-grid>.studio-panel-divider{right:calc(var(--studio-inspector-width,220px) - 5px)}.studio-notices.studio-resizable-panel{grid-template-columns:minmax(0,1fr) var(--studio-inspector-width,240px)}.studio-notices>.studio-panel-divider{right:calc(var(--studio-inspector-width,240px) - 5px)}}
 @media(max-width:760px){.studio-home-content{margin-top:6px}.studio-notices.studio-resizable-panel{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(160px,1fr) var(--studio-inspector-height,min(34vh,280px))}.studio-editor-grid.studio-resizable-panel{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(160px,1fr) var(--studio-inspector-height,min(35vh,280px))}.studio-editor-grid.studio-resizable-panel[data-editing=false]{grid-template-rows:minmax(0,1fr)}.studio-resizable-panel>.studio-panel-divider{top:auto;right:0;left:0;width:auto;height:10px;bottom:calc(var(--studio-inspector-height,min(34vh,280px)) - 5px);cursor:row-resize}.studio-editor-grid>.studio-panel-divider{bottom:calc(var(--studio-inspector-height,min(35vh,280px)) - 5px)}.studio-panel-divider:before{top:3px;left:calc(50% - 18px);width:36px;height:4px}}
 
+/* Requested left-panel sizing; original dimensions remain the defaults. */
+.studio-sidebar-resizable{position:relative}
+.studio-editor-grid.studio-sidebar-resizable[data-editing=true]{grid-template-columns:var(--studio-sidebar-width,210px) minmax(0,1fr) var(--studio-inspector-width,260px)}
+.student-columns.studio-sidebar-resizable{grid-template-columns:var(--studio-sidebar-width,minmax(240px,30%)) minmax(0,1fr)}
+.report-columns.studio-sidebar-resizable>.chat-list-panel{width:var(--studio-sidebar-width,320px)}
+.studio-sidebar-divider{position:absolute;top:0;bottom:0;width:10px;z-index:6;cursor:col-resize;touch-action:none;outline:none}
+.studio-sidebar-divider:before{content:'';position:absolute;top:calc(50% - 18px);left:3px;width:4px;height:36px;border-radius:3px;background:#b0bed3}
+.studio-sidebar-divider:hover:before,.studio-sidebar-divider:focus-visible:before,.studio-sidebar-resizing>.studio-sidebar-divider:before{background:#2a52be}
+.studio-sidebar-resizing{user-select:none}.studio-sidebar-resizing iframe{pointer-events:none}
+.studio-editor-grid[data-editing=false]>.studio-sidebar-divider{display:none}
+.student-directory,.student-detail,.student-chat-log{overflow-anchor:none;scroll-behavior:auto}
+@media(max-width:1100px) and (min-width:761px){.studio-editor-grid.studio-sidebar-resizable[data-editing=true]{grid-template-columns:var(--studio-sidebar-width,170px) minmax(0,1fr) var(--studio-inspector-width,220px)}}
+@media(max-width:760px){.studio-editor-grid.studio-sidebar-resizable[data-editing=true],.student-columns.studio-sidebar-resizable{grid-template-columns:minmax(0,1fr)}.studio-editor-grid>.studio-sidebar-divider,.student-columns>.studio-sidebar-divider{display:none}}
+@media(max-width:700px){.report-columns.studio-sidebar-resizable>.chat-list-panel{width:100%}.report-columns>.studio-sidebar-divider{display:none}}
+
 </style>
 </head>
 <body>
@@ -1129,6 +1144,47 @@ async function operation(mode,key,value){const store=await db();return new Promi
 root.StudioDrafts={load:(uid,kind)=>operation('readonly',uid+':'+kind),save:(uid,kind,value)=>operation('readwrite',uid+':'+kind,value),clear:(uid,kind)=>operation('readwrite',uid+':'+kind,null)};
 })(window);
 
+/* Keep the visible item at the same offset when nearby rows change. */
+(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.StudioViewScroll=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
+'use strict';
+function visible(node){
+ if(!node.getClientRects().length)return false;
+ for(let parent=node.parentElement;parent;parent=parent.parentElement)if(parent.tagName==='DETAILS'&&!parent.open&&!parent.querySelector('summary')?.contains(node))return false;
+ return true;
+}
+function capture(container,attribute='data-view-key'){
+ if(!container)return null;const top=container.scrollTop,left=container.scrollLeft,rect=container.getBoundingClientRect(),anchors=[];
+ if(top>1&&rect.height)for(const node of container.querySelectorAll('['+attribute+']')){if(!visible(node))continue;const box=node.getBoundingClientRect();if(box.bottom>rect.top&&box.top<rect.bottom){anchors.push({key:node.getAttribute(attribute),offset:box.top-rect.top});if(anchors.length===3)break;}}
+ return{top,left,anchors};
+}
+function restore(container,state,attribute='data-view-key'){
+ if(!container||!state)return;let top=Number(state.top)||0;
+ if(top>1){const nodes=[...container.querySelectorAll('['+attribute+']')],rect=container.getBoundingClientRect();for(const anchor of state.anchors||[]){const node=nodes.find(node=>node.getAttribute(attribute)===anchor.key&&visible(node));if(node){top=container.scrollTop+node.getBoundingClientRect().top-rect.top-anchor.offset;break;}}}
+ container.scrollTop=top;container.scrollLeft=Number(state.left)||0;
+}
+return{capture,restore};
+});
+
+/* Local sidebar sizing; published layouts and student data are unchanged. */
+(()=>{'use strict';
+function attach(layout,panel,{key,label,make,min=180,breakpoint=760,reserve=()=>300,before,after}){
+ const handle=make('div','studio-sidebar-divider');handle.tabIndex=0;handle.setAttribute('role','separator');handle.setAttribute('aria-label',label);handle.setAttribute('aria-orientation','vertical');handle.title='드래그하여 '+label;layout.classList.add('studio-sidebar-resizable');layout.append(handle);
+ let width=0,drag=null;try{width=Number(localStorage.getItem('gimpo-studio-sidebar-'+key))||0;}catch{}
+ const enabled=()=>innerWidth>breakpoint&&layout.getBoundingClientRect().width>0&&panel.getClientRects().length>0;
+ function bounds(){return{min,max:Math.max(min,layout.getBoundingClientRect().width-reserve())};}
+ function align(){if(!enabled())return;const box=panel.getBoundingClientRect(),outer=layout.getBoundingClientRect();handle.style.left=(box.right-outer.left-5)+'px';const range=bounds();handle.setAttribute('aria-valuemin',String(range.min));handle.setAttribute('aria-valuemax',String(Math.round(range.max)));handle.setAttribute('aria-valuenow',String(Math.round(box.width)));handle.setAttribute('aria-valuetext',Math.round(box.width)+'픽셀');}
+ function apply(){if(!enabled())return;if(width){const range=bounds(),value=Math.max(range.min,Math.min(width,range.max))+'px';if(layout.style.getPropertyValue('--studio-sidebar-width')!==value){const state=before?.();layout.style.setProperty('--studio-sidebar-width',value);after?.(state);}}align();}
+ function save(){try{localStorage.setItem('gimpo-studio-sidebar-'+key,String(width));}catch{}}
+ handle.onpointerdown=event=>{if(event.button!==0||!enabled())return;event.preventDefault();drag={id:event.pointerId,x:event.clientX,width:panel.getBoundingClientRect().width};handle.setPointerCapture(event.pointerId);layout.classList.add('studio-sidebar-resizing');};
+ handle.onpointermove=event=>{if(!drag||drag.id!==event.pointerId)return;const range=bounds();width=Math.max(range.min,Math.min(drag.width+event.clientX-drag.x,range.max));apply();};
+ function finish(){if(!drag)return;drag=null;layout.classList.remove('studio-sidebar-resizing');save();}
+ handle.onpointerup=handle.onpointercancel=handle.onlostpointercapture=finish;
+ handle.onkeydown=event=>{if(!['ArrowLeft','ArrowRight'].includes(event.key)||!enabled())return;event.preventDefault();const range=bounds();width=Math.max(range.min,Math.min(panel.getBoundingClientRect().width+(event.key==='ArrowRight'?1:-1)*(event.shiftKey?40:10),range.max));apply();save();};
+ const observer=new ResizeObserver(apply);observer.observe(layout);observer.observe(panel);apply();return{destroy(){observer.disconnect();finish();handle.remove();},refresh:apply};
+}
+window.StudioSidebarResize={attach};
+})();
+
 (()=>{'use strict';
 const endpoint='https://script.google.com/macros/s/AKfycbzHSzopZm8oQcPGqSmteuCJKanULIptcelUfvqG9OgGlz4vD019ZgndZnYNwGZy9EcMoA/exec';
 const messages={'studio-forbidden':'이 계정 또는 기기에는 편집 권한이 없습니다. 운영자가 관리자 편집 권한을 등록해야 합니다.','studio-busy':'다른 관리자 작업이 진행 중입니다. 잠시 후 다시 시도해 주세요.','studio-conflict':'다른 기기에서 내용이 바뀌었습니다. 임시 편집 내용은 유지됩니다. 최신 내용을 확인한 뒤 다시 반영해 주세요.','studio-targets-changed':'삭제 대상이 바뀌었습니다. 목록을 새로 확인하고 삭제 범위를 다시 선택해 주세요.','studio-protected':'관리자 계정은 학생 정보 삭제·편집 대상에서 제외됩니다.','studio-confirmation':'확인 문구 또는 요청 유효 시간을 확인해 주세요.','studio-auth-403':'학생 계정 조회·삭제를 위한 Firebase Authentication 서버 권한이 필요합니다.','invalid-auth':'로그인 연결이 만료되었습니다. 다시 로그인해 주세요.','invalid-profile':'학년·반·번호·이름을 확인해 주세요.','invalid-selection':'선택 과목 형식을 확인해 주세요.'};
@@ -1161,7 +1217,7 @@ window.StudioAPI={call,read,section,invalidate,reset};
 
 /* Account-scoped, persistent realtime student directory. No writes are exposed. */
 (()=>{'use strict';
-let owner=null,epoch=0,ready=false,error=null,directory=null,rows=new Map(),subscriptions=new Map(),observers=new Set(),pending=new Set(),removed=new Set(),queued=false;
+let viewState=null,owner=null,epoch=0,ready=false,error=null,directory=null,rows=new Map(),subscriptions=new Map(),observers=new Set(),pending=new Set(),removed=new Set(),queued=false;
 const clone=value=>JSON.parse(JSON.stringify(value)),settled=()=>ready&&[...rows.values()].every(row=>row.loaded),snapshot=()=>({students:[...rows.values()].filter(row=>row.loaded).map(clone),ready:settled(),error,serverNow:Date.now()});
 function flush(){queued=false;const change={ready:settled(),error,serverNow:Date.now(),upserts:[...pending].map(uid=>rows.get(uid)).filter(row=>row?.loaded).map(clone),removed:[...removed]};pending.clear();removed.clear();for(const observer of observers)observer(change);}
 function notify(uid,gone=false){if(uid)(gone?removed:pending).add(uid);if(!queued){queued=true;queueMicrotask(flush);}}
@@ -1183,8 +1239,8 @@ function start(user){if(owner===user.uid)return;stop();owner=user.uid;const vers
  for(const [event,fn]of [['child_added',upsert],['child_changed',upsert],['child_removed',remove]])directory.on(event,fn,fail);
  directory.once('value').then(snap=>{if(version!==epoch)return;ready=true;notify();if(!snap.exists())StudioAPI.call('studioSyncDirectory').catch(fail);},fail);
 }
-function stop(){epoch++;directory?.off();directory=null;for(const uid of [...subscriptions.keys()])detach(uid);rows.clear();pending.clear();removed.clear();owner=null;ready=false;error=null;observers.clear();}
-window.StudioStudents={start,stop,snapshot,watch(fn){observers.add(fn);fn({...snapshot(),initial:true,upserts:[],removed:[]});return()=>observers.delete(fn);}};
+function stop(){epoch++;viewState=null;directory?.off();directory=null;for(const uid of [...subscriptions.keys()])detach(uid);rows.clear();pending.clear();removed.clear();owner=null;ready=false;error=null;observers.clear();}
+window.StudioStudents={start,stop,snapshot,getView(uid){return owner===uid?clone(viewState):null;},saveView(uid,value){if(owner===uid)viewState=clone(value);},watch(fn){observers.add(fn);fn({...snapshot(),initial:true,upserts:[],removed:[]});return()=>observers.delete(fn);}};
 })();
 
 (()=>{'use strict';
@@ -1192,6 +1248,7 @@ const $=id=>document.getElementById(id),M=StudioModel,factories=new Map();
 let user=null,epoch=0,viewEpoch=0,controller=null,view='home',busy=false,allowed=false,presence=null,persistChain=Promise.resolve();
 let viewport={width:1440,height:900,custom:false};
 const make=(tag,cls,text)=>{const node=document.createElement(tag);if(cls)node.className=cls;if(text!==undefined)node.textContent=text;return node;};
+StudioSidebarResize.attach(document.querySelector('.report-columns'),document.querySelector('.chat-list-panel'),{key:'chat',label:'문의 목록 너비 조절',make,min:250,breakpoint:700,reserve:()=>300});
 function status(text,error=false){$('studioStatus').textContent=text;$('studioStatus').classList.toggle('studio-error',error);}
 function update(){const editing=controller?.editing===true,dirty=controller?.dirty?.()===true;$('studioEdit').textContent=controller?.alwaysEditing?'저장':editing?'수정 완료':'수정';$('studioEdit').disabled=busy||!allowed||!controller||(editing&&!dirty);$('studioCancel').hidden=!editing;$('studioCancel').textContent=controller?.alwaysEditing?'변경 취소':'수정 취소';$('studioCancel').disabled=busy||!allowed;$('studioPreview').hidden=view==='students';$('studioPreview').textContent=controller?.previewing?'편집 화면':'미리보기';$('studioAddNotice').hidden=view!=='notices';$('studioDeleteNotice').hidden=view!=='notices';$('studioAddNotice').disabled=busy||!allowed;$('studioDeleteNotice').disabled=busy||!allowed||!controller?.hasSelection?.();}
 function persist(){if(!user||!controller?.draft)return Promise.resolve();const uid=user.uid,kind=controller.draftKey||view,data=controller.draft();const version=viewEpoch;
@@ -1235,7 +1292,7 @@ async function start(next){stop();user=next;const version=++epoch;$('studioAccou
  presence=CoursePresence.start({db:App.db,onCount:count=>{if(version===epoch)$('reportVisitorCount').textContent=count===null?'연결 확인 중':String(count);},onConnection:online=>{if(version===epoch&&!online)$('reportVisitorCount').textContent='연결 끊김';},onError:()=>{if(version===epoch)$('reportVisitorCount').textContent='조회 실패';}});
  try{await StudioAPI.call('studioAccess');if(version!==epoch)return;allowed=true;for(const kind of ['course','notices'])StudioAPI.section(kind).catch(()=>{});$('studioAccessStatus').textContent='관리자 편집 권한이 확인되었습니다.';update();}catch(error){if(version===epoch){allowed=false;$('studioAccessStatus').textContent=error.message;update();}}
 }
-function stop(){StudioStudents.stop();StudioAPI.reset();epoch++;viewEpoch++;persist().catch(()=>{});controller?.destroy?.();controller=null;user=null;allowed=false;busy=false;presence?.remove().catch(()=>{});presence=null;$('studioHome').hidden=true;$('studioShell').hidden=true;if($('studioDialog').open)$('studioDialog').close();}
+function stop(){StudioStudentChat.clear();StudioStudents.stop();StudioAPI.reset();epoch++;viewEpoch++;persist().catch(()=>{});controller?.destroy?.();controller=null;user=null;allowed=false;busy=false;presence?.remove().catch(()=>{});presence=null;$('studioHome').hidden=true;$('studioShell').hidden=true;if($('studioDialog').open)$('studioDialog').close();}
 $('studioHomeBtn').onclick=()=>open('home');$('studioChatHome').onclick=()=>open('home');$('studioLogout').onclick=()=>App.signOut().catch(error=>App.toast(App.error(error)));
 document.querySelectorAll('[data-studio-view]').forEach(button=>button.onclick=()=>open(button.dataset.studioView));$('studioEdit').onclick=publish;$('studioCancel').onclick=cancelEdit;$('studioPreview').onclick=()=>{if(controller?.showPreview){controller.showPreview(!controller.previewing);$('studioViewportPanel').hidden=!controller.previewing;update();}else $('studioViewportPanel').hidden=!$('studioViewportPanel').hidden;controller?.viewport?.(viewport);};
 document.querySelectorAll('[data-studio-size]').forEach(button=>button.onclick=()=>{if(button.dataset.studioSize==='custom'){setViewport({...viewport,custom:true});return;}const [width,height]=button.dataset.studioSize.split(',').map(Number);setViewport({width,height,custom:false});});
@@ -1281,7 +1338,7 @@ function attach(layout,inspector,{key,make}){
  const handle=make('div','studio-panel-divider');handle.tabIndex=0;handle.setAttribute('role','separator');handle.setAttribute('aria-label','편집 패널 크기 조절');handle.title='드래그하여 편집 패널 크기 조절';layout.append(handle);layout.classList.add('studio-resizable-panel');
  let size={width:0,height:0},drag=null;try{size={...size,...JSON.parse(localStorage.getItem('gimpo-studio-panel-'+key)||'{}')};}catch{}
  const mobile=()=>matchMedia('(max-width:760px)').matches;
- function apply(){const rect=layout.getBoundingClientRect(),small=mobile();handle.setAttribute('aria-orientation',small?'horizontal':'vertical');if(size.width&&rect.width)layout.style.setProperty('--studio-inspector-width',Math.max(200,Math.min(size.width,rect.width-(key==='course'?170:0)-300))+'px');if(size.height&&rect.height)layout.style.setProperty('--studio-inspector-height',Math.max(140,Math.min(size.height,rect.height-160))+'px');}
+ function apply(){const rect=layout.getBoundingClientRect(),small=mobile();handle.setAttribute('aria-orientation',small?'horizontal':'vertical');if(size.width&&rect.width)layout.style.setProperty('--studio-inspector-width',Math.max(200,Math.min(size.width,rect.width-(key==='course'?(layout.querySelector('.studio-library')?.getBoundingClientRect().width||170):0)-280))+'px');if(size.height&&rect.height)layout.style.setProperty('--studio-inspector-height',Math.max(140,Math.min(size.height,rect.height-160))+'px');}
  function save(){try{localStorage.setItem('gimpo-studio-panel-'+key,JSON.stringify(size));}catch{}}
  handle.onpointerdown=event=>{if(event.button!==0)return;event.preventDefault();const rect=inspector.getBoundingClientRect();drag={id:event.pointerId,x:event.clientX,y:event.clientY,width:rect.width,height:rect.height,small:mobile()};handle.setPointerCapture(event.pointerId);layout.classList.add('studio-panel-resizing');};
  handle.onpointermove=event=>{if(!drag||event.pointerId!==drag.id)return;if(drag.small)size.height=drag.height+drag.y-event.clientY;else size.width=drag.width+drag.x-event.clientX;apply();};
@@ -1356,26 +1413,31 @@ function attach(board,handle,id,onMove){
 return{beforeAt,slotOrder,attach};
 });
 
-/* Read-only inquiry history. No write, reply or read-receipt operation is exposed. */
+/* Read-only inquiry history; keep the viewed message across navigation and updates. */
 (()=>{'use strict';
-function create({make,isActive}){
- let uid=null,container=null,log=null,status=null,query=null,listener=null,epoch=0,paint=0,open=false,loaded=false,older=false,busy=false,messages=new Map(),liveKeys=new Set();
+let cachedOwner=null;const rooms=new Map();
+function clear(){cachedOwner=null;rooms.clear();}
+function create({make,isActive,owner}){
+ if(cachedOwner!==owner){clear();cachedOwner=owner;}
+ let uid=null,container=null,log=null,status=null,query=null,listener=null,epoch=0,paint=0,open=false,loaded=false,older=false,busy=false,messages=new Map(),liveKeys=new Set(),lastPosition=null;
+ let historyScroll=null;
  const day=new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long',timeZone:'Asia/Seoul'}),time=new Intl.DateTimeFormat('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Asia/Seoul'});
+ function remember(){if(!uid||cachedOwner!==owner)return;if(historyScroll)lastPosition=historyScroll.capture()||lastPosition;rooms.set(uid,{open,loaded,older,messages:new Map(messages),liveKeys:new Set(liveKeys),position:lastPosition});}
  function stop(){epoch++;if(query)query.off('value',listener);query=null;listener=null;}
- function render({initial=false,prepend=false}={}){
-  if(!log||!container?.isConnected)return;const top=log.scrollTop,height=log.scrollHeight,near=height-top-log.clientHeight<180,version=++paint;App.releaseImages(log);log.replaceChildren();
+ function render({initial=false,position=null}={}){
+  if(!log||!container?.isConnected)return;const view=position||historyScroll.capture(),version=++paint;historyScroll.update(()=>{App.releaseImages(log);log.replaceChildren();
   if(older){const button=make('button','studio-secondary','이전 대화 더 보기');button.type='button';button.disabled=busy;button.onclick=loadOlder;log.append(button);}
   let previous='';for(const [id,message] of ChatOrder.sorted(messages.entries())){
    const ts=ChatOrder.timestamp(message),date=ts===null?'날짜 정보 없음':day.format(ts);if(date!==previous){log.append(make('div','student-chat-date',date));previous=date;}
    const row=make('article','student-chat-message '+(message.role==='admin'?'from-admin':'from-student'));row.dataset.messageId=id;
    row.append(make('strong','student-chat-sender',message.role==='admin'?'개발자':message.senderName||'학생'));
    if(message.text)row.append(make('p','student-chat-bubble',String(message.text)));
-   if(Array.isArray(message.images))for(const image of message.images.slice(0,3)){const holder=make('div','student-chat-image');row.append(holder);App.imageElement(image).then(node=>{if(version===paint&&holder.isConnected){holder.append(node);if(initial||near)log.scrollTop=log.scrollHeight;}else App.releaseImages(node);}).catch(()=>{if(version===paint&&holder.isConnected)holder.textContent='사진을 불러오지 못했습니다.';});}
+   if(Array.isArray(message.images))for(const image of message.images.slice(0,3)){const holder=make('div','student-chat-image');row.append(holder);App.imageElement(image).then(node=>{if(version!==paint||!holder.isConnected){App.releaseImages(node);return;}holder.append(node);historyScroll.refresh();remember();}).catch(()=>{if(version===paint&&holder.isConnected){holder.textContent='사진을 불러오지 못했습니다.';historyScroll.refresh();}});}
    const stamp=make('time','student-chat-time',ts===null?'시간 정보 없음':time.format(ts));if(ts!==null)stamp.dateTime=new Date(ts).toISOString();row.append(stamp);log.append(row);
   }
   if(!messages.size&&loaded)log.append(make('p','studio-muted','아직 나눈 문의 대화가 없습니다.'));
   status.textContent=loaded?'대화 '+messages.size+'개 · 보기 전용':'대화를 불러오는 중입니다.';
-  log.scrollTop=initial?log.scrollHeight:prepend?top+(log.scrollHeight-height):near?log.scrollHeight:top;
+  });if(initial&&!position)historyScroll.toBottom();else if(view)historyScroll.restore(view);remember();
  }
  function subscribe(){if(query||!uid||!open)return;const version=epoch,owner=uid;query=App.db.ref('v2/inquiries/'+uid).orderByChild('timestamp').limitToLast(100);
   listener=query.on('value',snap=>{if(version!==epoch||uid!==owner||!open||!isActive())return;const data=snap.val()||{},entries=Object.entries(data),first=ChatOrder.sorted(entries)[0],initial=!loaded;
@@ -1385,24 +1447,24 @@ function create({make,isActive}){
  }
  async function loadOlder(){if(busy||!uid||!messages.size)return;busy=true;const owner=uid,version=epoch,first=ChatOrder.sorted(messages.entries())[0];render();try{
   const snap=await App.db.ref('v2/inquiries/'+uid).orderByChild('timestamp').endAt(ChatOrder.timestamp(first[1]),first[0]).limitToLast(101).once('value');if(owner!==uid||version!==epoch)return;
-  const entries=Object.entries(snap.val()||{}).filter(([id])=>id!==first[0]);entries.forEach(([id,item])=>messages.set(id,item));older=entries.length===100;busy=false;render({prepend:true});
- }catch(error){if(version===epoch)status.textContent=App.error(error);}finally{busy=false;}}
+  const entries=Object.entries(snap.val()||{}).filter(([id])=>id!==first[0]);entries.forEach(([id,item])=>messages.set(id,item));older=entries.length===100;busy=false;render();
+ }catch(error){if(version===epoch)status.textContent=App.error(error);}finally{if(version===epoch)busy=false;}}
  function attach(details,nextUid){
-  if(uid!==nextUid){stop();uid=nextUid;open=false;loaded=false;older=false;busy=false;messages=new Map();liveKeys=new Set();}
-  if(log)App.releaseImages(log);paint++;container=details;details.open=open;
+  remember();if(uid!==nextUid){stop();uid=nextUid;const saved=rooms.get(uid);open=saved?.open||false;loaded=saved?.loaded||false;older=saved?.older||false;busy=false;messages=new Map(saved?.messages);liveKeys=new Set(saved?.liveKeys);lastPosition=saved?.position||null;}
+  historyScroll?.dispose();if(log)App.releaseImages(log);paint++;container=details;details.open=open;
   status=make('p','studio-muted','대화를 열면 학생과 개발자가 나눈 문의를 볼 수 있습니다.');status.setAttribute('role','status');
-  log=make('div','student-chat-log');log.setAttribute('role','log');log.setAttribute('aria-label','학생 문의 대화 보기');details.append(status,log);
-  details.ontoggle=()=>{if(container!==details)return;open=details.open;if(open){render();subscribe();}else stop();};if(open){render();subscribe();}
+  log=make('div','student-chat-log');log.setAttribute('role','log');log.setAttribute('aria-label','학생 문의 대화 보기');details.append(status,log);historyScroll=ChatScroll.create({container:log,button:make('button')});log.addEventListener('scroll',remember,{passive:true});
+  details.ontoggle=()=>{if(container!==details||open===details.open)return;open=details.open;if(open){render({position:lastPosition,initial:!loaded});subscribe();}else{remember();stop();}};if(open){render({position:lastPosition,initial:!loaded});subscribe();}
  }
- return{attach,destroy(){stop();paint++;if(log)App.releaseImages(log);container=null;log=null;messages.clear();}};
+ return{attach,destroy(){remember();stop();historyScroll?.dispose();historyScroll=null;paint++;if(log)App.releaseImages(log);container=null;log=null;messages.clear();}};
 }
-window.StudioStudentChat={create};
+window.StudioStudentChat={create,clear};
 })();
 
 (()=>{'use strict';const M=StudioModel;
 StudioAdmin.register('course',async ctx=>{
  const loaded=await ctx.loadDraft('course',M.blankCourse());let data=loaded.data,base=loaded.base,editing=loaded.editing,selected=null,objects=[],catalogue=CourseEngine,tab=2,ready=false,interacting=false,clipboard=null,undo=[],redo=[],defaults=loaded.defaults||{};
- const {make}=ctx;const layout=make('div','studio-editor-grid'),library=make('aside','studio-library'),canvas=make('div','studio-canvas'),inspector=make('aside','studio-inspector');layout.dataset.editing=editing;layout.append(library,canvas,inspector);ctx.root.append(layout);const panelResize=StudioPanelResize.attach(layout,inspector,{key:'course',make});
+ const {make}=ctx;const layout=make('div','studio-editor-grid'),library=make('aside','studio-library'),canvas=make('div','studio-canvas'),inspector=make('aside','studio-inspector');layout.dataset.editing=editing;layout.append(library,canvas,inspector);ctx.root.append(layout);const panelResize=StudioPanelResize.attach(layout,inspector,{key:'course',make});const libraryResize=StudioSidebarResize.attach(layout,library,{key:'objects',label:'오브젝트 꺼내기 너비 조절',make,min:150,reserve:()=>inspector.getBoundingClientRect().width+280});
  library.append(make('h2','','오브젝트 꺼내기'));const tools=make('div','studio-tools');for(const [kind,label]of [['text','텍스트'],['button','버튼'],['box','둥근 상자'],['ellipse','원'],['tag','분류 태그'],['clone','과목 카드']]){const button=make('button','studio-secondary',label);button.type='button';button.onclick=()=>add(kind);tools.append(button);}library.append(tools,make('h3','','화면 오브젝트'));
  const search=make('input');search.type='search';search.placeholder='오브젝트 검색';search.setAttribute('aria-label','오브젝트 검색');const layers=make('div','studio-layer-list');library.append(search,layers);search.oninput=renderLayers;
  const caption=make('div','studio-canvas-caption'),captionText=make('span','','미리보기'),tabSelect=make('select');tabSelect.setAttribute('aria-label','편집할 화면');['AI 채팅','과목 선택률','수강연습','AI 추천','문의'].forEach((label,index)=>{const option=make('option','',label);option.value=index;option.selected=index===2;tabSelect.append(option);});const interact=make('button','studio-secondary','화면 조작');interact.type='button';interact.classList.add('studio-interaction-toggle');interact.title='과목표 펼치기와 기존 버튼 동작을 미리 확인합니다. 실제 학생 정보는 저장하지 않습니다.';interact.onclick=()=>{interacting=!interacting;interact.textContent=interacting?'오브젝트 선택':'화면 조작';configure();};caption.append(captionText,tabSelect,interact);const area=make('div','studio-canvas-area'),iframe=make('iframe');iframe.title='수강신청 실제 화면 미리보기';iframe.src='../course/?studio-preview=1';canvas.append(caption,area);
@@ -1444,7 +1506,7 @@ StudioAdmin.register('course',async ctx=>{
  function onMessage(event){if(event.source!==iframe.contentWindow||event.origin!==location.origin||event.data?.channel!=='gimpo-studio')return;const message=event.data;if(message.type==='ready'){ready=true;configure();}else if(message.type==='objects'){objects=message.objects||[];catalogue=message.catalogue||catalogue;const changed=selected!==message.selected;selected=message.selected;renderLayers();if(changed||!inspector.children.length)renderInspector();}else if(message.type==='change')patch(message.id,message.patch);else if(message.type==='shortcut'){selected=message.id;shortcut(message.key,message.shift);}else if(message.type==='edit-text'){selected=message.id;renderInspector();inspector.querySelector('textarea')?.focus();}else if(message.type==='error')App.toast(message.message);}
  const onKey=event=>{if(!ctx.isActive()||!editing||event.repeat||document.querySelector('dialog[open]')||event.target.closest('input,textarea,select,[contenteditable=true]'))return;if((event.ctrlKey||event.metaKey)&&['c','v','z'].includes(event.key.toLowerCase())){event.preventDefault();shortcut(event.key.toLowerCase(),event.shiftKey);}else if(event.key==='Delete'){event.preventDefault();remove();}};
  window.addEventListener('message',onMessage);window.addEventListener('keydown',onKey);renderInspector();fit();
- return{get editing(){return editing;},setEditing(value){editing=value;configure();renderInspector();},dirty,draft:()=>({data,base,editing,defaults}),hasSelection:()=>Boolean(selected),discard(){data=JSON.parse(base.dataJSON);editing=false;selected=null;defaults={};undo=[];redo=[];configure();renderLayers();renderInspector();},viewport(value){const modeChanged=M.breakpoint(size.width)!==M.breakpoint(value.width);size=value;fit();if(modeChanged)renderInspector();},async save(){const result=await StudioAPI.call('studioPublish',{kind:'course',data:M.course(data),expectedRevision:base.revision});base={revision:result.record.revision,dataJSON:result.record.dataJSON};data=JSON.parse(base.dataJSON);defaults={};undo=[];redo=[];configure();},destroy(){panelResize.destroy();preview.destroy();window.removeEventListener('message',onMessage);window.removeEventListener('keydown',onKey);iframe.remove();}};
+ return{get editing(){return editing;},setEditing(value){editing=value;configure();renderInspector();},dirty,draft:()=>({data,base,editing,defaults}),hasSelection:()=>Boolean(selected),discard(){data=JSON.parse(base.dataJSON);editing=false;selected=null;defaults={};undo=[];redo=[];configure();renderLayers();renderInspector();},viewport(value){const modeChanged=M.breakpoint(size.width)!==M.breakpoint(value.width);size=value;fit();if(modeChanged)renderInspector();},async save(){const result=await StudioAPI.call('studioPublish',{kind:'course',data:M.course(data),expectedRevision:base.revision});base={revision:result.record.revision,dataJSON:result.record.dataJSON};data=JSON.parse(base.dataJSON);defaults={};undo=[];redo=[];configure();},destroy(){libraryResize.destroy();panelResize.destroy();preview.destroy();window.removeEventListener('message',onMessage);window.removeEventListener('keydown',onKey);iframe.remove();}};
 });
 })();
 
@@ -1499,13 +1561,20 @@ StudioAdmin.register('notices',async ctx=>{
 (()=>{'use strict';const M=StudioModel;
 StudioAdmin.register('students',async ctx=>{
  StudioStudents.start(ctx.user);const [saved,content]=await Promise.all([StudioDrafts.load(ctx.user.uid,'students'),StudioAPI.section('course')]);const result=StudioStudents.snapshot();if(!ctx.isActive())throw Error('화면이 변경되었습니다.');
+ const navigation=StudioStudents.getView(ctx.user.uid)||saved?.view||{query:'',selected:saved?.selected||null,directory:null,details:{}};navigation.details??={};const scroll=StudioViewScroll;
  const config=M.course(content.val()?.dataJSON?JSON.parse(content.val().dataJSON):M.blankCourse()),E=CourseEngine.create(M.catalogue({version:CourseEngine.version,courses:CourseEngine.courses,semesters:CourseEngine.semesters},config.catalogue));
- let rosterReady=result.ready,students=result.students,selected=saved?.selected||students[0]?.uid||null,editing=true,edits=saved?.edits||{},baselines=saved?.baselines||{},job=saved?.job||null,stopped=false,deleting=false;
+ let rosterReady=result.ready,students=result.students,selected=navigation.selected||saved?.selected||students[0]?.uid||null,editing=true,edits=saved?.edits||{},baselines=saved?.baselines||{},job=saved?.job||null,stopped=false,deleting=false;
  // Removed or newly privileged accounts cannot be edited from an old local draft.
  const ids=new Set(students.map(s=>s.uid));if(result.ready&&students.length){for(const uid of Object.keys(edits))if(!ids.has(uid)){delete edits[uid];delete baselines[uid];}if(!ids.has(selected))selected=students[0]?.uid||null;}
- const {make}=ctx,wrap=make('div','studio-students'),deleteTools=make('div','student-delete-tools'),columns=make('div','student-columns'),directory=make('aside','student-directory'),detail=make('section','student-detail'),search=make('input'),list=make('div');search.type='search';search.placeholder='이름, 학년, 반, 번호, 계정 검색';search.setAttribute('aria-label','학생 검색');directory.append(search,list);columns.append(directory,detail);wrap.append(deleteTools,columns);ctx.root.append(wrap);
+ const {make}=ctx,wrap=make('div','studio-students'),deleteTools=make('div','student-delete-tools'),columns=make('div','student-columns'),directory=make('aside','student-directory'),detail=make('section','student-detail'),search=make('input'),list=make('div');search.type='search';search.value=navigation.query||'';search.placeholder='이름, 학년, 반, 번호, 계정 검색';search.setAttribute('aria-label','학생 검색');directory.append(search,list);columns.append(directory,detail);wrap.append(deleteTools,columns);ctx.root.append(wrap);
  for(const [scope,label]of [['all','모든 학생 정보 지우기'],['grade1','1학년 학생 정보 지우기'],['grade2','2학년 학생 정보 지우기'],['previous','작년 학생 정보 지우기']]){const button=make('button','studio-danger',label);button.type='button';button.onclick=()=>removeScope(scope).catch(error=>ctx.status(error.message,true));deleteTools.append(button);}
- search.oninput=renderList;const conversation=StudioStudentChat.create({make,isActive:()=>!stopped&&ctx.isActive()});
+ search.oninput=()=>{renderList();rememberView();};const conversation=StudioStudentChat.create({make,owner:ctx.user.uid,isActive:()=>!stopped&&ctx.isActive()});
+ let viewFrame=0,pendingDirectory=rosterReady?null:navigation.directory;
+ function captureDetail(){if(!detail.dataset.uid||!detail.querySelector('.student-account'))return;navigation.details[detail.dataset.uid]={position:scroll.capture(detail),opened:[...detail.querySelectorAll('details[open][data-section]')].map(node=>node.dataset.section)};}
+ function rememberView(){if(!ctx.isActive())return navigation;navigation.query=search.value;navigation.selected=selected;if(!pendingDirectory)navigation.directory=scroll.capture(directory);captureDetail();StudioStudents.saveView(ctx.user.uid,navigation);return navigation;}
+ function rememberSoon(){if(viewFrame)return;viewFrame=requestAnimationFrame(()=>{viewFrame=0;if(!stopped)rememberView();});}
+ directory.addEventListener('scroll',rememberSoon,{passive:true});detail.addEventListener('scroll',rememberSoon,{passive:true});detail.addEventListener('toggle',rememberSoon,true);
+ const directoryResize=StudioSidebarResize.attach(columns,directory,{key:'students',label:'학생 목록 너비 조절',make,min:200,reserve:()=>300,before:()=>[scroll.capture(directory),scroll.capture(detail)],after:positions=>{if(positions){scroll.restore(directory,positions[0]);scroll.restore(detail,positions[1]);rememberSoon();}}});
  const minimalProfile=profile=>({grade:Number(profile?.grade||1),classNum:String(profile?.classNum||''),studentNum:String(profile?.studentNum||''),name:profile?.name||''});
  const normalized=student=>({profile:minimalProfile(student.profile),selection:E.normalize(student.selection||{})});
  const current=()=>students.find(student=>student.uid===selected);
@@ -1516,27 +1585,30 @@ StudioAdmin.register('students',async ctx=>{
  function label(student){const p=edits[student.uid]?.profile||student.profile;return p?`${p.grade||1}학년 ${p.classNum||'?'}반 ${p.studentNum||'?'}번 ${p.name||'이름 미등록'}`:'프로필 미등록';}
  const rowNodes=new Map();
  function renderList(){
+  const position=scroll.capture(directory),focus=document.activeElement;
   const query=search.value.trim().toLowerCase(),visible=students.filter(s=>(label(s)+' '+s.email).toLowerCase().includes(query)).sort((a,b)=>label(a).localeCompare(label(b),'ko',{numeric:true}));
   const live=new Set(students.map(s=>s.uid));for(const [uid,node]of rowNodes)if(!live.has(uid)){node.remove();rowNodes.delete(uid);}
-  for(const node of rowNodes.values())node.hidden=true;list.querySelector('.student-list-empty')?.remove();let prior=null;
-  for(const student of visible){let button=rowNodes.get(student.uid);if(!button){button=make('button','student-row');button.type='button';button.onclick=()=>{selected=student.uid;renderList();renderDetail();ctx.changed();};rowNodes.set(student.uid,button);}
+  const shown=new Set(visible.map(student=>student.uid));for(const [uid,node]of rowNodes)node.hidden=!shown.has(uid);list.querySelector('.student-list-empty')?.remove();let prior=null;
+  for(const student of visible){let button=rowNodes.get(student.uid);if(!button){button=make('button','student-row');button.type='button';button.dataset.viewKey=student.uid;button.onclick=()=>{captureDetail();selected=student.uid;renderList();renderDetail();rememberView();ctx.changed();};rowNodes.set(student.uid,button);}
    button.hidden=false;button.setAttribute('aria-selected',String(selected===student.uid));const dirty=edits[student.uid]&&M.canonical(edits[student.uid])!==baselines[student.uid]?.data,signature=label(student)+'|'+student.email+'|'+Boolean(dirty);
    if(button.dataset.signature!==signature){button.dataset.signature=signature;button.replaceChildren(make('span','',label(student)),make('span','studio-muted',student.email||'계정 정보 없음'));if(dirty)button.append(make('span','studio-muted','임시 수정 중'));}
    const anchor=prior?prior.nextSibling:list.firstChild;if(anchor!==button)list.insertBefore(button,anchor);prior=button;
   }
   if(!visible.length)list.append(make('p','studio-muted student-list-empty',rosterReady?'표시할 학생이 없습니다.':'학생 목록을 연결하는 중입니다.'));
+  if(focus&&list.contains(focus)&&!focus.hidden&&document.activeElement!==focus)focus.focus({preventScroll:true});scroll.restore(directory,position);
  }
- function patchDetail(){const student=current();if(!student||detail.dataset.uid!==selected){renderDetail();return;}if(dirtyIds().includes(selected))return;const data=value(),account=detail.querySelector('.student-account');
+ function patchDetail(){const student=current();if(!student||detail.dataset.uid!==selected){renderDetail();return;}if(dirtyIds().includes(selected))return;const position=scroll.capture(detail),data=value(),account=detail.querySelector('.student-account');
   account.querySelector('strong').textContent=label(student);const lines=account.querySelectorAll('p');lines[0].textContent='접속 계정: '+(student.email||'정보 없음');lines[1].textContent='로그인 방식: '+(student.providers.map(p=>p==='password'?'이메일·비밀번호':p==='google.com'?'Google':p).join(', ')||'기존 DB 정보');lines[2].textContent='계정 생성: '+(student.createdAt?new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Seoul'}).format(new Date(student.createdAt)):'생성 날짜 확인 불가');
   for(const input of detail.querySelectorAll('[data-profile-field]'))input.value=data.profile[input.dataset.profileField];detail.querySelector('.studio-notice-policy input').checked=data.selection.sciTrack;
   for(const input of detail.querySelectorAll('[data-course-id]'))input.checked=data.selection.courses.includes(input.dataset.courseId);
-  detail.querySelector('.student-selection-summary').textContent='선택한 교과 총 '+E.analyze(data.selection).totals.total+'학점';
+  detail.querySelector('.student-selection-summary').textContent='선택한 교과 총 '+E.analyze(data.selection).totals.total+'학점';scroll.restore(detail,position);
  }
- function renderDetail(){detail.dataset.uid=selected||'';const open=[...detail.querySelectorAll('details[open]')].map(d=>d.dataset.sem);detail.replaceChildren();const student=current();if(!student){detail.append(make('p','studio-muted','왼쪽에서 학생을 선택해 주세요.'));return;}const data=value(),account=make('div','student-account');account.append(make('strong','',label(student)),make('p','','접속 계정: '+(student.email||'정보 없음')),make('p','','로그인 방식: '+(student.providers.map(p=>p==='password'?'이메일·비밀번호':p==='google.com'?'Google':p).join(', ')||'기존 DB 정보')),make('p','','계정 생성: '+(student.createdAt?new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Seoul'}).format(new Date(student.createdAt)):'생성 날짜 확인 불가')));const deleteOne=make('button','studio-danger student-delete-one','해당 학생 정보 지우기');deleteOne.type='button';deleteOne.onclick=()=>removeScope('student',student.uid).catch(error=>ctx.status(error.message,true));account.append(deleteOne);detail.append(account);
-  const profile=make('div','student-profile-fields');for(const [key,text,min,max]of [['grade','학년',1,3],['classNum','반',1,12],['studentNum','번호',1,35],['name','이름']]){const row=make('label','',text),input=make('input');input.type=key==='name'?'text':'number';input.value=data.profile[key];input.disabled=!editing||deleting;if(min){input.min=min;input.max=max;}else input.maxLength=40;input.dataset.profileField=key;input.setAttribute('aria-label','학생 '+text);input.oninput=()=>{ensure().profile[key]=key==='grade'?Number(input.value):input.value;changed();};row.append(input);profile.append(row);}detail.append(profile);const chat=make('details','student-conversation');chat.append(make('summary','','문의 대화 보기'));conversation.attach(chat,student.uid);detail.append(chat);
-  const track=make('label','studio-notice-policy','과학 중점 과정'),check=make('input');check.type='checkbox';check.checked=data.selection.sciTrack;check.disabled=!editing||deleting;check.onchange=()=>{const next=E.toggleTrack(value().selection);if(!next.ok){App.toast(next.reason);check.checked=!check.checked;return;}ensure().selection=next.state;if(next.reason)App.toast(next.reason);changed();renderDetail();};track.prepend(check);detail.append(track);
-  const analysis=E.analyze(data.selection),summary=make('p','student-selection-summary','선택한 교과 총 '+analysis.totals.total+'학점');detail.append(summary);
-  for(const semester of E.semesters){const sem=typeof semester==='string'?semester:semester.key;const box=make('details','student-semester');box.dataset.sem=sem;box.open=open.includes(sem);box.append(make('summary','',sem.replace('-','학년 ')+'학기'));const grid=make('div','student-course-grid');for(const course of E.courses.filter(c=>c.sem===sem)){const row=make('label','student-course'),input=make('input'),description=make('span'),isSelected=data.selection.courses.includes(course.id);input.type='checkbox';input.checked=isSelected;input.disabled=!editing||deleting;input.dataset.courseId=course.id;input.setAttribute('aria-label',sem+' '+course.name);input.onchange=()=>{const next=E.canToggle(value().selection,course.id);if(!next.ok){input.checked=value().selection.courses.includes(course.id);App.toast(next.reason);return;}ensure().selection=next.state;changed();renderDetail();};description.append(make('b','',course.name),make('small','',course.cat+' · '+course.type+' · '+course.grade));row.append(input,description,make('em','',course.cred+'학점'));grid.append(row);}box.append(grid);detail.append(box);}
+ function renderDetail(){captureDetail();const view=navigation.details[selected]||{opened:[],position:{top:0,left:0,anchors:[]}},open=view.opened||[];detail.dataset.uid=selected||'';detail.replaceChildren();const student=current();if(!student){detail.append(make('p','studio-muted','왼쪽에서 학생을 선택해 주세요.'));return;}const data=value(),account=make('div','student-account');account.append(make('strong','',label(student)),make('p','','접속 계정: '+(student.email||'정보 없음')),make('p','','로그인 방식: '+(student.providers.map(p=>p==='password'?'이메일·비밀번호':p==='google.com'?'Google':p).join(', ')||'기존 DB 정보')),make('p','','계정 생성: '+(student.createdAt?new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Seoul'}).format(new Date(student.createdAt)):'생성 날짜 확인 불가')));account.dataset.viewKey='account';const deleteOne=make('button','studio-danger student-delete-one','해당 학생 정보 지우기');deleteOne.type='button';deleteOne.onclick=()=>removeScope('student',student.uid).catch(error=>ctx.status(error.message,true));account.append(deleteOne);detail.append(account);
+  const profile=make('div','student-profile-fields');profile.dataset.viewKey='profile';for(const [key,text,min,max]of [['grade','학년',1,3],['classNum','반',1,12],['studentNum','번호',1,35],['name','이름']]){const row=make('label','',text),input=make('input');input.type=key==='name'?'text':'number';input.value=data.profile[key];input.disabled=!editing||deleting;if(min){input.min=min;input.max=max;}else input.maxLength=40;input.dataset.profileField=key;input.setAttribute('aria-label','학생 '+text);input.oninput=()=>{ensure().profile[key]=key==='grade'?Number(input.value):input.value;changed();};row.append(input);profile.append(row);}detail.append(profile);const chat=make('details','student-conversation');chat.dataset.section='conversation';chat.dataset.viewKey='conversation';chat.append(make('summary','','문의 대화 보기'));detail.append(chat);conversation.attach(chat,student.uid);
+  const track=make('label','studio-notice-policy','과학 중점 과정'),check=make('input');check.type='checkbox';check.checked=data.selection.sciTrack;check.disabled=!editing||deleting;check.onchange=()=>{const next=E.toggleTrack(value().selection);if(!next.ok){App.toast(next.reason);check.checked=!check.checked;return;}ensure().selection=next.state;if(next.reason)App.toast(next.reason);changed();renderDetail();};track.dataset.viewKey='track';track.prepend(check);detail.append(track);
+  const analysis=E.analyze(data.selection),summary=make('p','student-selection-summary','선택한 교과 총 '+analysis.totals.total+'학점');summary.dataset.viewKey='selection-summary';detail.append(summary);
+  for(const semester of E.semesters){const sem=typeof semester==='string'?semester:semester.key;const box=make('details','student-semester');box.dataset.sem=sem;box.dataset.section=sem;box.open=open.includes(sem);const heading=make('summary','',sem.replace('-','학년 ')+'학기');heading.dataset.viewKey='semester:'+sem;box.append(heading);const grid=make('div','student-course-grid');for(const course of E.courses.filter(c=>c.sem===sem)){const row=make('label','student-course'),input=make('input'),description=make('span'),isSelected=data.selection.courses.includes(course.id);input.type='checkbox';input.checked=isSelected;input.disabled=!editing||deleting;row.dataset.viewKey='course:'+course.id;input.dataset.courseId=course.id;input.setAttribute('aria-label',sem+' '+course.name);input.onchange=()=>{const next=E.canToggle(value().selection,course.id);if(!next.ok){input.checked=value().selection.courses.includes(course.id);App.toast(next.reason);return;}ensure().selection=next.state;changed();renderDetail();};description.append(make('b','',course.name),make('small','',course.cat+' · '+course.type+' · '+course.grade));row.append(input,description,make('em','',course.cred+'학점'));grid.append(row);}box.append(grid);detail.append(box);}
+  scroll.restore(detail,view.position);
  }
  function lock(value){deleting=value;deleteTools.querySelectorAll('button').forEach(button=>button.disabled=value);detail.inert=value;}
  async function removeScope(scope,targetUid){if(deleting)return;lock(true);
@@ -1555,14 +1627,14 @@ StudioAdmin.register('students',async ctx=>{
    if(!stopped){const next=StudioStudents.snapshot();students=next.students;const remaining=new Set(students.map(s=>s.uid));for(const uid of Object.keys(edits))if(!remaining.has(uid)){delete edits[uid];delete baselines[uid];}if(!remaining.has(selected))selected=students[0]?.uid||null;const count=job.deleted;job=null;ctx.changed();renderList();renderDetail();ctx.status(count+'명의 계정과 학생 정보를 삭제했습니다.');}
   }catch(error){ctx.status('삭제 진행 상황을 확인하지 못했습니다. 서버의 남은 작업은 유지됩니다. '+error.message,true);}finally{lock(false);}
  }
- renderList();renderDetail();const stopRoster=StudioStudents.watch(change=>{
+ renderList();renderDetail();scroll.restore(directory,navigation.directory);const stopRoster=StudioStudents.watch(change=>{
   if(stopped||!ctx.isActive())return;rosterReady=change.ready;if(change.error)ctx.status(change.error,true);
   if(change.initial)students=change.students;else{const next=new Map(students.map(student=>[student.uid,student]));for(const uid of change.removed){next.delete(uid);delete edits[uid];delete baselines[uid];}for(const student of change.upserts){const uid=student.uid;if(edits[uid]&&M.canonical(edits[uid])===baselines[uid]?.data){delete edits[uid];delete baselines[uid];}next.set(uid,student);}students=[...next.values()];}
   if(change.ready){const live=new Set(students.map(student=>student.uid));for(const uid of Object.keys(edits))if(!live.has(uid)){delete edits[uid];delete baselines[uid];}}
   const oldSelected=selected;if(!students.some(student=>student.uid===selected)&&(change.ready||!selected||change.removed.includes(selected)))selected=students[0]?.uid||null;
-  renderList();if(oldSelected!==selected||!detail.querySelector('.student-account'))renderDetail();else if(change.upserts.some(student=>student.uid===selected))patchDetail();ctx.refresh?.();
+  renderList();if(oldSelected!==selected||!detail.querySelector('.student-account'))renderDetail();else if(change.upserts.some(student=>student.uid===selected))patchDetail();if(pendingDirectory&&change.ready){scroll.restore(directory,pendingDirectory);pendingDirectory=null;}rememberView();ctx.refresh?.();
  });if(job)setTimeout(()=>{if(ctx.isActive())resumeJob();},0);
- return{alwaysEditing:true,get editing(){return true;},setEditing(){editing=true;renderDetail();},dirty:()=>dirtyIds().length>0,discard(){edits={};baselines={};editing=true;renderList();renderDetail();},draft:()=>({selected,editing,edits,baselines,job}),viewport(){},async save(){if(deleting)throw Error('학생 삭제가 끝난 뒤 수정해 주세요.');for(const uid of dirtyIds()){const data=edits[uid],original=baselines[uid];if(!data.profile.name.trim()||![1,2,3].includes(Number(data.profile.grade))||!/^([1-9]|1[0-2])$/.test(data.profile.classNum)||!/^([1-9]|[12][0-9]|3[0-5])$/.test(data.profile.studentNum))throw Error('학생의 학년·반·번호·이름을 확인해 주세요.');const result=await StudioAPI.call('studioSaveStudent',{uid,profile:data.profile,selection:data.selection,expectedProfileHash:original.profileHash,expectedRevision:original.revision});const student=students.find(s=>s.uid===uid);Object.assign(student,result);delete edits[uid];delete baselines[uid];await ctx.persist();}renderList();renderDetail();},destroy(){stopped=true;stopRoster();conversation.destroy();}};
+ return{alwaysEditing:true,get editing(){return true;},setEditing(){editing=true;renderDetail();},dirty:()=>dirtyIds().length>0,discard(){edits={};baselines={};editing=true;renderList();renderDetail();},draft:()=>({selected,editing,edits,baselines,job,view:rememberView()}),viewport(){},async save(){if(deleting)throw Error('학생 삭제가 끝난 뒤 수정해 주세요.');for(const uid of dirtyIds()){const data=edits[uid],original=baselines[uid];if(!data.profile.name.trim()||![1,2,3].includes(Number(data.profile.grade))||!/^([1-9]|1[0-2])$/.test(data.profile.classNum)||!/^([1-9]|[12][0-9]|3[0-5])$/.test(data.profile.studentNum))throw Error('학생의 학년·반·번호·이름을 확인해 주세요.');const result=await StudioAPI.call('studioSaveStudent',{uid,profile:data.profile,selection:data.selection,expectedProfileHash:original.profileHash,expectedRevision:original.revision});const student=students.find(s=>s.uid===uid);Object.assign(student,result);delete edits[uid];delete baselines[uid];await ctx.persist();}renderList();renderDetail();},destroy(){rememberView();stopped=true;cancelAnimationFrame(viewFrame);directoryResize.destroy();stopRoster();conversation.destroy();}};
 });})();
 </script>
 <script>
