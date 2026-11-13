@@ -225,12 +225,14 @@ body{color:var(--text-black)}
 @media(max-width:700px){.report-columns.studio-sidebar-resizable>.chat-list-panel{width:100%}.report-columns>.studio-sidebar-divider{display:none}}
 
 </style>
-</head>
+<style>
+.site-confirm{border:0;border-radius:12px;padding:22px;width:min(420px,calc(100vw - 32px));background:var(--box-bg,#fff);color:var(--text-black,#191f28);box-sizing:border-box}.site-confirm::backdrop{background:#0007}.site-confirm p{white-space:pre-wrap;line-height:1.6;margin:0 0 20px}.site-confirm>div{display:flex;gap:10px}.site-confirm button{flex:1;padding:11px;border:1px solid #2a52be;border-radius:8px;font:inherit;cursor:pointer;background:#fff;color:#2a52be}.site-confirm button:first-child{background:#2a52be;color:#fff}.site-confirm button:focus-visible{outline:3px solid #ffae42;outline-offset:2px}
+</style><style>.file-preview{display:flex;align-items:center;min-height:68px;max-width:180px;padding:12px 22px 12px 10px;border:1px solid #d1d6db;border-radius:10px;background:#f2f4f6;color:#191f28;overflow-wrap:anywhere;font-size:13px}.studio-version-dialog{width:min(680px,calc(100vw - 32px));max-height:85vh}.site-confirm .version-list{display:block;max-height:55vh;overflow:auto}.version-row{border-bottom:1px solid #e5e8eb;padding:12px 0}.version-row p{font-size:14px;margin:0 0 8px}.version-row button{font-size:13px;padding:6px 10px}</style></head>
 <body>
 <section id="gate" class="gate"><div class="gate-card">
 <h1>관리자 문의 채팅</h1><p id="gateInfo">로그인 상태를 확인하고 있습니다.</p>
 <form id="loginForm" hidden><label>이메일<input id="email" type="email" autocomplete="username" required maxlength="254"></label><label>비밀번호<input id="password" type="password" autocomplete="current-password" required></label><button type="submit">이메일로 로그인</button></form>
-<div class="gate-actions"><button id="googleLogin" type="button" hidden>Google 계정으로 로그인</button><button id="gateLogout" class="secondary" type="button" hidden>다른 계정으로 로그인</button><a href="../course/">수강신청 도우미로 돌아가기</a></div><p id="loginError" class="error" role="alert"></p>
+<div class="gate-actions"><button id="googleLogin" type="button" hidden>Google 계정으로 로그인</button><button id="gateLogout" class="secondary" type="button" hidden>다른 계정으로 로그인</button><a href="../CoursePrimus/">수강신청 도우미로 돌아가기</a></div><p id="loginError" class="error" role="alert"></p>
 </div></section>
 <section id="studioHome" class="studio-home" hidden aria-label="관리자 홈">
  <header class="studio-home-header"><h1>김포고 수강신청 관리</h1><button id="studioLogout" type="button">로그아웃</button></header>
@@ -259,8 +261,11 @@ body{color:var(--text-black)}
 <div class="report-columns">
 <aside class="list-panel chat-list-panel" aria-label="문의 목록"><header class="panel-header"><button id="studioChatHome" class="panel-home-arrow" type="button" aria-label="관리자 홈으로 이동"><svg aria-hidden="true" focusable="false" width="20" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12 15 19"/></svg></button><h1>학생 문의 관리</h1><button id="logout" type="button">로그아웃</button></header><div class="panel-account-row"><div id="accountInfo" class="panel-meta"></div><div class="report-presence">실시간 접속자 수: <strong id="reportVisitorCount">연결 확인 중</strong>명</div></div><label class="search-label">문의 이름 검색<input id="roomSearch" type="search" placeholder="이름 또는 닉네임" autocomplete="off"></label><div id="roomList" class="user-list" aria-label="채팅방"></div><div id="listStatus" class="panel-meta" role="status"></div></aside>
 <section class="room-panel chat-room-panel" aria-label="문의 대화"><header class="room-header"><button id="back" class="back secondary" type="button">← 목록</button><h2 id="roomTitle">문의를 선택해 주세요</h2><div id="roomAccount" class="room-account" aria-label="문의 학생 로그인 계정"></div><button id="deleteRoom" class="danger delete-room-btn" type="button" disabled>대화방 삭제</button></header><div id="roomStatus" class="room-status" role="status"></div><div id="roomEmpty" class="room-empty empty-state">왼쪽에서 대화방을 선택해주세요.</div><div id="messageViewport" class="message-viewport" hidden><div id="messages" class="messages room-messages" role="log" aria-label="대화 내용" hidden></div><button id="messageJump" class="message-jump" type="button" hidden>새 메시지 · 아래로 이동</button></div>
-<form id="composer" class="composer room-input-container" hidden><div id="previews" class="previews preview-area" hidden></div><div class="composer-row room-input-area"><label class="attach attach-btn" title="이미지 첨부" aria-label="이미지 첨부" for="images"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></label><input id="images" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden><textarea class="room-input" id="reply" rows="1" maxlength="4000" placeholder="답변을 입력하세요" aria-label="답변"></textarea><button id="send" class="send room-send-btn" type="submit">전송</button></div><p class="hint">Enter 전송 · Shift+Enter 줄바꿈 · JPG/PNG/WebP 3장, 각 5MB 이하</p><p id="sendError" class="error" role="alert"></p></form>
+<form id="composer" class="composer room-input-container" hidden><div id="previews" class="previews preview-area" hidden></div><div class="composer-row room-input-area"><label class="attach attach-btn" title="사진·파일 첨부" aria-label="사진·파일 첨부" for="images"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></label><input id="images" type="file" multiple hidden><textarea class="room-input" id="reply" rows="1" maxlength="4000" placeholder="답변을 입력하세요" aria-label="답변"></textarea><button id="send" class="send room-send-btn" type="submit">전송</button></div><p class="hint">Enter 전송 · Shift+Enter 줄바꿈 · 사진·파일 10개, 각 5MB 이하 · 합계 10MB 이하</p><p id="sendError" class="error" role="alert"></p></form>
 </section></div></main>
+<script>
+window.SiteConfirm=(message)=>new Promise(resolve=>{const previous=document.activeElement,dialog=document.createElement('dialog');dialog.className='site-confirm';dialog.setAttribute('aria-label','확인');const text=document.createElement('p'),actions=document.createElement('div'),yes=document.createElement('button'),no=document.createElement('button');text.textContent=message;yes.textContent='예';no.textContent='아니요';yes.type=no.type='button';yes.autofocus=true;let done=false;const finish=value=>{if(done)return;done=true;dialog.close();dialog.remove();if(previous?.isConnected)previous.focus();resolve(value);};yes.onclick=()=>finish(true);no.onclick=()=>finish(false);dialog.addEventListener('cancel',event=>{event.preventDefault();finish(false);});dialog.addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.isComposing){event.preventDefault();finish(document.activeElement!==no);}if(event.key==='Tab'){event.preventDefault();(document.activeElement===yes?no:yes).focus();}});actions.append(yes,no);dialog.append(text,actions);document.body.append(dialog);dialog.showModal();yes.focus();});
+</script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
@@ -373,7 +378,7 @@ window.App = (() => {
   function error(e){const c=String(e?.code||''); if(c.includes('permission-denied')||c.includes('PERMISSION_DENIED'))return '접근 권한이 없습니다. 로그인 상태와 Firebase 보안 규칙을 확인해주세요.';if(c.includes('unauthenticated'))return '로그인이 필요합니다.';if(c.includes('resource-exhausted'))return '요청 한도에 도달했습니다. 잠시 후 다시 이용해주세요.';if(c.includes('popup-closed'))return '로그인 창이 닫혔습니다.';if(c.includes('credential')||c.includes('wrong-password')||c.includes('user-not-found'))return '이메일 또는 비밀번호를 확인해주세요.';if(c.includes('email-already'))return '이미 가입된 이메일입니다.';if(c.includes('network')||c.includes('unavailable'))return '서버에 연결할 수 없습니다. 연결 상태를 확인해주세요.';return e?.message||'요청을 처리하지 못했습니다. 다시 시도해주세요.';}
   const cache={read(key,fallback=null){try{return JSON.parse(localStorage.getItem(key))??fallback;}catch{return fallback;}},write(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true;}catch{toast('기기 저장 공간에 접근할 수 없습니다. 창을 닫기 전에 저장 상태를 확인해주세요.');return false;}},remove(key){try{localStorage.removeItem(key);}catch{}}};
   const demo=new URLSearchParams(location.search).get('demo')==='1';
-  const api={config,toast,error,cache,demo,offline:demo||!window.firebase||!firebase.auth||!firebase.database||!firebase.storage||!firebase.functions,isMember:u=>Boolean(u&&!u.isAnonymous),releaseImages(container){container?.querySelectorAll('img').forEach(img=>{if(img.src.startsWith('blob:'))URL.revokeObjectURL(img.src);});}};
+  const api={config,toast,error,cache,demo,offline:demo||!window.firebase||!firebase.auth||!firebase.database||!firebase.storage||!firebase.functions,isMember:u=>Boolean(u&&!u.isAnonymous),releaseImages(container){container?.querySelectorAll('img,a[href]').forEach(node=>{const url=node.tagName==='IMG'?node.src:node.href;if(url.startsWith('blob:'))URL.revokeObjectURL(url);});}};
   if(api.offline){if(!demo)api.initializationError={code:'sdk/unavailable',message:'Firebase 연결 모듈을 불러오지 못했습니다. 인터넷 연결을 확인하고 새로고침해주세요.'};api.auth={currentUser:null,onAuthStateChanged(fn){queueMicrotask(()=>fn(null));return ()=>{};}};api.ready=Promise.resolve(null);return api;}
   let adminMarkerStorage;try{adminMarkerStorage=window.localStorage;}catch{}
   const adminSession=GimpoAdminSession.initialize({firebase,config,storage:adminMarkerStorage,registerDevice:GimpoAdminSession.registrationRequested(location.search),onWarning:toast});
@@ -477,6 +482,19 @@ return {bind,open,close(){if(dialog?.open)dialog.close();}};
 });
 
 /* Private inquiry attachments for the existing Firebase Realtime Database. */
+(function(root){
+'use strict';
+const endpoint='https://script.google.com/macros/s/AKfycbzHSzopZm8oQcPGqSmteuCJKanULIptcelUfvqG9OgGlz4vD019ZgndZnYNwGZy9EcMoA/exec';
+root.InquiryTransport={async call(action,data={}){
+ const user=root.App?.auth?.currentUser;if(!user)throw Error('로그인 후 이용해주세요.');
+ const token=await user.getIdToken();if(root.App.auth.currentUser?.uid!==user.uid)throw Error('로그인 계정이 변경되었습니다.');
+ const response=await fetch(endpoint,{method:'POST',mode:'cors',credentials:'omit',redirect:'follow',referrerPolicy:'no-referrer',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({action,idToken:token,...data}),signal:AbortSignal.timeout(90000)});
+ if(!response.ok)throw Error('전송 서버에 연결하지 못했습니다. 첨부와 입력 내용은 유지됩니다.');
+ const result=await response.json();if(root.App.auth.currentUser?.uid!==user.uid)throw Error('로그인 계정이 변경되었습니다.');
+ if(result.ok!==true)throw Error(result.message||({'invalid-auth':'로그인을 다시 확인해주세요.','invalid-file':'첨부 파일의 형식이나 용량을 확인해주세요.','inquiry-conflict':'같은 전송 번호에 다른 내용이 있습니다.','inquiry-forbidden':'이 대화에 접근할 권한이 없습니다.','studio-busy':'다른 저장 작업이 진행 중입니다. 잠시 후 다시 전송해주세요.'}[result.code])||'전송하지 못했습니다. 입력 내용은 유지되므로 다시 시도해주세요.');
+ return result.result;
+}};
+})(typeof window!=='undefined'?window:globalThis);
 (function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.InquiryMedia=factory();})(typeof globalThis!=='undefined'?globalThis:this,function(){
 'use strict';
 const MAX_SOURCE=5*1024*1024,MAX_BYTES=300*1024,MAX_EDGE=1600;
@@ -492,11 +510,11 @@ function signature(bytes,mime){
 }
 function bytesToBase64(bytes){let raw='';for(let i=0;i<bytes.length;i+=8192)raw+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(raw);}
 function decodeRecord(record){
- if(!record||!TYPES.includes(record.mime)||typeof record.data!=='string'||record.data.length===0||record.data.length>4*Math.ceil(MAX_BYTES/3)||record.data.length%4||!/^[A-Za-z0-9+/]+={0,2}$/.test(record.data))throw new Error('사진 데이터 형식이 올바르지 않습니다.');
+ if(!record||![...TYPES,'application/octet-stream'].includes(record.mime)||typeof record.data!=='string'||record.data.length===0||record.data.length>4*Math.ceil((record.mime==='application/octet-stream'?MAX_SOURCE:MAX_BYTES)/3)||record.data.length%4||!/^[A-Za-z0-9+/]+={0,2}$/.test(record.data))throw new Error('사진 데이터 형식이 올바르지 않습니다.');
  let raw;try{raw=atob(record.data);}catch{throw new Error('사진 데이터 형식이 올바르지 않습니다.');}
- if(raw.length>MAX_BYTES||btoa(raw)!==record.data)throw new Error('사진 데이터 크기나 형식이 올바르지 않습니다.');
+ if(raw.length>(record.mime==='application/octet-stream'?MAX_SOURCE:MAX_BYTES)||btoa(raw)!==record.data)throw new Error('사진 데이터 크기나 형식이 올바르지 않습니다.');
  const bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));
- if(!signature(bytes,record.mime))throw new Error('사진 파일 형식과 내용이 일치하지 않습니다.');
+ if(record.mime!=='application/octet-stream'&&!signature(bytes,record.mime))throw new Error('사진 파일 형식과 내용이 일치하지 않습니다.');
  return bytes;
 }
 function normalizedName(name,mime){const original=typeof name==='string'?name.trim():'사진';const stem=(original||'사진').replace(/\.[^.]+$/,'').slice(0,110)||'사진';return stem+({ 'image/jpeg':'.jpg','image/png':'.png','image/webp':'.webp' }[mime]);}
@@ -533,33 +551,28 @@ function create({db,auth,serverTimestamp,environment={}}){
  const uuid=environment.uuid||(()=>view.crypto.randomUUID());
  const timestamp=()=>typeof serverTimestamp==='function'?serverTimestamp():serverTimestamp||{'.sv':'timestamp'};
  async function uploadImages(uid,files){
-  if(!Array.isArray(files))files=Array.from(files||[]);
-  if(files.length===0)return [];
-  if(!UID.test(uid)||!auth.currentUser?.uid)throw new Error('사진 첨부는 서버 연결 후 이용할 수 있습니다.');
-  if(files.length>3||files.some(file=>!TYPES.includes(file.type)||!Number.isFinite(file.size)||file.size<=0||file.size>MAX_SOURCE))throw new Error('JPG·PNG·WEBP 사진을 3장, 각 5MB 이하로 선택해주세요.');
-  const uploaderUid=auth.currentUser.uid,records={},references=[];
+  files=Array.from(files||[]);if(!files.length)return [];
+  if(!UID.test(uid)||!auth.currentUser?.uid)throw Error('첨부는 로그인 후 이용할 수 있습니다.');
+  if(files.length>10||files.some(f=>!Number.isFinite(f.size)||f.size<=0||f.size>MAX_SOURCE)||files.reduce((n,f)=>n+f.size,0)>10*1024*1024)throw Error('사진·파일은 한 번에 10개, 각 5MB 이하, 합계 10MB 이하로 선택해주세요.');
+  const owner=auth.currentUser.uid,records=[];
   for(const file of files){
-   const encoded=await encode(file);decodeRecord(encoded);
-   if(auth.currentUser?.uid!==uploaderUid)throw new Error('로그인 계정이 바뀌었습니다. 사진을 다시 첨부해주세요.');
-   const id=uuid();if(!/^[A-Za-z0-9_-]{1,100}$/.test(id))throw new Error('사진 저장 정보를 만들지 못했습니다.');
-   const name=typeof encoded.name==='string'&&encoded.name.length>0?encoded.name.slice(0,120):normalizedName(file.name,encoded.mime);
-   records[id]={uploaderUid,mime:encoded.mime,data:encoded.data,name,createdAt:timestamp()};
-   references.push({dbPath:`v2/inquiryImages/${uid}/${id}`,name});
+   const encoded=TYPES.includes(file.type)?await encode(file):{mime:'application/octet-stream',data:bytesToBase64(new Uint8Array(await file.arrayBuffer())),name:file.name.slice(0,120)};
+   decodeRecord(encoded);if(auth.currentUser?.uid!==owner)throw Error('로그인 계정이 변경되었습니다.');
+   records.push({...encoded,id:uuid()});
   }
-  // One atomic write prevents partially uploaded batches when one file fails.
-  await db.ref(`v2/inquiryImages/${uid}`).update(records);
-  return references;
+  const result=await (environment.transport||view.InquiryTransport).call('inquiryUpload',{uid,files:records});
+  return result.images;
  }
  async function imageElement(image){
   const wrap=doc.createElement('div');
   try{
-   if(!image||typeof image.dbPath!=='string'||!PATH.test(image.dbPath))throw new Error('사진 경로가 올바르지 않습니다.');
+   if(!image||typeof image.dbPath!=='string'||!PATH.test(image.dbPath))throw Error('첨부 경로가 올바르지 않습니다.');
    const snap=await db.ref(image.dbPath).once('value'),record=snap.val(),bytes=decodeRecord(record);
-   const blob=new view.Blob([bytes],{type:record.mime}),url=view.URL.createObjectURL(blob),img=doc.createElement('img'),link=doc.createElement('a');
-   const name=typeof record.name==='string'?record.name.slice(0,120):'문의 사진';
-   img.src=url;img.alt=name;img.style.cssText='max-width:100%;width:220px;border-radius:12px;display:block';
-   link.href=url;link.download=name;link.textContent='이미지 저장';wrap.append(img,link);
-  }catch{wrap.textContent='사진을 불러오지 못했습니다. 연결 상태를 확인해주세요.';}
+   const isImage=TYPES.includes(record.mime),blob=new view.Blob([bytes],{type:isImage?record.mime:'application/octet-stream'}),url=view.URL.createObjectURL(blob),link=doc.createElement('a');
+   const name=typeof record.name==='string'?record.name.slice(0,120):'첨부 파일';
+   if(isImage){const img=doc.createElement('img');img.src=url;img.alt=name;img.style.cssText='max-width:100%;width:220px;border-radius:12px;display:block';wrap.append(img);}
+   link.href=url;link.download=name;link.textContent=isImage?'이미지 저장':'📎 '+name+' · '+(bytes.length<1024*1024?Math.ceil(bytes.length/1024)+'KB':(bytes.length/1024/1024).toFixed(1)+'MB');wrap.append(link);
+  }catch{wrap.textContent='첨부를 불러오지 못했습니다. 연결 상태를 확인해주세요.';}
   return wrap;
  }
  return {uploadImages,imageElement};
@@ -786,10 +799,20 @@ return {create};
 <script>/* Live visitors only. This module never reads Firebase Authentication's account list. */
 (function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.CoursePresence=factory();})(typeof globalThis!=='undefined'?globalThis:this,function(){
 'use strict';
-const HEARTBEAT_MS=30000,EXPIRES_MS=120000,REFRESH_MS=5000;
+const HEARTBEAT_MS=5000,EXPIRES_MS=20000,REFRESH_MS=1000;
 function countVisitors(value,now){
  if(!value||typeof value!=='object'||!Number.isFinite(now))return 0;
- return Object.values(value).reduce((total,connections)=>total+(connections&&typeof connections==='object'&&Object.values(connections).some(lastSeen=>typeof lastSeen==='number'&&Number.isFinite(lastSeen)&&lastSeen>now-EXPIRES_MS&&lastSeen<=now+5000)?1:0),0);
+ const devices=new Set();
+ for(const [uid,connections]of Object.entries(value)){if(!connections||typeof connections!=='object')continue;
+  for(const [key,lastSeen]of Object.entries(connections)){
+   if(typeof lastSeen!=='number'||!Number.isFinite(lastSeen)||lastSeen<=now-EXPIRES_MS||lastSeen>now+5000)continue;
+   const match=/^(d_[a-f0-9]{32})__/.exec(key);devices.add(match?match[1]:'legacy:'+uid);
+  }
+ }return devices.size;
+}
+async function deviceIdentity(events){
+ const read=()=>{try{const key='gimpo_presence_device_v1';let value=events.localStorage.getItem(key);if(!/^d_[a-f0-9]{32}$/.test(value||'')){value='d_'+events.crypto.randomUUID().replaceAll('-','');events.localStorage.setItem(key,value);}return value;}catch{return null;}};
+ return events?.navigator?.locks?events.navigator.locks.request('gimpo-presence-device',read):read();
 }
 function start({db,uid=null,serverTimestamp,onCount=()=>{},onConnection=()=>{},onError=()=>{},onReadSuccess=()=>{},onWriteSuccess=()=>{},clock=Date.now,schedule=setInterval,unschedule=clearInterval,events=typeof window==='undefined'?null:window,documentObject=typeof document==='undefined'?null:document}){
  let stopped=false,connected=null,loaded=false,offset=0,data=null,current=null,generation=0,joining=0,armed=false,writing=false,lastBeat=0;
@@ -808,7 +831,9 @@ function start({db,uid=null,serverTimestamp,onCount=()=>{},onConnection=()=>{},o
  }
  async function join(){
   if(!uid||stopped||!connected)return;
-  const version=++generation,ref=db.ref('v2/presence/'+uid).push();
+  const version=++generation,device=await deviceIdentity(events);
+  if(stopped||!connected||version!==generation)return;
+  const parent=db.ref('v2/presence/'+uid),key=parent.push().key,ref=parent.child(device?device+'__'+key:key);
   const previous=current;current=ref;joining=version;armed=false;writing=false;lastBeat=0;removeRef(previous);pending.add(ref);
   try{
    // The server must acknowledge disconnect cleanup before publishing an online record.
@@ -1215,6 +1240,20 @@ function reset(){invalidate();for(const entry of sections.values())entry.ref.off
 window.StudioAPI={call,read,section,invalidate,reset};
 })();
 
+(() => {'use strict';
+const titles={course:'수강신청 편집',chat:'학생 채팅',students:'학생 정보 편집',notices:'공지 편집'};
+async function show(kind){
+ const dialog=document.createElement('dialog');dialog.className='site-confirm studio-version-dialog';dialog.setAttribute('aria-label',titles[kind]+' 버전 기록');
+ const heading=document.createElement('h3'),body=document.createElement('div'),close=document.createElement('button');heading.textContent=titles[kind]+' · 버전 기록';body.textContent='저장된 버전을 불러오는 중입니다.';body.className='version-list';close.textContent='닫기';close.type='button';close.onclick=()=>dialog.close();dialog.append(heading,body,close);dialog.addEventListener('close',()=>dialog.remove(),{once:true});document.body.append(dialog);dialog.showModal();close.focus();
+ try{const result=await StudioAPI.call('studioVersions',{kind});if(!dialog.isConnected)return;body.replaceChildren();
+  if(!result.versions.length)body.textContent='아직 저장된 버전이 없습니다.';
+  for(const version of result.versions){const row=document.createElement('div'),label=document.createElement('p'),download=document.createElement('button');row.className='version-row';label.textContent=version.version+(version.current?' · 현재 버전':'')+' — '+new Date(version.at).toLocaleString('ko-KR')+'\n'+(version.summary||'수정 완료');download.textContent='기록 다운로드';download.type='button';download.onclick=async()=>{download.disabled=true;try{const answer=await StudioAPI.call('studioVersion',{kind,number:version.number});const url=URL.createObjectURL(new Blob([JSON.stringify(answer.record,null,2)],{type:'application/json'})),link=document.createElement('a');link.href=url;link.download=kind+'-'+version.version+'.json';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);}catch(error){App.toast(error.message);}finally{download.disabled=false;}};row.append(label,download);body.append(row);}
+ }catch(error){if(dialog.isConnected)body.textContent=error.message;}
+}
+window.StudioVersions={show};
+})();
+
+
 /* Account-scoped, persistent realtime student directory. No writes are exposed. */
 (()=>{'use strict';
 let viewState=null,owner=null,epoch=0,ready=false,error=null,directory=null,rows=new Map(),subscriptions=new Map(),observers=new Set(),pending=new Set(),removed=new Set(),queued=false;
@@ -1264,7 +1303,7 @@ function modal(title,content,{confirmText='예',cancelText='아니요',phrase=nu
   if(phrase){$('studioDialogBody').append(make('p','',"삭제하려면 '"+phrase+"' 문구를 입력해 주세요."));input=make('input');input.type='text';input.autocomplete='off';input.setAttribute('aria-label','삭제 확인 문구');error=make('p','studio-error');error.setAttribute('role','alert');$('studioDialogBody').append(input,error);}
   function onClose(){if(dialog.open)return;dialog.removeEventListener('close',onClose);if(!done){done=true;resolve(false);}}
   const finish=value=>{if(done)return;done=true;dialog.removeEventListener('close',onClose);dialog.close();resolve(value);},no=make('button','studio-secondary',cancelText),yes=make('button',danger?'studio-danger':'',confirmText);no.type=yes.type='button';no.onclick=()=>finish(false);const accept=()=>{if(input&&input.value!==phrase){error.textContent='정확하게 그대로 입력해 주십시오.';input.focus();return;}finish(input?input.value:true);};yes.onclick=accept;
-  $('studioDialogClose').onclick=()=>finish(false);dialog.querySelector('form').onsubmit=event=>{event.preventDefault();accept();};dialog.addEventListener('close',onClose);$('studioDialogActions').append(no,yes);dialog.showModal();(input||no).focus();
+  $('studioDialogClose').onclick=()=>finish(false);dialog.querySelector('form').onsubmit=event=>{event.preventDefault();accept();};dialog.addEventListener('close',onClose);$('studioDialogActions').append(yes,no);dialog.showModal();(input||yes).focus();
  });
 }
 function renderViewport(){const {width,height,custom}=viewport;$('studioWidth').value=width;$('studioHeight').value=height;$('studioBreakpoint').textContent=width<=600?'휴대폰 배치 · 600px 이하':width<=1024?'태블릿 배치 · 601~1024px':'컴퓨터 배치 · 1025px 이상';$('studioResizeHint').hidden=!custom;document.querySelectorAll('[data-studio-size]').forEach(button=>button.setAttribute('aria-pressed',String(custom?button.dataset.studioSize==='custom':button.dataset.studioSize===width+','+height)));controller?.viewport?.(viewport);}
@@ -1289,11 +1328,12 @@ async function cancelEdit(){if(!controller?.editing||busy||!allowed)return;const
  finally{busy=false;$('studioWork').inert=false;$('studioHomeBtn').disabled=false;update();}
 }
 async function start(next){stop();user=next;const version=++epoch;$('studioAccount').textContent=next.email||'등록된 관리자 기기';$('studioAccessStatus').textContent='편집 권한을 확인하고 있습니다.';open('home');StudioStudents.start(next);
- presence=CoursePresence.start({db:App.db,onCount:count=>{if(version===epoch)$('reportVisitorCount').textContent=count===null?'연결 확인 중':String(count);},onConnection:online=>{if(version===epoch&&!online)$('reportVisitorCount').textContent='연결 끊김';},onError:()=>{if(version===epoch)$('reportVisitorCount').textContent='조회 실패';}});
+ presence=CoursePresence.start({db:App.db,uid:next.uid,serverTimestamp:firebase.database.ServerValue.TIMESTAMP,onCount:count=>{if(version===epoch)$('reportVisitorCount').textContent=count===null?'연결 확인 중':String(count);},onConnection:online=>{if(version===epoch&&!online)$('reportVisitorCount').textContent='연결 끊김';},onError:()=>{if(version===epoch)$('reportVisitorCount').textContent='조회 실패';}});
  try{await StudioAPI.call('studioAccess');if(version!==epoch)return;allowed=true;for(const kind of ['course','notices'])StudioAPI.section(kind).catch(()=>{});$('studioAccessStatus').textContent='관리자 편집 권한이 확인되었습니다.';update();}catch(error){if(version===epoch){allowed=false;$('studioAccessStatus').textContent=error.message;update();}}
 }
 function stop(){StudioStudentChat.clear();StudioStudents.stop();StudioAPI.reset();epoch++;viewEpoch++;persist().catch(()=>{});controller?.destroy?.();controller=null;user=null;allowed=false;busy=false;presence?.remove().catch(()=>{});presence=null;$('studioHome').hidden=true;$('studioShell').hidden=true;if($('studioDialog').open)$('studioDialog').close();}
-$('studioHomeBtn').onclick=()=>open('home');$('studioChatHome').onclick=()=>open('home');$('studioLogout').onclick=()=>App.signOut().catch(error=>App.toast(App.error(error)));
+const versionsButton=make('button','studio-secondary','버전 기록');versionsButton.type='button';versionsButton.onclick=()=>StudioVersions.show(view);$('studioEdit').before(versionsButton);const chatVersions=make('button','studio-secondary','버전 기록');chatVersions.type='button';chatVersions.onclick=()=>StudioVersions.show('chat');$('studioChatHome').after(chatVersions);
+ $('studioHomeBtn').onclick=()=>open('home');$('studioChatHome').onclick=()=>open('home');$('studioLogout').onclick=()=>App.signOut().catch(error=>App.toast(App.error(error)));
 document.querySelectorAll('[data-studio-view]').forEach(button=>button.onclick=()=>open(button.dataset.studioView));$('studioEdit').onclick=publish;$('studioCancel').onclick=cancelEdit;$('studioPreview').onclick=()=>{if(controller?.showPreview){controller.showPreview(!controller.previewing);$('studioViewportPanel').hidden=!controller.previewing;update();}else $('studioViewportPanel').hidden=!$('studioViewportPanel').hidden;controller?.viewport?.(viewport);};
 document.querySelectorAll('[data-studio-size]').forEach(button=>button.onclick=()=>{if(button.dataset.studioSize==='custom'){setViewport({...viewport,custom:true});return;}const [width,height]=button.dataset.studioSize.split(',').map(Number);setViewport({width,height,custom:false});});
 for(const id of ['studioWidth','studioHeight'])$(id).onchange=()=>{const width=Number($('studioWidth').value),height=Number($('studioHeight').value);if(Number.isFinite(width)&&Number.isFinite(height))setViewport({width,height,custom:true});};
@@ -1432,7 +1472,7 @@ function create({make,isActive,owner}){
    const row=make('article','student-chat-message '+(message.role==='admin'?'from-admin':'from-student'));row.dataset.messageId=id;
    row.append(make('strong','student-chat-sender',message.role==='admin'?'개발자':message.senderName||'학생'));
    if(message.text)row.append(make('p','student-chat-bubble',String(message.text)));
-   if(Array.isArray(message.images))for(const image of message.images.slice(0,3)){const holder=make('div','student-chat-image');row.append(holder);App.imageElement(image).then(node=>{if(version!==paint||!holder.isConnected){App.releaseImages(node);return;}holder.append(node);historyScroll.refresh();remember();}).catch(()=>{if(version===paint&&holder.isConnected){holder.textContent='사진을 불러오지 못했습니다.';historyScroll.refresh();}});}
+   if(Array.isArray(message.images))for(const image of message.images.slice(0,10)){const holder=make('div','student-chat-image');row.append(holder);App.imageElement(image).then(node=>{if(version!==paint||!holder.isConnected){App.releaseImages(node);return;}holder.append(node);historyScroll.refresh();remember();}).catch(()=>{if(version===paint&&holder.isConnected){holder.textContent='사진을 불러오지 못했습니다.';historyScroll.refresh();}});}
    const stamp=make('time','student-chat-time',ts===null?'시간 정보 없음':time.format(ts));if(ts!==null)stamp.dateTime=new Date(ts).toISOString();row.append(stamp);log.append(row);
   }
   if(!messages.size&&loaded)log.append(make('p','studio-muted','아직 나눈 문의 대화가 없습니다.'));
@@ -1465,12 +1505,13 @@ window.StudioStudentChat={create,clear};
 StudioAdmin.register('course',async ctx=>{
  const loaded=await ctx.loadDraft('course',M.blankCourse());let data=loaded.data,base=loaded.base,editing=loaded.editing,selected=null,objects=[],catalogue=CourseEngine,tab=2,ready=false,interacting=false,clipboard=null,undo=[],redo=[],defaults=loaded.defaults||{};
  const {make}=ctx;const layout=make('div','studio-editor-grid'),library=make('aside','studio-library'),canvas=make('div','studio-canvas'),inspector=make('aside','studio-inspector');layout.dataset.editing=editing;layout.append(library,canvas,inspector);ctx.root.append(layout);const panelResize=StudioPanelResize.attach(layout,inspector,{key:'course',make});const libraryResize=StudioSidebarResize.attach(layout,library,{key:'objects',label:'오브젝트 꺼내기 너비 조절',make,min:150,reserve:()=>inspector.getBoundingClientRect().width+280});
- library.append(make('h2','','오브젝트 꺼내기'));const tools=make('div','studio-tools');for(const [kind,label]of [['text','텍스트'],['button','버튼'],['box','둥근 상자'],['ellipse','원'],['tag','분류 태그'],['clone','과목 카드']]){const button=make('button','studio-secondary',label);button.type='button';button.onclick=()=>add(kind);tools.append(button);}library.append(tools,make('h3','','화면 오브젝트'));
+ const titleKey='id:app/header:0/h1:0',titleLabel=make('label','','사이트명'),titleInput=make('input');titleInput.type='text';titleInput.maxLength=120;titleInput.setAttribute('aria-label','사이트명');titleInput.value=data.objects[titleKey]?.text||'2026 김포고 수강신청 도우미(1학년)';titleInput.disabled=!editing;titleInput.addEventListener('input',()=>{if(!titleInput.value.trim())return;patch(titleKey,{text:titleInput.value});});titleLabel.append(titleInput);library.append(titleLabel);
+  library.append(make('h2','','오브젝트 꺼내기'));const tools=make('div','studio-tools');for(const [kind,label]of [['text','텍스트'],['button','버튼'],['box','둥근 상자'],['ellipse','원'],['tag','분류 태그'],['clone','과목 카드']]){const button=make('button','studio-secondary',label);button.type='button';button.onclick=()=>add(kind);tools.append(button);}library.append(tools,make('h3','','화면 오브젝트'));
  const search=make('input');search.type='search';search.placeholder='오브젝트 검색';search.setAttribute('aria-label','오브젝트 검색');const layers=make('div','studio-layer-list');library.append(search,layers);search.oninput=renderLayers;
- const caption=make('div','studio-canvas-caption'),captionText=make('span','','미리보기'),tabSelect=make('select');tabSelect.setAttribute('aria-label','편집할 화면');['AI 채팅','과목 선택률','수강연습','AI 추천','문의'].forEach((label,index)=>{const option=make('option','',label);option.value=index;option.selected=index===2;tabSelect.append(option);});const interact=make('button','studio-secondary','화면 조작');interact.type='button';interact.classList.add('studio-interaction-toggle');interact.title='과목표 펼치기와 기존 버튼 동작을 미리 확인합니다. 실제 학생 정보는 저장하지 않습니다.';interact.onclick=()=>{interacting=!interacting;interact.textContent=interacting?'오브젝트 선택':'화면 조작';configure();};caption.append(captionText,tabSelect,interact);const area=make('div','studio-canvas-area'),iframe=make('iframe');iframe.title='수강신청 실제 화면 미리보기';iframe.src='../course/?studio-preview=1';canvas.append(caption,area);
+ const caption=make('div','studio-canvas-caption'),captionText=make('span','','미리보기'),tabSelect=make('select');tabSelect.setAttribute('aria-label','편집할 화면');['AI 채팅','과목 선택률','수강연습','AI 추천','문의'].forEach((label,index)=>{const option=make('option','',label);option.value=index;option.selected=index===2;tabSelect.append(option);});const interact=make('button','studio-secondary','화면 조작');interact.type='button';interact.classList.add('studio-interaction-toggle');interact.title='과목표 펼치기와 기존 버튼 동작을 미리 확인합니다. 실제 학생 정보는 저장하지 않습니다.';interact.onclick=()=>{interacting=!interacting;interact.textContent=interacting?'오브젝트 선택':'화면 조작';configure();};caption.append(captionText,tabSelect,interact);const area=make('div','studio-canvas-area'),iframe=make('iframe');iframe.title='수강신청 실제 화면 미리보기';iframe.src='../CoursePrimus/?studio-preview=1';canvas.append(caption,area);
  let size=ctx.viewport;const preview=StudioPreview.create(area,iframe,{size,onResize:ctx.setViewport,onFit:value=>{captionText.textContent=value.width+' × '+value.height+' · '+({phone:'휴대폰',tablet:'태블릿',desktop:'컴퓨터'}[M.breakpoint(value.width)])+' 배치 · '+Math.round(value.scale*100)+'%';}});const fit=()=>preview.update(size);
  const send=(type,payload={})=>iframe.contentWindow?.postMessage({channel:'gimpo-studio',type,...payload},location.origin);
- function configure(){if(ready)send('configure',{data,editing:editing&&!interacting,selected});layout.dataset.editing=editing;fit();}
+ function configure(){titleInput.disabled=!editing;const title=data.objects[titleKey]?.text||'2026 김포고 수강신청 도우미(1학년)';if(document.activeElement!==titleInput)titleInput.value=title;if(ready)send('configure',{data,editing:editing&&!interacting,selected});layout.dataset.editing=editing;fit();}
  tabSelect.onchange=()=>{tab=Number(tabSelect.value);send('tab',{index:tab});};
  function dirty(){return M.canonical(M.course(data))!==base.dataJSON;}
  function remember(){undo.push(M.clone(data));if(undo.length>50)undo.shift();redo=[];}
@@ -1634,7 +1675,7 @@ StudioAdmin.register('students',async ctx=>{
   const oldSelected=selected;if(!students.some(student=>student.uid===selected)&&(change.ready||!selected||change.removed.includes(selected)))selected=students[0]?.uid||null;
   renderList();if(oldSelected!==selected||!detail.querySelector('.student-account'))renderDetail();else if(change.upserts.some(student=>student.uid===selected))patchDetail();if(pendingDirectory&&change.ready){scroll.restore(directory,pendingDirectory);pendingDirectory=null;}rememberView();ctx.refresh?.();
  });if(job)setTimeout(()=>{if(ctx.isActive())resumeJob();},0);
- return{alwaysEditing:true,get editing(){return true;},setEditing(){editing=true;renderDetail();},dirty:()=>dirtyIds().length>0,discard(){edits={};baselines={};editing=true;renderList();renderDetail();},draft:()=>({selected,editing,edits,baselines,job,view:rememberView()}),viewport(){},async save(){if(deleting)throw Error('학생 삭제가 끝난 뒤 수정해 주세요.');for(const uid of dirtyIds()){const data=edits[uid],original=baselines[uid];if(!data.profile.name.trim()||![1,2,3].includes(Number(data.profile.grade))||!/^([1-9]|1[0-2])$/.test(data.profile.classNum)||!/^([1-9]|[12][0-9]|3[0-5])$/.test(data.profile.studentNum))throw Error('학생의 학년·반·번호·이름을 확인해 주세요.');const result=await StudioAPI.call('studioSaveStudent',{uid,profile:data.profile,selection:data.selection,expectedProfileHash:original.profileHash,expectedRevision:original.revision});const student=students.find(s=>s.uid===uid);Object.assign(student,result);delete edits[uid];delete baselines[uid];await ctx.persist();}renderList();renderDetail();},destroy(){rememberView();stopped=true;cancelAnimationFrame(viewFrame);directoryResize.destroy();stopRoster();conversation.destroy();}};
+ return{alwaysEditing:true,get editing(){return true;},setEditing(){editing=true;renderDetail();},dirty:()=>dirtyIds().length>0,discard(){edits={};baselines={};editing=true;renderList();renderDetail();},draft:()=>({selected,editing,edits,baselines,job,view:rememberView()}),viewport(){},async save(){if(deleting)throw Error('학생 삭제가 끝난 뒤 수정해 주세요.');const versionGroup=crypto.randomUUID();for(const uid of dirtyIds()){const data=edits[uid],original=baselines[uid];if(!data.profile.name.trim()||![1,2,3].includes(Number(data.profile.grade))||!/^([1-9]|1[0-2])$/.test(data.profile.classNum)||!/^([1-9]|[12][0-9]|3[0-5])$/.test(data.profile.studentNum))throw Error('학생의 학년·반·번호·이름을 확인해 주세요.');const result=await StudioAPI.call('studioSaveStudent',{uid,versionGroup,profile:data.profile,selection:data.selection,expectedProfileHash:original.profileHash,expectedRevision:original.revision});const student=students.find(s=>s.uid===uid);Object.assign(student,result);delete edits[uid];delete baselines[uid];await ctx.persist();}renderList();renderDetail();},destroy(){rememberView();stopped=true;cancelAnimationFrame(viewFrame);directoryResize.destroy();stopRoster();conversation.destroy();}};
 });})();
 </script>
 <script>
@@ -1680,7 +1721,7 @@ function renderMessages(options={}){
   if(typeof msg.text==='string'&&msg.text)content.append(textNode('div','bubble msg-bubble '+(admin?'msg-admin':'msg-user'),msg.text));
   if(Array.isArray(msg.images)){
    const images=document.createElement('div');images.className='attachments img-list';content.append(images);
-   msg.images.slice(0,3).forEach(image=>{const holder=document.createElement('div');images.append(holder);sdk.imageElement(image).then(node=>{if(epoch===renderEpoch&&holder.isConnected)chatScroll.update(()=>holder.append(node));else if(sdk.releaseImages){const detached=document.createElement('div');detached.append(node);sdk.releaseImages(detached);}}).catch(()=>{if(epoch===renderEpoch&&holder.isConnected)chatScroll.update(()=>{holder.textContent='이미지를 불러오지 못했습니다.';});});});
+   msg.images.slice(0,10).forEach(image=>{const holder=document.createElement('div');images.append(holder);sdk.imageElement(image).then(node=>{if(epoch===renderEpoch&&holder.isConnected)chatScroll.update(()=>holder.append(node));else if(sdk.releaseImages){const detached=document.createElement('div');detached.append(node);sdk.releaseImages(detached);}}).catch(()=>{if(epoch===renderEpoch&&holder.isConnected)chatScroll.update(()=>{holder.textContent='이미지를 불러오지 못했습니다.';});});});
   }
   const time=textNode('div','time msg-time',ts?formatTime(ts):'전송 확인 중');
   if(admin)row.append(time,content);else row.append(content,time);
@@ -1700,17 +1741,12 @@ function watchRoomContact(uid,epoch){
 }
 function openRoom(uid){if(uid===currentUid){$('workspace').classList.add('room-open');chatScroll.refresh();return;}stopRoom();currentUid=uid;const epoch=roomEpoch;$('workspace').classList.add('room-open');$('roomTitle').textContent=rooms[uid]?.name||'익명 문의';$('roomEmpty').hidden=true;$('messages').hidden=false;$('messageViewport').hidden=false;$('composer').hidden=false;$('roomStatus').textContent='대화를 불러오는 중입니다.';watchRoomContact(uid,epoch);setBusy();renderRooms();messageQuery=sdk.db.ref('v2/inquiries/'+uid).orderByChild('timestamp').limitToLast(100);messageQuery.on('value',snap=>{if(epoch!==roomEpoch||uid!==currentUid)return;const data=snap.val()||{},newKeys=Object.keys(data).sort(),initial=!roomLoaded,incomingIds=initial?[]:newKeys.filter(key=>!messages.has(key)&&data[key]?.role==='user');const min=ChatOrder.sorted(Object.entries(data))[0];liveKeys.forEach(key=>{if(!Object.hasOwn(data,key)&&(!min||ChatOrder.compare([key,messages.get(key)],min)>=0))messages.delete(key);});Object.entries(data).forEach(([key,value])=>messages.set(key,value));liveKeys=new Set(newKeys);hasOlder=newKeys.length===100&&messages.size<=100?true:hasOlder;$('roomStatus').textContent='최근 대화 '+messages.size+'개';renderMessages({initial,incomingIds});roomLoaded=true;},error=>{if(epoch===roomEpoch)$('roomStatus').textContent=friendly(error);});}
 async function loadOlder(){if(!currentUid||loadingOlder||!messages.size)return;const uid=currentUid,epoch=roomEpoch,oldest=ChatOrder.sorted(messages.entries())[0];loadingOlder=true;renderMessages();try{const snap=await sdk.db.ref('v2/inquiries/'+uid).orderByChild('timestamp').endAt(ChatOrder.timestamp(oldest[1]),oldest[0]).limitToLast(101).once('value');if(epoch!==roomEpoch)return;const entries=Object.entries(snap.val()||{}).filter(([id])=>id!==oldest[0]);entries.forEach(([id,msg])=>messages.set(id,msg));hasOlder=entries.length===100;}catch(error){if(epoch===roomEpoch)$('roomStatus').textContent=friendly(error);}finally{if(epoch===roomEpoch){loadingOlder=false;renderMessages();}}}
-function renderPreview(){previewUrls.forEach(url=>URL.revokeObjectURL(url));previewUrls=[];$('previews').replaceChildren();$('previews').hidden=!files.length;files.forEach((file,index)=>{const wrap=document.createElement('div');wrap.className='preview preview-img-wrap';const img=document.createElement('img'),url=URL.createObjectURL(file);previewUrls.push(url);img.src=url;img.alt=file.name;globalThis.InquiryPreview?.bind(img);const remove=textNode('button','preview-del','×');remove.type='button';remove.setAttribute('aria-label',file.name+' 첨부 취소');remove.disabled=sending;remove.addEventListener('click',()=>{if(sending)return;files.splice(index,1);pending=null;renderPreview();});wrap.append(img,remove);$('previews').append(wrap);});}
-$('images').addEventListener('change',event=>{if(sending||!canAttachImages())return;const additions=Array.from(event.target.files||[]);event.target.value='';if(files.length+additions.length>3){$('sendError').textContent='사진은 한 번에 3장까지 첨부할 수 있습니다.';return;}if(additions.some(file=>!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>5*1024*1024||file.size===0)){$('sendError').textContent='JPG/PNG/WebP 이미지이며 각 파일이 5MB 이하여야 합니다.';return;}files.push(...additions);pending=null;$('sendError').textContent='';renderPreview();});
+function renderPreview(){previewUrls.forEach(url=>URL.revokeObjectURL(url));previewUrls=[];$('previews').replaceChildren();$('previews').hidden=!files.length;files.forEach((file,index)=>{const wrap=document.createElement('div');wrap.className='preview preview-img-wrap';if(['image/jpeg','image/png','image/webp'].includes(file.type)){const img=document.createElement('img'),url=URL.createObjectURL(file);previewUrls.push(url);img.src=url;img.alt=file.name;globalThis.InquiryPreview?.bind(img);wrap.append(img);}else wrap.append(textNode('span','file-preview','📎 '+file.name));const remove=textNode('button','preview-del','×');remove.type='button';remove.setAttribute('aria-label',file.name+' 첨부 취소');remove.disabled=sending;remove.addEventListener('click',()=>{if(sending)return;files.splice(index,1);pending=null;renderPreview();});wrap.append(remove);$('previews').append(wrap);});}
+$('images').addEventListener('change',event=>{if(sending||!canAttachImages())return;const additions=Array.from(event.target.files||[]);event.target.value='';const next=[...files,...additions];if(next.length>10||next.some(f=>f.size<=0||f.size>5*1024*1024)||next.reduce((n,f)=>n+f.size,0)>10*1024*1024){$('sendError').textContent='사진·파일은 한 번에 10개, 각 5MB 이하, 합계 10MB 이하로 선택해주세요.';return;}files=next;pending=null;$('sendError').textContent='';renderPreview();});
 $('reply').addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing){event.preventDefault();$('composer').requestSubmit();}});
-async function persistReply(ref,payload,request){
- const matches=value=>value&&value.role===payload.role&&value.text===payload.text&&value.senderName===payload.senderName&&JSON.stringify(value.images||[])===JSON.stringify(payload.images||[]);
- if(request.attempted){const existing=await ref.once('value');if(matches(existing.val()))return;if(existing.exists())throw new Error('전송 식별자가 충돌했습니다. 내용을 확인하고 새 메시지로 전송해 주세요.');}
- request.attempted=true;
- try{await ref.set(payload);}catch(error){try{const existing=await ref.once('value');if(matches(existing.val()))return;}catch{}throw error;}
-}
+async function persistReply(ref,payload,request){await InquiryTransport.call('inquirySend',{uid:request.uid,messageId:request.key,payload});}
 $('composer').addEventListener('submit',async event=>{event.preventDefault();if(sending||deleting||!currentUid)return;const text=$('reply').value.trim(),uid=currentUid,epoch=authEpoch,room=roomEpoch,chosen=[...files];if(!text&&!chosen.length)return;sending=true;setBusy();renderPreview();$('sendError').textContent='';try{if(!pending||pending.uid!==uid||pending.text!==text||pending.files.length!==chosen.length||pending.files.some((f,i)=>f!==chosen[i]))pending={uid,text,files:chosen,key:sdk.db.ref('v2/inquiries/'+uid).push().key,images:null};const request=pending;chatScroll.prepareOwnSend?.(request.key);if(!request.images)request.images=await sdk.uploadImages(uid,chosen);if(epoch!==authEpoch)throw new Error('로그인 계정이 변경되어 전송을 중단했습니다.');const payload={role:'admin',senderName:'개발자',text,timestamp:firebase.database.ServerValue.TIMESTAMP};if(request.images.length)payload.images=request.images;await persistReply(sdk.db.ref('v2/inquiries/'+uid+'/'+request.key),payload,request);if(currentUid===uid&&roomEpoch===room){if($('reply').value.trim()===text)$('reply').value='';clearPreview();pending=null;$('sendError').textContent='';sdk.toast('답변을 전송했습니다.');}}catch(error){chatScroll.cancelOwnSend?.(pending?.key);if(currentUid===uid&&roomEpoch===room)$('sendError').textContent=friendly(error);}finally{sending=false;setBusy();renderPreview();}});
-$('deleteRoom').addEventListener('click',async()=>{if(!fullAdmin||!currentUid||sending||deleting)return;const uid=currentUid,name=rooms[uid]?.name||'이 문의';if(!confirm(name+'의 대화와 첨부 이미지를 삭제할까요? 이 작업은 되돌릴 수 없습니다.'))return;deleting=true;setBusy();try{await sdk.functions.httpsCallable('deleteInquiry')({uid});if(currentUid===uid)stopRoom();sdk.toast('대화를 삭제했습니다.');}catch(error){$('roomStatus').textContent=friendly(error);}finally{deleting=false;setBusy();}});
+$('deleteRoom').addEventListener('click',async()=>{if(!fullAdmin||!currentUid||sending||deleting)return;const uid=currentUid,name=rooms[uid]?.name||'이 문의';if(!await SiteConfirm(name+'의 대화와 첨부 이미지를 삭제할까요? 이 작업은 되돌릴 수 없습니다.'))return;deleting=true;setBusy();try{await sdk.functions.httpsCallable('deleteInquiry')({uid});if(currentUid===uid)stopRoom();sdk.toast('대화를 삭제했습니다.');}catch(error){$('roomStatus').textContent=friendly(error);}finally{deleting=false;setBusy();}});
 $('back').addEventListener('click',()=>$('workspace').classList.remove('room-open'));
 $('roomSearch').addEventListener('input',renderRooms);
 async function login(action){$('loginError').textContent='';const buttons=$('gate').querySelectorAll('button');buttons.forEach(b=>b.disabled=true);try{await action();$('password').value='';}catch(error){$('loginError').textContent=friendly(error);}finally{buttons.forEach(b=>b.disabled=false);}}
@@ -1730,7 +1766,7 @@ async function authChanged(user){
   if(epoch!==authEpoch)return;
   if(!fullAdmin&&permission.val()!==true){$('gateInfo').textContent=user.isAnonymous?'관리자 권한이 등록된 계정으로 로그인해 주세요.':'이 계정에는 문의 관리 권한이 없습니다. 기존 관리자 계정으로 로그인해 주세요.';$('loginForm').hidden=!user.isAnonymous;$('googleLogin').hidden=!user.isAnonymous;$('gateLogout').hidden=user.isAnonymous;return;}
   $('deleteRoom').hidden=!fullAdmin;
-  document.querySelector('.composer .hint').textContent=canAttachImages()?'Enter 전송 · Shift+Enter 줄바꿈 · JPG/PNG/WebP 3장, 각 5MB 이하':'Enter 전송 · Shift+Enter 줄바꿈';
+  document.querySelector('.composer .hint').textContent=canAttachImages()?'Enter 전송 · Shift+Enter 줄바꿈 · 사진·파일 10개, 각 5MB 이하 · 합계 10MB 이하':'Enter 전송 · Shift+Enter 줄바꿈';
   $('gate').hidden=true;StudioAdmin.start(user);$('accountInfo').textContent=user.email||'관리자';$('listStatus').textContent='문의 목록을 불러오는 중입니다.';
   if(!fullAdmin){
    roleRef=sdk.db.ref(rolePath);
