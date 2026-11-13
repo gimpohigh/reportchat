@@ -227,7 +227,8 @@ body{color:var(--text-black)}
 </style>
 <style>
 .site-confirm{border:0;border-radius:12px;padding:22px;width:min(420px,calc(100vw - 32px));background:var(--box-bg,#fff);color:var(--text-black,#191f28);box-sizing:border-box}.site-confirm::backdrop{background:#0007}.site-confirm p{white-space:pre-wrap;line-height:1.6;margin:0 0 20px}.site-confirm>div{display:flex;gap:10px}.site-confirm button{flex:1;padding:11px;border:1px solid #2a52be;border-radius:8px;font:inherit;cursor:pointer;background:#fff;color:#2a52be}.site-confirm button:first-child{background:#2a52be;color:#fff}.site-confirm button:focus-visible{outline:3px solid #ffae42;outline-offset:2px}
-</style><style>.preview-img-wrap:has(.file-preview){width:180px;height:auto;min-height:68px}.preview-img-wrap .file-preview{width:100%;height:100%;box-sizing:border-box}.file-preview{display:flex;align-items:center;min-height:68px;max-width:180px;padding:12px 22px 12px 10px;border:1px solid #d1d6db;border-radius:10px;background:#f2f4f6;color:#191f28;overflow-wrap:anywhere;font-size:13px}.studio-version-dialog{width:min(680px,calc(100vw - 32px));max-height:85vh}.site-confirm .version-list{display:block;max-height:55vh;overflow:auto}.version-row{border-bottom:1px solid #e5e8eb;padding:12px 0}.version-row p{font-size:14px;margin:0 0 8px}.version-row button{font-size:13px;padding:6px 10px}</style></head>
+</style><style>.preview-img-wrap:has(.file-preview){width:180px;height:auto;min-height:68px}.preview-img-wrap .file-preview{width:100%;height:100%;box-sizing:border-box}.file-preview{display:flex;align-items:center;min-height:68px;max-width:180px;padding:12px 22px 12px 10px;border:1px solid #d1d6db;border-radius:10px;background:#f2f4f6;color:#191f28;overflow-wrap:anywhere;font-size:13px}.studio-version-dialog{width:min(680px,calc(100vw - 32px));max-height:85vh}.site-confirm .version-list{display:block;max-height:55vh;overflow:auto}.version-row{border-bottom:1px solid #e5e8eb;padding:12px 0}.version-row p{font-size:14px;margin:0 0 8px}.version-row button{font-size:13px;padding:6px 10px}</style><style>.version-actions{display:flex;gap:8px;flex-wrap:wrap}.history-heading{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.history-heading h3{flex:1;margin:0;font-size:17px}.history-heading button{flex-shrink:0}.history-legend{width:100%;font-size:12px;color:#24752b}.studio-history-preview{width:calc(100vw - 32px);height:calc(100dvh - 32px);max-width:none;max-height:none;padding:16px;box-sizing:border-box;overflow:hidden}.studio-history-preview[open]{display:flex;flex-direction:column;gap:12px}.history-screen{min-height:0;flex:1;overflow:auto;background:#f2f4f6;border:1px solid #e5e8eb;border-radius:10px}.history-course-frame{display:block;width:100%;height:100%;min-height:300px;border:0;background:#f2f4f6}.version-changed{outline:2px solid rgba(50,205,50,.65)!important;outline-offset:-2px;box-shadow:inset 0 0 0 100vmax rgba(84,255,65,.22)!important}.history-notices{height:100%;display:flex;flex-direction:column;gap:12px;padding:16px;box-sizing:border-box}.history-notice-stage{flex:1;display:flex;align-items:center;justify-content:center;overflow:auto;padding:12px}.history-students{height:100%;min-height:300px}.history-chat{height:100%;display:grid;grid-template-columns:minmax(180px,28%) minmax(0,1fr)}.history-chat .chat-list-panel{overflow:auto;min-height:0;border-right:1px solid #e5e8eb;padding:12px}.history-chat .chat-panel{display:flex;flex-direction:column;min-height:0;overflow:hidden}.history-chat h3{font-size:16px;padding:12px;margin:0;background:white}.history-messages{flex:1;min-height:0;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:14px}.history-restore-actions{display:flex;justify-content:flex-end;gap:8px}.history-restore-actions button:first-child{background:#2a52be;color:white}.studio-history-preview>p{margin:0;font-size:13px}@media(max-width:600px){.studio-history-preview{width:calc(100vw - 12px);height:calc(100dvh - 12px);padding:10px}.history-chat{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr)}.history-chat .chat-list-panel{max-height:110px}.history-students{grid-template-columns:1fr;overflow:auto}.history-students .student-directory{max-height:140px}.history-notices{padding:8px}.history-heading h3{font-size:15px}}
+</style></head>
 <body>
 <section id="gate" class="gate"><div class="gate-card">
 <h1>관리자 문의 채팅</h1><p id="gateInfo">로그인 상태를 확인하고 있습니다.</p>
@@ -1241,17 +1242,101 @@ window.StudioAPI={call,read,section,invalidate,reset};
 })();
 
 (() => {'use strict';
-const titles={course:'수강신청 편집',chat:'학생 채팅',students:'학생 정보 편집',notices:'공지 편집'};
-async function show(kind){
- const dialog=document.createElement('dialog');dialog.className='site-confirm studio-version-dialog';dialog.setAttribute('aria-label',titles[kind]+' 버전 기록');
- const heading=document.createElement('h3'),body=document.createElement('div'),close=document.createElement('button');heading.textContent=titles[kind]+' · 버전 기록';body.textContent='저장된 버전을 불러오는 중입니다.';body.className='version-list';close.textContent='닫기';close.type='button';close.onclick=()=>dialog.close();dialog.append(heading,body,close);dialog.addEventListener('close',()=>dialog.remove(),{once:true});document.body.append(dialog);dialog.showModal();close.focus();
- try{const result=await StudioAPI.call('studioVersions',{kind});if(!dialog.isConnected)return;body.replaceChildren();
-  if(!result.versions.length)body.textContent='아직 저장된 버전이 없습니다.';
-  for(const version of result.versions){const row=document.createElement('div'),label=document.createElement('p'),download=document.createElement('button');row.className='version-row';label.textContent=version.version+(version.current?' · 현재 버전':'')+' — '+new Date(version.at).toLocaleString('ko-KR')+'\n'+(version.summary||'수정 완료');download.textContent='기록 다운로드';download.type='button';download.onclick=async()=>{download.disabled=true;try{const answer=await StudioAPI.call('studioVersion',{kind,number:version.number});const url=URL.createObjectURL(new Blob([JSON.stringify(answer.record,null,2)],{type:'application/json'})),link=document.createElement('a');link.href=url;link.download=kind+'-'+version.version+'.json';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);}catch(error){App.toast(error.message);}finally{download.disabled=false;}};row.append(label,download);body.append(row);}
- }catch(error){if(dialog.isConnected)body.textContent=error.message;}
+const M=StudioModel,titles={course:'수강신청 편집',chat:'학생 채팅',students:'학생 정보 편집',notices:'공지 편집'};
+const make=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
+const same=(a,b)=>M.canonical(a??null)===M.canonical(b??null),parse=record=>record?.dataJSON?JSON.parse(record.dataJSON):record;
+const button=(text,fn)=>{const b=make('button','studio-secondary',text);b.type='button';b.onclick=fn;return b;};
+const changedKeys=(a={},b={})=>[...new Set([...Object.keys(a),...Object.keys(b)])].filter(k=>!same(a[k],b[k]));
+function mark(node,changed){if(changed)node.classList.add('version-changed');return node;}
+function dialog(title,preview=false){
+ const d=make('dialog','site-confirm '+(preview?'studio-history-preview':'studio-version-dialog')),head=make('header','history-heading'),name=make('h3','',title),close=button('닫기',()=>d.close()),body=make('div',preview?'history-screen':'version-list');
+ d.setAttribute('aria-label',title);head.append(name,close);d.append(head,body);document.body.append(d);d.showModal();close.focus();return{dialog:d,head,body,close};
 }
-window.StudioVersions={show};
+async function courseScreen(host,answer){
+ const data=M.course(parse(answer.resolved)),before=answer.previous?M.course(parse(answer.previous)):null,iframe=make('iframe','history-course-frame');iframe.title=answer.record.version+' 수강신청 화면';
+ const selectors=[];
+ if(before){
+  for(const id of changedKeys(data.objects,before.objects))selectors.push('[data-studio-id='+JSON.stringify(id)+']');
+  for(const id of changedKeys(data.catalogue,before.catalogue))selectors.push('[data-course='+JSON.stringify(id)+']');
+  const a=Object.fromEntries(data.extras.map(v=>[v.id,v])),b=Object.fromEntries(before.extras.map(v=>[v.id,v]));
+  for(const id of changedKeys(a,b))selectors.push('[data-studio-id='+JSON.stringify(a[id]?id:b[id]?.parent||'id:app')+']');
+  if(!same(answer.sources,answer.previousSources))selectors.push('.header','.accordion-inner .course-card','#profileDialog','#inquiryForm','#connectionCount');
+ }
+ let active=true,observer=null;
+ function highlight(){if(!active)return;const doc=iframe.contentDocument;if(!doc)return;
+  if(!doc.getElementById('history-highlights')){const style=doc.createElement('style');style.id='history-highlights';style.textContent='.version-changed{outline:2px solid rgba(50,205,50,.65)!important;outline-offset:-2px;box-shadow:inset 0 0 0 100vmax rgba(84,255,65,.22)!important}';doc.head.append(style);}
+  for(const selector of selectors)for(const node of doc.querySelectorAll(selector))node.classList.add('version-changed');
+ }
+ function onMessage(event){if(event.source!==iframe.contentWindow||event.origin!==location.origin||event.data?.channel!=='gimpo-studio')return;if(event.data.type==='ready'){iframe.contentWindow.postMessage({channel:'gimpo-studio',type:'configure',data,editing:false,selected:null},location.origin);}if(['ready','objects','state'].includes(event.data.type))requestAnimationFrame(highlight);}
+ window.addEventListener('message',onMessage);iframe.addEventListener('load',()=>{if(!active)return;highlight();observer?.disconnect();observer=new MutationObserver(()=>requestAnimationFrame(highlight));observer.observe(iframe.contentDocument.body,{childList:true,subtree:true});});
+ host.append(iframe);
+ const source=answer.sources?.CoursePrimus,match=typeof source==='string'&&source.match(/^https:\/\/github\.com\/gimpohigh\/CoursePrimus\/blob\/([a-f0-9]{40})\/index\.html$/);
+ try{
+  if(!match)throw Error('이 버전의 화면 코드가 연결되어 있지 않습니다.');
+  const response=await fetch('https://raw.githubusercontent.com/gimpohigh/CoursePrimus/'+match[1]+'/index.html',{credentials:'omit',referrerPolicy:'no-referrer',signal:AbortSignal.timeout(30000)});if(!response.ok)throw Error('저장된 버전의 화면을 불러오지 못했습니다.');let html=await response.text();
+  const guard="new URLSearchParams(location.search).get('studio-preview')==='1'";if(!html.includes(guard))throw Error('이 버전은 안전한 미리보기를 지원하지 않습니다.');
+  html=html.replace(guard,'true').replaceAll('location.origin',JSON.stringify(location.origin));
+  const isolation='<base href="'+location.origin+'/CoursePrimus/"><meta http-equiv="Content-Security-Policy" content="connect-src \'none\'; form-action \'none\'; object-src \'none\'">';
+  html=html.replace(/<head>/i,'<head>'+isolation).replace('</body>','<script>document.addEventListener("click",function(e){if(e.target.closest("a")){e.preventDefault();}},true);<\/script></body>');
+  if(active){iframe.setAttribute('sandbox','allow-scripts allow-same-origin');iframe.srcdoc=html;}
+ }catch(error){if(active)host.replaceChildren(make('p','studio-error',error.message));}
+ return()=>{active=false;observer?.disconnect();window.removeEventListener('message',onMessage);iframe.remove();};
+}
+function noticeScreen(host,answer){
+ const notices=M.notices(parse(answer.resolved)||[]),previous=answer.previous?M.notices(parse(answer.previous)||[]):null,old=new Map((previous||[]).map(n=>[n.id,n]));
+ const area=make('div','history-notices'),select=make('select');select.setAttribute('aria-label','미리볼 공지');notices.forEach((n,i)=>{const option=make('option','',(i+1)+'. '+n.title);option.value=n.id;select.append(option);});
+ const stage=make('div','history-notice-stage');area.append(select,stage);host.append(area);
+ function render(){stage.replaceChildren();const n=notices.find(x=>x.id===select.value);if(!n){stage.append(make('p','studio-muted','이 버전에 저장된 공지가 없습니다.'));return;}
+  const box=SchoolNotices.render(n,{width:stage.clientWidth,onClose:()=>{},onHide:()=>{}}),prior=old.get(n.id);stage.append(box);
+  if(previous){for(const [key,selector]of [['header','.school-notice-header'],['title','.school-notice-title'],['body','.school-notice-body'],['dismissText','.school-notice-footer']]){const node=box.querySelector(selector);if(node)mark(node,!same(n[key],prior?.[key])||!same(n.styles?.[key==='dismissText'?'footer':key],prior?.styles?.[key==='dismissText'?'footer':key]));}if(!prior||!same(n.styles?.box,prior.styles?.box)||!same(n.items,prior.items)||!same(n.policy,prior.policy)||!same(n.intervalDays,prior.intervalDays))mark(box,true);}
+ }
+ select.onchange=render;render();return()=>area.remove();
+}
+function studentScreen(host,answer){
+ const current=answer.resolved||{},before=answer.previous,profiles=current.profiles||{},selections=current.selections||{},wrap=make('div','student-columns history-students'),directory=make('aside','student-directory'),detail=make('section','student-detail');wrap.append(directory,detail);host.append(wrap);
+ const name=p=>(p.grade||1)+'학년 '+(p.classNum||'?')+'반 '+(p.studentNum||'?')+'번 '+(p.name||'이름 미등록');
+ const ids=Object.keys(profiles).filter(id=>profiles[id]).sort((a,b)=>name(profiles[a]).localeCompare(name(profiles[b]),'ko',{numeric:true}));
+ function render(uid){detail.replaceChildren();const p=profiles[uid],s=selections[uid]||{},oldP=before?.profiles?.[uid],oldS=before?.selections?.[uid]||{};detail.append(mark(make('div','student-account',name(p)),!!before&&!same(p,oldP)));const fields=make('div','student-profile-fields');
+  for(const [key,label]of [['grade','학년'],['classNum','반'],['studentNum','번호'],['name','이름']]){const row=make('label','',label),input=make('input');input.value=p[key]??'';input.readOnly=true;input.setAttribute('aria-label','학생 '+label);row.append(input);mark(row,!!before&&!same(p[key],oldP?.[key]));fields.append(row);}detail.append(fields);
+  const track=make('label','studio-notice-policy','과학 중점 과정'),check=make('input');check.type='checkbox';check.checked=s.sciTrack===true;check.disabled=true;track.prepend(check);detail.append(mark(track,!!before&&!same(s.sciTrack===true,oldS.sciTrack===true)));
+  for(const sem of CourseEngine.semesters){const key=typeof sem==='string'?sem:sem.key,box=make('details','student-semester');box.append(make('summary','',key.replace('-','학년 ')+'학기'));const grid=make('div','student-course-grid');
+   for(const course of CourseEngine.courses.filter(c=>c.sem===key)){const row=make('label','student-course'),input=make('input'),description=make('span');input.type='checkbox';input.checked=(s.courses||[]).includes(course.id);input.disabled=true;description.append(make('b','',course.name),make('small','',course.cat+' · '+course.type+' · '+course.grade));row.append(input,description,make('em','',course.cred+'학점'));mark(row,!!before&&input.checked!==(oldS.courses||[]).includes(course.id));grid.append(row);}box.append(grid);if(grid.querySelector('.version-changed'))box.open=true;detail.append(box);
+  }
+  directory.querySelectorAll('button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.uid===uid)));
+ }
+ for(const uid of ids){const b=button(name(profiles[uid]),()=>render(uid));b.classList.add('student-row');b.dataset.uid=uid;mark(b,!!before&&(!same(profiles[uid],before.profiles?.[uid])||!same(selections[uid],before.selections?.[uid])));directory.append(b);}if(ids.length)render(ids[0]);else detail.append(make('p','studio-muted','이 버전에 저장된 학생 정보가 없습니다.'));return()=>wrap.remove();
+}
+function chatScreen(host,answer){
+ const rooms=answer.resolved||{},before=answer.previous,wrap=make('div','history-chat'),list=make('aside','chat-list-panel'),panel=make('section','chat-panel'),title=make('h3','', '문의 대화'),messages=make('div','history-messages');panel.append(title,messages);wrap.append(list,panel);host.append(wrap);let active=true,epoch=0;
+ const entries=uid=>ChatOrder.sorted(Object.entries(rooms[uid]||{})),roomName=uid=>{const msg=entries(uid).map(e=>e[1]).find(m=>m.role==='user');return msg?.senderName||'학생 문의';};
+ function render(uid){const turn=++epoch;App.releaseImages(messages);messages.replaceChildren();title.textContent=roomName(uid);for(const [id,msg]of entries(uid)){const admin=msg.role==='admin',item=make('article','message msg-container '+(admin?'admin msg-admin-container':'msg-user-container'));item.dataset.messageId=id;item.append(make('div','sender msg-sender',admin?'개발자':msg.senderName||roomName(uid)));const row=make('div',admin?'msg-row-admin':'msg-row-user'),content=make('div','msg-content');if(msg.text)content.append(mark(make('div','bubble msg-bubble '+(admin?'msg-admin':'msg-user'),msg.text),!!before&&!same(msg,before[uid]?.[id])));
+   if(Array.isArray(msg.images)){const images=make('div','attachments img-list');content.append(mark(images,!!before&&!same(msg.images,before[uid]?.[id]?.images)));for(const image of msg.images.slice(0,10)){const holder=make('div');images.append(holder);App.imageElement(image).then(node=>{if(active&&turn===epoch&&holder.isConnected)holder.append(node);else{const trash=make('div');trash.append(node);App.releaseImages(trash);}}).catch(()=>{if(holder.isConnected)holder.textContent='첨부 파일을 불러오지 못했습니다.';});}}
+   const time=make('div','time msg-time',msg.timestamp?new Date(msg.timestamp).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}):'');if(admin)row.append(time,content);else row.append(content,time);item.append(row);messages.append(item);
+  }}
+ const ids=Object.keys(rooms).filter(id=>Object.keys(rooms[id]||{}).length);for(const uid of ids){const b=button(roomName(uid),()=>render(uid));b.classList.add('user-item');mark(b,!!before&&!same(rooms[uid],before[uid]));list.append(b);}if(ids.length)render(ids[0]);else messages.append(make('p','studio-muted','이 버전에 저장된 대화가 없습니다.'));return()=>{active=false;epoch++;App.releaseImages(messages);wrap.remove();};
+}
+async function screen(host,kind,answer){return kind==='course'?courseScreen(host,answer):kind==='notices'?noticeScreen(host,answer):kind==='students'?studentScreen(host,answer):chatScreen(host,answer);}
+async function preview(kind,answer){
+ const view=dialog(titles[kind]+' · '+answer.record.version+' 미리보기',true);view.head.append(make('span','history-legend',answer.previous?'초록색: 이전 버전에서 수정된 부분':'기준 버전'));let closed=false,dispose=()=>{};view.dialog.addEventListener('close',()=>{closed=true;dispose();view.dialog.remove();},{once:true});dispose=await screen(view.body,kind,answer);if(closed)dispose();
+}
+async function restoreChat(answer){
+ const view=dialog('학생 채팅 · '+answer.record.version+' 불러오기',true),actions=make('div','history-restore-actions'),save=button('수정 완료'),cancel=button('수정 취소',()=>view.dialog.close()),note=make('p','studio-muted','수정 완료를 눌러야 저장된 대화가 반영됩니다.'),error=make('p','studio-error');let closed=false,dispose=()=>{},busy=false;const operationId=crypto.randomUUID();actions.append(save,cancel);view.dialog.append(note,error,actions);
+ view.dialog.addEventListener('cancel',event=>{if(busy)event.preventDefault();});view.dialog.addEventListener('close',()=>{closed=true;dispose();view.dialog.remove();},{once:true});dispose=await screen(view.body,'chat',answer);if(closed){dispose();return;}
+ save.onclick=async()=>{if(busy)return;if(!await SiteConfirm(answer.record.version+' 버전의 대화로 반영하시겠습니까? 현재 대화는 복원 기록에 보관됩니다.'))return;busy=true;save.disabled=cancel.disabled=view.close.disabled=true;error.textContent='';try{await StudioAPI.call('studioRestoreVersion',{kind:'chat',number:answer.record.number,expectedHash:answer.currentHash,operationId});App.toast('대화를 불러와 새 버전으로 저장했습니다.');view.dialog.close();}catch(failure){error.textContent=failure.message;}finally{busy=false;save.disabled=cancel.disabled=view.close.disabled=false;}};
+}
+async function show(kind){
+ const view=dialog(titles[kind]+' 버전 기록');view.body.textContent='저장된 버전을 불러오는 중입니다.';view.dialog.addEventListener('close',()=>view.dialog.remove(),{once:true});
+ try{const result=await StudioAPI.call('studioVersions',{kind});if(!view.dialog.isConnected)return;view.body.replaceChildren();if(!result.versions.length)view.body.textContent='아직 저장된 버전이 없습니다.';
+  for(const version of result.versions){const row=make('div','version-row'),label=make('p','',version.version+(version.current?' · 현재 버전':'')+' — '+new Date(version.at).toLocaleString('ko-KR')+'\n'+(version.summary||'수정 완료')),actions=make('div','version-actions');
+   const load=()=>StudioAPI.call('studioVersion',{kind,number:version.number});
+   async function act(b,fn){b.disabled=true;try{await fn(await load());}catch(error){App.toast(error.message);}finally{b.disabled=false;}}
+   const see=button('미리보기',()=>act(see,a=>preview(kind,a))),restore=button('불러오기',()=>act(restore,async a=>{if(kind==='chat'){view.dialog.close();await restoreChat(a);}else if(await StudioAdmin.restoreVersion(kind,a)){view.dialog.close();}})),download=button('기록 다운로드',()=>act(download,a=>{const url=URL.createObjectURL(new Blob([JSON.stringify(a.record,null,2)],{type:'application/json'})),link=make('a');link.href=url;link.download=kind+'-'+version.version+'.json';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);}));actions.append(see,restore,download);row.append(label,actions);view.body.append(row);
+  }
+ }catch(error){if(view.dialog.isConnected)view.body.textContent=error.message;}
+}
+window.StudioVersions={show,preview};
 })();
+
 
 
 /* Account-scoped, persistent realtime student directory. No writes are exposed. */
@@ -1345,7 +1430,12 @@ window.addEventListener('keydown',event=>{
  if(buttons.length===1){event.preventDefault();buttons[0].click();}
 });
 window.addEventListener('pagehide',()=>{persist().catch(()=>{});});
-window.StudioAdmin={start,stop,home:()=>open('home'),register:(name,factory)=>factories.set(name,factory),make,modal,changed};
+async function restoreVersion(kind,answer){
+ if(busy||!allowed||view!==kind||!controller?.loadVersion)throw Error('해당 편집 화면을 먼저 열어 주세요.');
+ if(controller.dirty?.()&&!await modal('버전 불러오기','현재 임시 수정 내용을 선택한 버전의 내용으로 바꾸시겠습니까?'))return false;
+ await controller.loadVersion(answer.resolved);changed();status(answer.record.version+' 버전을 불러왔습니다. 수정 완료를 눌러야 실제 사이트에 반영됩니다.');return true;
+}
+window.StudioAdmin={start,stop,restoreVersion,home:()=>open('home'),register:(name,factory)=>factories.set(name,factory),make,modal,changed};
 })();
 
 /* Resizable isolated previews. Width ranges remain shared with the public renderer. */
@@ -1547,7 +1637,7 @@ StudioAdmin.register('course',async ctx=>{
  function onMessage(event){if(event.source!==iframe.contentWindow||event.origin!==location.origin||event.data?.channel!=='gimpo-studio')return;const message=event.data;if(message.type==='ready'){ready=true;configure();}else if(message.type==='objects'){objects=message.objects||[];catalogue=message.catalogue||catalogue;const changed=selected!==message.selected;selected=message.selected;renderLayers();if(changed||!inspector.children.length)renderInspector();}else if(message.type==='change')patch(message.id,message.patch);else if(message.type==='shortcut'){selected=message.id;shortcut(message.key,message.shift);}else if(message.type==='edit-text'){selected=message.id;renderInspector();inspector.querySelector('textarea')?.focus();}else if(message.type==='error')App.toast(message.message);}
  const onKey=event=>{if(!ctx.isActive()||!editing||event.repeat||document.querySelector('dialog[open]')||event.target.closest('input,textarea,select,[contenteditable=true]'))return;if((event.ctrlKey||event.metaKey)&&['c','v','z'].includes(event.key.toLowerCase())){event.preventDefault();shortcut(event.key.toLowerCase(),event.shiftKey);}else if(event.key==='Delete'){event.preventDefault();remove();}};
  window.addEventListener('message',onMessage);window.addEventListener('keydown',onKey);renderInspector();fit();
- return{get editing(){return editing;},setEditing(value){editing=value;configure();renderInspector();},dirty,draft:()=>({data,base,editing,defaults}),hasSelection:()=>Boolean(selected),discard(){data=JSON.parse(base.dataJSON);editing=false;selected=null;defaults={};undo=[];redo=[];configure();renderLayers();renderInspector();},viewport(value){const modeChanged=M.breakpoint(size.width)!==M.breakpoint(value.width);size=value;fit();if(modeChanged)renderInspector();},async save(){const result=await StudioAPI.call('studioPublish',{kind:'course',data:M.course(data),expectedRevision:base.revision});base={revision:result.record.revision,dataJSON:result.record.dataJSON};data=JSON.parse(base.dataJSON);defaults={};undo=[];redo=[];configure();},destroy(){libraryResize.destroy();panelResize.destroy();preview.destroy();window.removeEventListener('message',onMessage);window.removeEventListener('keydown',onKey);iframe.remove();}};
+ return{loadVersion(snapshot){const next=M.course(JSON.parse(snapshot.dataJSON));undo.push(M.clone(data));redo=[];data=next;editing=true;selected=null;defaults={};configure();renderLayers();renderInspector();},get editing(){return editing;},setEditing(value){editing=value;configure();renderInspector();},dirty,draft:()=>({data,base,editing,defaults}),hasSelection:()=>Boolean(selected),discard(){data=JSON.parse(base.dataJSON);editing=false;selected=null;defaults={};undo=[];redo=[];configure();renderLayers();renderInspector();},viewport(value){const modeChanged=M.breakpoint(size.width)!==M.breakpoint(value.width);size=value;fit();if(modeChanged)renderInspector();},async save(){const result=await StudioAPI.call('studioPublish',{kind:'course',data:M.course(data),expectedRevision:base.revision});base={revision:result.record.revision,dataJSON:result.record.dataJSON};data=JSON.parse(base.dataJSON);defaults={};undo=[];redo=[];configure();},destroy(){libraryResize.destroy();panelResize.destroy();preview.destroy();window.removeEventListener('message',onMessage);window.removeEventListener('keydown',onKey);iframe.remove();}};
 });
 })();
 
@@ -1596,7 +1686,7 @@ StudioAdmin.register('notices',async ctx=>{
  }
  function onKey(event){if(previewing||!ctx.isActive()||event.target.matches('input,textarea,select,[contenteditable]')||document.querySelector('dialog[open]'))return;if((event.ctrlKey||event.metaKey)&&['c','v','z'].includes(event.key.toLowerCase())){event.preventDefault();const key=event.key.toLowerCase();if(key==='c')copy();if(key==='v')paste();if(key==='z'&&editing){const from=event.shiftKey?redo:undo,to=event.shiftKey?undo:redo;if(from.length){to.push(M.clone(data));data=from.pop();renderBoard();renderInspector();ctx.changed();}}}}
  window.addEventListener('keydown',onKey);renderBoard();renderInspector();
- return{get previewing(){return previewing;},showPreview,get editing(){return editing;},setEditing(value){editing=value;renderInspector();},dirty,hasSelection:()=>Boolean(current()),draft:()=>({data,base,editing}),add,remove,discard(){data=JSON.parse(base.dataJSON);editing=false;selected=data[0]?.id||null;part='box';undo=[];redo=[];renderBoard();renderInspector();},viewport(value){const modeChanged=M.breakpoint(width)!==M.breakpoint(value.width);width=value.width;if(previewing)simulator?.viewport(value);else{renderBoard();if(modeChanged)renderInspector();}},async save(){const result=await StudioAPI.call('studioPublish',{kind:'notices',data:M.notices(data),expectedRevision:base.revision});base={revision:result.record.revision,dataJSON:result.record.dataJSON};data=JSON.parse(base.dataJSON);undo=[];redo=[];renderBoard();},destroy(){panelResize.destroy();dragCleanups.forEach(clean=>clean());observer.disconnect();simulator?.destroy();window.removeEventListener('keydown',onKey);}};
+ return{loadVersion(snapshot){const next=M.notices(JSON.parse(snapshot.dataJSON));undo.push(M.clone(data));redo=[];data=next;selected=data[0]?.id||null;editing=true;showPreview(false);renderBoard();renderInspector();},get previewing(){return previewing;},showPreview,get editing(){return editing;},setEditing(value){editing=value;renderInspector();},dirty,hasSelection:()=>Boolean(current()),draft:()=>({data,base,editing}),add,remove,discard(){data=JSON.parse(base.dataJSON);editing=false;selected=data[0]?.id||null;part='box';undo=[];redo=[];renderBoard();renderInspector();},viewport(value){const modeChanged=M.breakpoint(width)!==M.breakpoint(value.width);width=value.width;if(previewing)simulator?.viewport(value);else{renderBoard();if(modeChanged)renderInspector();}},async save(){const result=await StudioAPI.call('studioPublish',{kind:'notices',data:M.notices(data),expectedRevision:base.revision});base={revision:result.record.revision,dataJSON:result.record.dataJSON};data=JSON.parse(base.dataJSON);undo=[];redo=[];renderBoard();},destroy(){panelResize.destroy();dragCleanups.forEach(clean=>clean());observer.disconnect();simulator?.destroy();window.removeEventListener('keydown',onKey);}};
 });})();
 
 (()=>{'use strict';const M=StudioModel;
@@ -1675,7 +1765,13 @@ StudioAdmin.register('students',async ctx=>{
   const oldSelected=selected;if(!students.some(student=>student.uid===selected)&&(change.ready||!selected||change.removed.includes(selected)))selected=students[0]?.uid||null;
   renderList();if(oldSelected!==selected||!detail.querySelector('.student-account'))renderDetail();else if(change.upserts.some(student=>student.uid===selected))patchDetail();if(pendingDirectory&&change.ready){scroll.restore(directory,pendingDirectory);pendingDirectory=null;}rememberView();ctx.refresh?.();
  });if(job)setTimeout(()=>{if(ctx.isActive())resumeJob();},0);
- return{alwaysEditing:true,get editing(){return true;},setEditing(){editing=true;renderDetail();},dirty:()=>dirtyIds().length>0,discard(){edits={};baselines={};editing=true;renderList();renderDetail();},draft:()=>({selected,editing,edits,baselines,job,view:rememberView()}),viewport(){},async save(){if(deleting)throw Error('학생 삭제가 끝난 뒤 수정해 주세요.');const versionGroup=crypto.randomUUID();for(const uid of dirtyIds()){const data=edits[uid],original=baselines[uid];if(!data.profile.name.trim()||![1,2,3].includes(Number(data.profile.grade))||!/^([1-9]|1[0-2])$/.test(data.profile.classNum)||!/^([1-9]|[12][0-9]|3[0-5])$/.test(data.profile.studentNum))throw Error('학생의 학년·반·번호·이름을 확인해 주세요.');const result=await StudioAPI.call('studioSaveStudent',{uid,versionGroup,profile:data.profile,selection:data.selection,expectedProfileHash:original.profileHash,expectedRevision:original.revision});const student=students.find(s=>s.uid===uid);Object.assign(student,result);delete edits[uid];delete baselines[uid];await ctx.persist();}renderList();renderDetail();},destroy(){rememberView();stopped=true;cancelAnimationFrame(viewFrame);directoryResize.destroy();stopRoster();conversation.destroy();}};
+ return{loadVersion(snapshot){
+ if(!rosterReady)throw Error('학생 목록을 모두 불러온 뒤 다시 시도해 주세요.');
+ const nextEdits={},nextBaselines={};for(const student of students){const uid=student.uid,p=snapshot.profiles?.[uid],selection=snapshot.selections?.[uid];if(!p)continue;
+  const prior=normalized(student),next={profile:minimalProfile(p),selection:E.normalize(selection||{})};if(M.canonical(prior)===M.canonical(next))continue;
+  nextEdits[uid]=next;nextBaselines[uid]={profileHash:student.profileHash,revision:Number(student.selection?.revision||0),data:M.canonical(prior)};
+ }edits=nextEdits;baselines=nextBaselines;selected=Object.keys(edits)[0]||selected;editing=true;renderList();renderDetail();
+},alwaysEditing:true,get editing(){return true;},setEditing(){editing=true;renderDetail();},dirty:()=>dirtyIds().length>0,discard(){edits={};baselines={};editing=true;renderList();renderDetail();},draft:()=>({selected,editing,edits,baselines,job,view:rememberView()}),viewport(){},async save(){if(deleting)throw Error('학생 삭제가 끝난 뒤 수정해 주세요.');const versionGroup=crypto.randomUUID();for(const uid of dirtyIds()){const data=edits[uid],original=baselines[uid];if(!data.profile.name.trim()||![1,2,3].includes(Number(data.profile.grade))||!/^([1-9]|1[0-2])$/.test(data.profile.classNum)||!/^([1-9]|[12][0-9]|3[0-5])$/.test(data.profile.studentNum))throw Error('학생의 학년·반·번호·이름을 확인해 주세요.');const result=await StudioAPI.call('studioSaveStudent',{uid,versionGroup,profile:data.profile,selection:data.selection,expectedProfileHash:original.profileHash,expectedRevision:original.revision});const student=students.find(s=>s.uid===uid);Object.assign(student,result);delete edits[uid];delete baselines[uid];await ctx.persist();}renderList();renderDetail();},destroy(){rememberView();stopped=true;cancelAnimationFrame(viewFrame);directoryResize.destroy();stopRoster();conversation.destroy();}};
 });})();
 </script>
 <script>
