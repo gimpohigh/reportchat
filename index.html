@@ -1544,7 +1544,7 @@ async function courseScreen119(host,answer){
   if(!same(answer.sources,answer.previousSources))changed.push('.header','.accordion-inner .course-card','#profileDialog','#inquiryForm');
  }
  let active=true,phase='ready',observer=null,scheduled=false,requestId='';
- const css='body:not(.hide-version-changes) .version-changed{outline:2px solid #32cd32a6!important;outline-offset:-2px;box-shadow:inset 0 0 0 100vmax #54ff4138!important}body:not(.hide-version-deletions) .version-deleted{outline:2px solid #e13737b3!important;outline-offset:-2px;box-shadow:inset 0 0 0 100vmax #ff414133!important}.hide-version-changes .version-changed,.hide-version-deletions .version-removed-ghost{display:none!important}';
+ const css='body:not(.hide-version-changes) .version-changed{outline:2px solid #32cd32a6!important;outline-offset:-2px;box-shadow:inset 0 0 0 100vmax #54ff4138!important}body:not(.hide-version-deletions) .version-deleted{outline:2px solid #e13737b3!important;outline-offset:-2px;box-shadow:inset 0 0 0 100vmax #ff414133!important}.hide-version-deletions .version-removed-ghost{display:none!important}';
  function highlight(){scheduled=false;if(!active||phase!=='current')return;const doc=iframe.contentDocument;if(!doc)return;
   if(!doc.getElementById('history-highlights')){const style=doc.createElement('style');style.id='history-highlights';style.textContent=css;doc.head.append(style);}
   for(const cls of ['hide-version-changes','hide-version-deletions'])doc.body.classList.toggle(cls,host.classList.contains(cls));
