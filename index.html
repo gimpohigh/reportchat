@@ -255,7 +255,14 @@ body{color:var(--text-black)}
  .paper-confirm{text-align:center;margin:13mm 0 7mm;font-size:12pt}.paper-date{text-align:right;font-size:12pt;margin:0}.paper-sign{text-align:center;font-size:13pt;margin:22mm 0 0}
 }
 </style><style>.attachment119{max-width:100%;min-width:0}.chat-photo119{display:block;width:100%;max-width:280px;max-height:340px;object-fit:cover;border-radius:10px;cursor:pointer}.media-grid119,.attachments.img-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:4px;max-width:580px;margin-top:4px}.media-grid119:has(>.attachment119:only-child){display:block}.media-grid119 .chat-image-wrap{margin:0}.media-grid119 img{width:100%!important}.video-card119{position:relative;width:260px;max-width:100%;min-height:180px;background:#111;border-radius:12px;overflow:hidden}.chat-video119{width:100%;max-height:340px;display:block;min-height:180px;object-fit:contain}.video-load119{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;border:0;background:transparent;color:white;cursor:pointer}.video-load119[hidden]{display:none}.video-load119 b{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:#0009;font-size:26px}.video-load119 span{background:#0006;padding:3px 7px;border-radius:6px}.video-expand119{position:absolute;bottom:6px;right:6px;background:#0009;border:0;border-radius:7px;padding:5px 9px;color:white;cursor:pointer}.file-card119{position:relative;display:flex;flex-direction:column;text-align:left;gap:5px;width:280px;max-width:100%;padding:15px 48px 15px 14px;border:1px solid var(--border-color,#ddd);border-radius:12px;background:var(--box-bg,#fff);color:var(--text-black,#191f28);cursor:pointer;font:inherit}.file-card119 strong{overflow-wrap:anywhere}.file-card119>span{font-size:13px;color:#8b95a1}.file-card119 .file-symbol119{position:absolute;right:15px;top:21px;font-size:24px}.media-viewer119{padding:0;border:0;border-radius:0;width:100vw!important;max-width:100vw!important;height:100dvh;max-height:100dvh!important;background:#080808;color:white;overflow:hidden}.media-stage119{height:100%;width:100%;display:grid;place-items:center}.media-full119{max-width:100%;max-height:100dvh;object-fit:contain}.media-toolbar119{position:absolute;top:0;left:0;right:0;display:grid;grid-template-columns:44px minmax(0,1fr) 44px;gap:12px;align-items:center;padding:calc(10px + env(safe-area-inset-top)) 12px 18px;background:linear-gradient(#000b,transparent);transition:opacity .2s}.media-toolbar119.controls-hidden{opacity:0;pointer-events:none}.media-toolbar119 button{height:44px;background:#333b;border:0;border-radius:50%;color:white;font-size:30px;cursor:pointer}.media-meta119{display:flex;flex-direction:column;gap:4px}.media-meta119 time{font-size:13px}
-</style><link rel="preconnect" href="https://www.gstatic.com" crossorigin><link rel="preconnect" href="https://gimpo-monitoring-default-rtdb.firebaseio.com"><style>.site-confirm button.confirm-close:first-child{background:transparent;color:var(--text-light-gray,#657181)}</style></head>
+</style><link rel="preconnect" href="https://www.gstatic.com" crossorigin><link rel="preconnect" href="https://gimpo-monitoring-default-rtdb.firebaseio.com"><style>.site-confirm button.confirm-close:first-child{background:transparent;color:var(--text-light-gray,#657181)}</style><style>.preview-img-wrap video{width:100%;height:100%;display:block;object-fit:cover;border-radius:inherit}.media-toolbar119 svg,.file-symbol119 svg,.video-load119 svg{display:block;margin:auto}.media-toolbar119 svg{width:24px;height:24px}</style><style>
+.site-confirm.studio-version-dialog{padding:13px 20px 18px}.studio-version-dialog .history-heading{margin:0 0 8px}.studio-version-dialog .history-heading button{margin:0}
+:is(#studioHomeBtn,#studioChatHome,#back)[aria-disabled=true]{background:#b8c0cb!important;opacity:.78;cursor:wait}
+.conversation-actions120{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:12px 0 8px}.conversation-actions120 button{font:inherit;font-size:13px}.conversation-actions120 .studio-secondary{margin-left:auto}.conversation-actions120 button[hidden]{display:none}
+.student-chat-message .student-chat-line120{display:flex;align-items:flex-end;gap:5px;max-width:100%}.from-admin .student-chat-line120{flex-direction:row-reverse}
+.student-chat-content120{display:flex;flex-direction:column;min-width:0;gap:3px}.student-chat-meta120{display:flex;align-items:flex-end;flex:none;gap:2px;line-height:1}.from-admin .student-chat-meta120{flex-direction:row-reverse}
+.student-chat-meta120 .student-chat-time{font-size:11px;line-height:1.15;margin:0;white-space:nowrap}.student-chat-meta120 .trash120{background:transparent;border:0;color:#bf2533;padding:2px;display:grid;place-items:center;font-size:27.5px;line-height:1;border-radius:4px}.trash120[aria-pressed=true]{background:#ffe2e3;outline:2px solid #bf2533}.student-chat-content120 .student-chat-bubble{margin:0;max-width:100%}
+</style></head>
 <body>
 <section id="gate" class="gate"><div class="gate-card">
 <h1>관리자 문의 채팅</h1><p id="gateInfo">로그인 상태를 확인하고 있습니다.</p>
@@ -288,10 +295,16 @@ body{color:var(--text-black)}
 <main id="workspace" class="workspace" hidden>
 <div class="report-columns">
 <aside class="list-panel chat-list-panel" aria-label="문의 목록"><header class="panel-header"><button id="studioChatHome" class="panel-home-arrow" type="button" aria-label="관리자 홈으로 이동"><svg aria-hidden="true" focusable="false" width="20" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12 15 19"/></svg></button><h1>학생 문의 관리</h1></header><div class="panel-account-row"><div id="accountInfo" class="panel-meta"></div><div class="report-presence">실시간 접속자 수: <strong id="reportVisitorCount">연결 확인 중</strong>명</div></div><label class="search-label">문의 이름 검색<input id="roomSearch" type="search" placeholder="이름 또는 닉네임" autocomplete="off"></label><div id="roomList" class="user-list" aria-label="채팅방"></div><div id="listStatus" class="panel-meta" role="status"></div></aside>
-<section class="room-panel chat-room-panel" aria-label="문의 대화"><header class="room-header"><button id="back" class="back secondary" type="button">← 목록</button><h2 id="roomTitle">문의를 선택해 주세요</h2><div id="roomAccount" class="room-account" aria-label="문의 학생 로그인 계정"></div><button id="deleteRoom" class="danger delete-room-btn" type="button" disabled>대화방 삭제</button></header><div id="roomStatus" class="room-status" role="status"></div><div id="roomEmpty" class="room-empty empty-state">왼쪽에서 대화방을 선택해주세요.</div><div id="messageViewport" class="message-viewport" hidden><div id="messages" class="messages room-messages" role="log" aria-label="대화 내용" hidden></div><button id="messageJump" class="message-jump" type="button" hidden>새 메시지 · 아래로 이동</button></div>
-<form id="composer" class="composer room-input-container" hidden><div id="previews" class="previews preview-area" hidden></div><div class="composer-row room-input-area"><label class="attach attach-btn" title="사진·파일 첨부" aria-label="사진·파일 첨부" for="images"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></label><input id="images" type="file" multiple hidden><textarea class="room-input" id="reply" rows="1" maxlength="4000" placeholder="답변을 입력하세요" aria-label="답변"></textarea><button id="send" class="send room-send-btn" type="submit">전송</button></div><p class="hint">Enter 전송 · Shift+Enter 줄바꿈 · 사진·파일 10개, 각 5MB 이하 · 합계 10MB 이하</p><p id="sendError" class="error" role="alert"></p></form>
+<section class="room-panel chat-room-panel" aria-label="문의 대화"><header class="room-header"><button id="back" class="back secondary" type="button">← 목록</button><h2 id="roomTitle">문의를 선택해 주세요</h2><div id="roomAccount" class="room-account" aria-label="문의 학생 로그인 계정"></div><button id="deleteRoom" class="danger delete-room-btn" type="button" disabled>대화방 삭제하기</button></header><div id="roomStatus" class="room-status" role="status"></div><div id="roomEmpty" class="room-empty empty-state">왼쪽에서 대화방을 선택해주세요.</div><div id="messageViewport" class="message-viewport" hidden><div id="messages" class="messages room-messages" role="log" aria-label="대화 내용" hidden></div><button id="messageJump" class="message-jump" type="button" hidden>새 메시지 · 아래로 이동</button></div>
+<form id="composer" class="composer room-input-container" hidden><div id="previews" class="previews preview-area" hidden></div><div class="composer-row room-input-area"><label class="attach attach-btn" title="사진·파일 첨부" aria-label="사진·파일 첨부" for="images"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></label><input id="images" type="file" multiple hidden><textarea class="room-input" id="reply" rows="1" maxlength="4000" placeholder="답변을 입력하세요" aria-label="답변"></textarea><button id="send" class="send room-send-btn" type="submit">전송</button></div><p class="hint">Enter 전송 · Shift+Enter 줄바꿈 · 사진·동영상·파일 30개 · 각 128MB · 합계 512MB</p><p id="sendError" class="error" role="alert"></p></form>
 </section></div></main>
 <script>
+const StudioBusy120=(()=>{let pending=0,visible=false,timer;const selector='#studioHomeBtn,#studioChatHome,#back';
+ function paint(){document.querySelectorAll(selector).forEach(b=>b.setAttribute('aria-disabled',String(visible)));}
+ function begin(){pending++;if(pending===1){clearTimeout(timer);timer=setTimeout(()=>{visible=pending>0;paint();},180);}let ended=false;return()=>{if(ended)return;ended=true;if(--pending===0){clearTimeout(timer);visible=false;paint();}};}
+ document.addEventListener('click',e=>{const b=e.target.closest?.(selector);if(b&&(pending>0||b.getAttribute('aria-disabled')==='true')){e.preventDefault();e.stopImmediatePropagation();window.App?.toast('잠시만 기다려 주세요.');}},true);
+ return{begin,paint};})();
+</script><script>
 (function (root) {
   'use strict';
   const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
@@ -1001,6 +1014,78 @@ function create({container,button,environment={}}){
 return {create};
 });
 </script>
+<script>
+const Media120=(()=>{
+ const endpoint='https://gimpo-course-db.gimporeport0310.workers.dev/media/',MiB=1048576;
+ const hint='사진·동영상·파일은 한 번에 30개, 파일당 128MB, 합계 512MB까지 첨부할 수 있습니다.';
+ const attachments=new WeakMap(),posters=new WeakMap(),receipts=new Map(),localVideos=new Map();
+ const valid=files=>files.length<=30&&files.every(f=>f.size>0&&f.size<=128*MiB)&&files.reduce((n,f)=>n+f.size,0)<=512*MiB;
+ function icon(type='download'){
+  const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg'),p=document.createElementNS(ns,'path');
+  svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('width','1em');svg.setAttribute('height','1em');svg.setAttribute('aria-hidden','true');svg.setAttribute('fill','none');svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-width',type==='trash'?'1.9':'2.8');svg.setAttribute('stroke-linecap',type==='trash'?'square':'round');svg.setAttribute('stroke-linejoin',type==='trash'?'miter':'round');
+  p.setAttribute('d',type==='trash'?'M4 7h16M9 7V4h6v3M6 8l1 13h10l1-13M10 10v8m4-8v8':'M12 3v12m-5-5 5 5 5-5M3 16v5h18v-5');svg.append(p);return svg;
+ }
+ function type(f){const t=f.type?.toLowerCase();if(['image/jpeg','image/png','image/webp','image/gif','video/mp4','video/webm','video/quicktime'].includes(t))return t;
+  const ext=(f.name.split('.').pop()||'').toLowerCase();return ({mp4:'video/mp4',m4v:'video/mp4',mov:'video/quicktime',webm:'video/webm',jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',gif:'image/gif',webp:'image/webp'})[ext]||'application/octet-stream';
+ }
+ function poster(file){
+  if(posters.has(file))return posters.get(file);
+  const work=new Promise(resolve=>{const video=document.createElement('video'),url=URL.createObjectURL(file);let done=false;
+   const finish=v=>{if(done)return;done=true;clearTimeout(timer);video.removeAttribute('src');video.load();URL.revokeObjectURL(url);resolve(v);};
+   const capture=()=>{if(!video.videoWidth||video.readyState<2)return;try{const c=document.createElement('canvas'),ratio=Math.min(1,240/video.videoWidth,180/video.videoHeight);c.width=Math.max(1,Math.round(video.videoWidth*ratio));c.height=Math.max(1,Math.round(video.videoHeight*ratio));c.getContext('2d').drawImage(video,0,0,c.width,c.height);const value=c.toDataURL('image/jpeg',.70);finish(value.length<=24000?value:'');}catch{finish('');}};
+   const timer=setTimeout(()=>finish(''),5000);video.muted=true;video.playsInline=true;video.preload='auto';video.onloadeddata=capture;video.onseeked=capture;video.onerror=()=>finish('');video.src=url;
+  });posters.set(file,work);return work;
+ }
+ function preview(file,urls){
+  const mime=type(file);if(mime.startsWith('video/')){const v=document.createElement('video');v.className='preview-img';v.muted=true;v.playsInline=true;v.preload='auto';v.setAttribute('aria-label',file.name);const url=URL.createObjectURL(file);urls.push(url);v.src=url+'#t=0.001';poster(file).then(p=>{if(p)v.poster=p;});return v;}
+  if(mime.startsWith('image/')){const img=document.createElement('img');img.className='preview-img';const url=URL.createObjectURL(file);urls.push(url);img.src=url;img.alt=file.name;window.InquiryPreview?.bind(img);return img;}
+  const card=document.createElement('span');card.className='file-preview';card.textContent='📎 '+file.name;return card;
+ }
+ async function compressPhoto(file,mime){
+  if(file.size<3*MiB||!['image/jpeg','image/webp'].includes(mime)||typeof createImageBitmap!=='function')return file;
+  let bitmap;try{bitmap=await createImageBitmap(file);const ratio=Math.min(1,3600/Math.max(bitmap.width,bitmap.height));const c=document.createElement('canvas');c.width=Math.max(1,Math.round(bitmap.width*ratio));c.height=Math.max(1,Math.round(bitmap.height*ratio));c.getContext('2d').drawImage(bitmap,0,0,c.width,c.height);const b=await new Promise(r=>c.toBlob(r,mime,.94));return b&&b.size<file.size?b:file;}catch{return file;}finally{bitmap?.close();}
+ }
+ async function parallel(items,n,fn){const result=new Array(items.length);let index=0;await Promise.all(Array.from({length:Math.min(n,items.length)},async()=>{while(index<items.length){const i=index++;result[i]=await fn(items[i],i);}}));return result;}
+ async function http(action,args,{user,grant,body,signal,method}={}){
+  const url=new URL(action,endpoint);Object.entries(args).forEach(([k,v])=>url.searchParams.set(k,v));const headers={Authorization:grant?'Upload '+grant:'Bearer '+await user.getIdToken()};
+  const payload=body instanceof Blob?body:body===undefined?undefined:JSON.stringify(body);if(body&&!(body instanceof Blob))headers['Content-Type']='application/json';
+  let response;for(let i=0;i<3;i++){try{response=await fetch(url,{method:method||(body===undefined?'GET':'POST'),headers,body:payload,signal,credentials:'omit'});if(response.ok)return response;if(response.status<500&&response.status!==429)break;}catch(e){if(signal?.aborted||i===2)throw e;}await new Promise(r=>setTimeout(r,250*(i+1)));}
+  const detail=await response?.json().catch(()=>null);throw Error(detail?.error==='resource-exhausted'?'진행 중인 첨부 전송이 많습니다. 잠시 후 다시 보내주세요.':detail?.error==='permission-denied'?'이 첨부를 이용할 권한이 없습니다.':'첨부를 처리하지 못했습니다. 파일 형식과 연결을 확인한 뒤 다시 시도해 주세요.');
+ }
+ async function upload(room,files,key){
+  if(!files.length)return [];const user=App.auth.currentUser;if(!user||!key)throw Error('로그인 상태를 확인해주세요.');if(!valid(files))throw Error(hint);
+  return parallel(files,2,async file=>{
+   let entry=attachments.get(file);if(!entry||entry.key!==key||entry.room!==room||entry.uid!==user.uid){const mime=type(file);entry={uid:user.uid,room,key,mime,id:crypto.randomUUID(),grant:crypto.randomUUID(),data:compressPhoto(file,mime),parts:new Set()};attachments.set(file,entry);}
+   const data=await entry.data;if(App.auth.currentUser?.uid!==user.uid)throw Error('로그인 계정이 변경되었습니다.');
+   const info={id:entry.id,grant:entry.grant,messageId:key,mime:entry.mime,size:data.size,name:file.name.slice(0,120)||'첨부 파일'};
+   const start=await(await http('start',{room},{user,body:info})).json();
+   if(!start.finished){const indices=Array.from({length:Math.ceil(data.size/start.chunk)},(_,i)=>i).filter(n=>!entry.parts.has(n));
+    await parallel(indices,3,async n=>{if(App.auth.currentUser?.uid!==user.uid)throw Error('로그인 계정이 변경되었습니다.');await http('part',{id:entry.id,n},{grant:entry.grant,body:data.slice(n*start.chunk,(n+1)*start.chunk)});entry.parts.add(n);});
+    await http('finish',{id:entry.id},{grant:entry.grant,method:'POST'});}
+   const ref={mediaId:entry.id,room,name:info.name,mime:info.mime,size:info.size};if(info.mime.startsWith('video/')){const image=await poster(file);if(image)ref.poster=image;}return ref;
+  });
+ }
+ const identity=r=>r.mediaId?[r.room,r.mediaId]:(r.dbPath||'').split('/').slice(-2);
+ const cacheKey=(uid,room,id)=>new URL('/.course-video/'+encodeURIComponent(uid)+'/'+encodeURIComponent(room)+'/'+encodeURIComponent(id),location.origin).href;
+ async function prepared(r,mark=false){
+  const [room,id]=identity(r),user=App.auth?.currentUser;if(!room||!id||!user)return false;const key=cacheKey(user.uid,room,id);
+  if(!mark&&receipts.get(key)===true)return true;
+  try{const v=await(await http('receipt',{room,id},{user,method:mark?'POST':'GET'})).json();if(v.ready)receipts.set(key,true);return !!v.ready;}catch{return false;}
+ }
+ async function binary(r,signal,progress){const user=App.auth.currentUser,resp=await http('read',{room:r.room,id:r.mediaId},{user,signal}),chunks=[],reader=resp.body.getReader();let read=0;
+  try{for(;;){const v=await reader.read();if(v.done)break;read+=v.value.length;if(read>r.size)throw Error('첨부 크기가 달라졌습니다.');chunks.push(v.value);progress?.(read,r.size);}}finally{reader.releaseLock();}
+  if(read!==r.size||App.auth.currentUser?.uid!==user.uid)throw Error('첨부 전송이 완료되지 않았습니다.');return new Blob(chunks,{type:r.mime});
+ }
+ async function videoBlob(r,loader){
+  const [room,id]=identity(r),uid=App.auth.currentUser?.uid;if(!uid||!room||!id)return loader();
+  const key=cacheKey(uid,room,id);let cache;try{cache=await caches.open('course-video-1');const saved=await cache.match(key);if(saved)return saved.blob();}catch{}
+  const blob=await loader();if(uid!==App.auth.currentUser?.uid)throw Error('로그인 계정이 변경되었습니다.');
+  try{if(cache)await cache.put(key,new Response(blob,{headers:{'Content-Type':blob.type}}));}catch{}return blob;
+ }
+ return{hint,valid,icon,type,preview,upload,prepared,binary,videoBlob};
+})();
+
+</script>
 <script>(function(root){
  'use strict';
  const node=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
@@ -1015,6 +1100,7 @@ return {create};
   try{return await downloadBytes119(ref,controller.signal,progress);}finally{requests.delete(controller);signal?.removeEventListener('abort',cancel);}
  }
  async function downloadBytes119(ref,signal,progress){
+  if(ref.mediaId)return Media120.binary(ref,signal,progress);
   if(!pathOK(ref.dbPath))throw Error('첨부 경로가 올바르지 않습니다.');
   const user=App.auth.currentUser,epoch=generation;if(!user)throw Error('로그인이 필요합니다.');const key=user.uid+':'+ref.dbPath;
   if(cache.has(key))return cache.get(key);
@@ -1033,34 +1119,34 @@ return {create};
  function save(blob,name){const url=URL.createObjectURL(blob),a=node('a');a.href=url;a.download=name||'첨부 파일';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
  function open(blob,ref){
   viewer?.close();const d=node('dialog','media-viewer119'),bar=node('header','media-toolbar119'),back=node('button','','‹'),meta=node('div','media-meta119'),sender=node('strong','',ref.senderName||'보낸 사람'),time=node('time','',ref.timestamp?new Date(ref.timestamp).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'}):''),down=node('button','','↓');
-  back.type=down.type='button';back.setAttribute('aria-label','뒤로가기');down.setAttribute('aria-label','기기에 다운로드');back.onclick=()=>d.close();down.onclick=()=>save(blob,ref.name);meta.append(sender,time);bar.append(back,meta,down);
+  down.replaceChildren(Media120.icon());back.type=down.type='button';back.setAttribute('aria-label','뒤로가기');down.setAttribute('aria-label','기기에 다운로드');back.onclick=()=>d.close();down.onclick=()=>save(blob,ref.name);meta.append(sender,time);bar.append(back,meta,down);
   const url=URL.createObjectURL(blob),media=node(blob.type.startsWith('video/')?'video':'img','media-full119');media.src=url;if(media.tagName==='VIDEO'){media.controls=true;media.playsInline=true;media.muted=false;}else media.alt=ref.name||'첨부 사진';
   const stage=node('div','media-stage119');stage.append(media);stage.onclick=()=>bar.classList.toggle('controls-hidden');d.append(stage,bar);document.body.append(d);d.showModal();viewer=d;back.focus();
   d.addEventListener('close',()=>{if(media.tagName==='VIDEO'){media.pause();media.removeAttribute('src');media.load();}URL.revokeObjectURL(url);d.remove();if(viewer===d)viewer=null;},{once:true});
  }
  function install(){
-  if(!root.App||App.studioPreview||App.offline||App.media119)return;App.media119=true;const old=App.imageElement,release=App.releaseImages;
+  if(!root.App||App.studioPreview||App.offline||App.media119)return;App.media119=true;App.uploadImages=Media120.upload;const old=App.imageElement,release=App.releaseImages;
   App.auth.onAuthStateChanged(user=>{if(owner!==user?.uid){owner=user?.uid;generation++;for(const controller of requests)controller.abort();cache.clear();cacheBytes=0;inflight.clear();viewer?.close();}});
   App.releaseImages=container=>{if(!container)return;for(const n of [container,...container.querySelectorAll('.attachment119')])cleanup.get(n)?.();container.querySelectorAll('video').forEach(v=>{v.pause();v.removeAttribute('src');v.load();});for(const n of [container,...container.querySelectorAll('[data-media-url]')])if(n.dataset?.mediaUrl){URL.revokeObjectURL(n.dataset.mediaUrl);delete n.dataset.mediaUrl;}release?.(container);};
   App.imageElement=async ref=>{
-   if(!ref?.dbPath){const wrap=await old(ref),image=wrap.querySelector('img');if(image){wrap.querySelectorAll('a[download]').forEach(n=>n.remove());const fresh=image.cloneNode(true);image.replaceWith(fresh);fresh.tabIndex=0;fresh.setAttribute('role','button');fresh.setAttribute('aria-label','사진 크게 보기');const show=async()=>{try{const blob=await(await fetch(fresh.src)).blob();open(blob,ref);}catch{App.toast('사진을 불러오지 못했습니다.');}};fresh.onclick=show;fresh.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();show();}};}return wrap;}
+   if(!ref?.dbPath&&!ref?.mediaId){const wrap=await old(ref),image=wrap.querySelector('img');if(image){wrap.querySelectorAll('a[download]').forEach(n=>n.remove());const fresh=image.cloneNode(true);image.replaceWith(fresh);fresh.tabIndex=0;fresh.setAttribute('role','button');fresh.setAttribute('aria-label','사진 크게 보기');const show=async()=>{try{const blob=await(await fetch(fresh.src)).blob();open(blob,ref);}catch{App.toast('사진을 불러오지 못했습니다.');}};fresh.onclick=show;fresh.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();show();}};}return wrap;}
    const wrap=node('div','attachment119'),type=kind(ref),name=ref.name||'첨부 파일';
    if(type==='video'){
-    const video=node('video','chat-video119'),load=node('button','video-load119'),status=node('span','',ref.size?size(ref.size):'영상 받기'),icon=node('b','','↓'),expand=node('button','video-expand119','크게 보기');video.playsInline=true;video.muted=true;video.preload='none';load.type=expand.type='button';expand.hidden=true;load.setAttribute('aria-label','사이트 안에서 영상 받기');load.append(icon,status);wrap.classList.add('video-card119');wrap.append(video,load,expand);
+    const video=node('video','chat-video119'),load=node('button','video-load119'),status=node('span','',ref.size?size(ref.size):'영상 받기'),icon=node('b','','↓'),expand=node('button','video-expand119','크게 보기');icon.replaceChildren(Media120.icon());if(/^data:image\/jpeg;base64,[A-Za-z0-9+/=]{1,24000}$/.test(ref.poster||''))video.poster=ref.poster;video.playsInline=true;video.muted=true;video.preload='none';load.type=expand.type='button';expand.hidden=true;load.setAttribute('aria-label','사이트 안에서 영상 받기');load.append(icon,status);wrap.classList.add('video-card119');wrap.append(video,load,expand);
     let blob=null,controller=null;cleanup.set(wrap,()=>controller?.abort());load.onclick=async()=>{
      if(controller){controller.abort();return;}
      if(blob){if(video.paused){try{await video.play();load.hidden=true;}catch{App.toast('이 브라우저에서 영상을 재생하지 못했습니다. 크게 보기에서 다운로드할 수 있습니다.');}}else video.pause();return;}
      controller=new AbortController();icon.textContent='×';load.setAttribute('aria-label','영상 받기 취소');
-     try{blob=await downloadRecord(ref,controller.signal,(n,total)=>{status.textContent=total?Math.min(99,Math.round(n/total*100))+'%':size(n)+' 받는 중';});if(!wrap.isConnected){blob=null;return;}const url=URL.createObjectURL(blob);wrap.dataset.mediaUrl=url;video.src=url;video.preload='auto';video.load();expand.hidden=false;icon.textContent='▶';status.textContent='재생';load.setAttribute('aria-label','무음으로 재생');}
-     catch(error){blob=null;icon.textContent='↓';status.textContent=error.name==='AbortError'?'다시 받기':'받기 실패 · 재시도';load.setAttribute('aria-label','사이트 안에서 영상 받기');if(error.name!=='AbortError')App.toast(error.message);}
+     try{blob=await Media120.videoBlob(ref,()=>downloadRecord(ref,controller.signal,(n,total)=>{status.textContent=total?Math.min(99,Math.round(n/total*100))+'%':size(n)+' 받는 중';}));if(!wrap.isConnected){blob=null;return;}const url=URL.createObjectURL(blob);wrap.dataset.mediaUrl=url;video.src=url;video.preload='auto';video.load();expand.hidden=false;icon.textContent='▶';status.textContent='재생';load.setAttribute('aria-label','무음으로 재생');Media120.prepared(ref,true);}
+     catch(error){blob=null;icon.replaceChildren(Media120.icon());status.textContent=error.name==='AbortError'?'다시 받기':'받기 실패 · 재시도';load.setAttribute('aria-label','사이트 안에서 영상 받기');if(error.name!=='AbortError')App.toast(error.message);}
      finally{controller=null;}
     };
-    video.onloadedmetadata=()=>{const seconds=Number.isFinite(video.duration)?Math.max(0,Math.floor(video.duration)):0;status.textContent=Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0');};video.onended=video.onpause=()=>{load.hidden=false;};video.onclick=()=>{if(blob){video.pause();open(blob,ref);}};expand.onclick=()=>{if(blob){video.pause();open(blob,ref);}};return wrap;
+    video.onloadedmetadata=()=>{const seconds=Number.isFinite(video.duration)?Math.max(0,Math.floor(video.duration)):0;status.textContent=Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0');};video.onended=video.onpause=()=>{load.hidden=false;};video.onclick=()=>{if(blob){video.pause();open(blob,ref);}};expand.onclick=()=>{if(blob){video.pause();open(blob,ref);}};Media120.prepared(ref).then(ready=>{if(ready&&wrap.isConnected&&!blob&&!controller)load.click();});return wrap;
    }
    if(type==='file'){
-    const button=node('button','file-card119'),title=node('strong','',name),detail=node('span','',ref.size?'용량 '+size(ref.size):'파일 다운로드'),icon=node('span','file-symbol119','↓');button.type='button';button.append(title,detail,icon);button.onclick=async()=>{button.disabled=true;try{save(await downloadRecord(ref),name);}catch(error){App.toast(error.message);}finally{button.disabled=false;}};wrap.append(button);return wrap;
+    const button=node('button','file-card119'),title=node('strong','',name),detail=node('span','',ref.size?'용량 '+size(ref.size):'파일 다운로드'),icon=node('span','file-symbol119');icon.append(Media120.icon());button.type='button';button.append(title,detail,icon);button.onclick=async()=>{button.disabled=true;try{save(await downloadRecord(ref),name);}catch(error){App.toast(error.message);}finally{button.disabled=false;}};wrap.append(button);return wrap;
    }
-   try{const key=App.auth.currentUser.uid+':'+ref.dbPath;let task=inflight.get(key);if(!task){task=downloadRecord(ref).finally(()=>inflight.delete(key));inflight.set(key,task);}const blob=await task,url=URL.createObjectURL(blob),image=node('img','chat-photo119');wrap.dataset.mediaUrl=url;image.src=url;image.alt=name;image.tabIndex=0;image.setAttribute('role','button');image.setAttribute('aria-label','사진 크게 보기');image.onclick=()=>open(blob,ref);image.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open(blob,ref);}};wrap.append(image);}
+   try{const key=App.auth.currentUser.uid+':'+(ref.dbPath||ref.mediaId);let task=inflight.get(key);if(!task){task=downloadRecord(ref).finally(()=>inflight.delete(key));inflight.set(key,task);}const blob=await task,url=URL.createObjectURL(blob),image=node('img','chat-photo119');wrap.dataset.mediaUrl=url;image.src=url;image.alt=name;image.tabIndex=0;image.setAttribute('role','button');image.setAttribute('aria-label','사진 크게 보기');image.onclick=()=>open(blob,ref);image.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open(blob,ref);}};wrap.append(image);}
    catch(error){wrap.append(node('span','',error.message));}return wrap;
   };
  }
@@ -1485,10 +1571,11 @@ window.StudioSidebarResize={attach};
 (()=>{'use strict';
 const endpoint='https://script.google.com/macros/s/AKfycbzHSzopZm8oQcPGqSmteuCJKanULIptcelUfvqG9OgGlz4vD019ZgndZnYNwGZy9EcMoA/exec';
 const messages={'studio-forbidden':'이 계정 또는 기기에는 편집 권한이 없습니다. 운영자가 관리자 편집 권한을 등록해야 합니다.','studio-busy':'다른 관리자 작업이 진행 중입니다. 잠시 후 다시 시도해 주세요.','studio-conflict':'다른 기기에서 내용이 바뀌었습니다. 임시 편집 내용은 유지됩니다. 최신 내용을 확인한 뒤 다시 반영해 주세요.','studio-targets-changed':'삭제 대상이 바뀌었습니다. 목록을 새로 확인하고 삭제 범위를 다시 선택해 주세요.','studio-protected':'관리자 계정은 학생 정보 삭제·편집 대상에서 제외됩니다.','studio-confirmation':'확인 문구 또는 요청 유효 시간을 확인해 주세요.','studio-auth-403':'학생 계정 조회·삭제를 위한 Firebase Authentication 서버 권한이 필요합니다.','invalid-auth':'로그인 연결이 만료되었습니다. 다시 로그인해 주세요.','invalid-profile':'학년·반·번호·이름을 확인해 주세요.','invalid-selection':'선택 과목 형식을 확인해 주세요.'};
-async function call(action,data={}){const user=App.auth.currentUser;if(!user)throw Error('관리자 로그인이 필요합니다.');const owner=user.uid,token=await user.getIdToken();
+async function call(action,data={}){const end=StudioBusy120.begin();try{return await request(action,data);}finally{end();}}
+async function request(action,data={}){const user=App.auth.currentUser;if(!user)throw Error('관리자 로그인이 필요합니다.');const owner=user.uid,token=await user.getIdToken();
  const response=await fetch(endpoint,{method:'POST',mode:'cors',credentials:'omit',redirect:'follow',referrerPolicy:'no-referrer',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({action,idToken:token,...data}),signal:AbortSignal.timeout(90000)});
  if(!response.ok||response.type==='opaque')throw Error('관리자 서버 응답을 읽지 못했습니다. 임시 저장은 유지됩니다.');const value=await response.json();if(App.auth.currentUser?.uid!==owner)throw Error('로그인 계정이 변경되어 작업을 중단했습니다.');
- if(value.ok!==true){const error=Error(value.message||messages[value.code]||'서버 요청에 실패했습니다. 잠시 후 다시 시도해 주세요.');error.code=value.code;throw error;}if(['studioSaveStudent','studioDeleteStart','studioDeleteStep'].includes(action))invalidate();if(['studioPublish','studioRestoreVersion','studioSaveStudent','studioDeleteStart','studioDeleteStep','studioSyncDirectory'].includes(action))App.cloud?.notify(data.uid||owner,true);return value.result;
+ if(value.ok!==true){const error=Error(value.message||messages[value.code]||'서버 요청에 실패했습니다. 잠시 후 다시 시도해 주세요.');error.code=value.code;throw error;}if(['studioSaveStudent','studioDeleteStart','studioDeleteMessages'].includes(action)||action==='studioDeleteStep'&&!value.result?.processing)invalidate();if(['studioPublish','studioRestoreVersion','studioSaveStudent','studioDeleteMessages','studioDeleteStart'].includes(action)||action==='studioDeleteStep'&&value.result?.status==='complete')App.cloud?.notify(data.uid||owner,true);return value.result;
 }
 // Short, account-scoped read cache. Mutations always use the authenticated server.
 const reads=new Map(),sections=new Map();let cacheEpoch=0;
@@ -1602,7 +1689,7 @@ function chatScreen(host,answer){
  const rooms=answer.resolved||{},before=answer.previous,wrap=make('div','history-chat'),list=make('aside','chat-list-panel'),panel=make('section','chat-panel'),title=make('h3','', '문의 대화'),messages=make('div','history-messages');panel.append(title,messages);wrap.append(list,panel);host.append(wrap);let active=true,epoch=0;
  const entries=uid=>ChatOrder.sorted(Object.entries({...before?.[uid],...rooms[uid]})),roomName=uid=>{const msg=entries(uid).map(e=>e[1]).find(m=>m.role==='user');return msg?.senderName||'학생 문의';};
  function render(uid){const turn=++epoch;App.releaseImages(messages);messages.replaceChildren();title.textContent=roomName(uid);for(const [id,msg]of entries(uid)){const admin=msg.role==='admin',item=make('article','message msg-container '+(admin?'admin msg-admin-container':'msg-user-container'));item.dataset.messageId=id;item.append(make('div','sender msg-sender',admin?'개발자':msg.senderName||roomName(uid)));const row=make('div',admin?'msg-row-admin':'msg-row-user'),content=make('div','msg-content');if(msg.text)content.append(mark(make('div','bubble msg-bubble '+(admin?'msg-admin':'msg-user'),msg.text),!!before&&!same(msg,before[uid]?.[id])));
-   if(Array.isArray(msg.images)){const images=make('div','attachments img-list');content.append(mark(images,!!before&&!same(msg.images,before[uid]?.[id]?.images)));for(const image of msg.images.slice(0,10)){const holder=make('div');images.append(holder);App.imageElement({...image,senderName:msg.senderName||(msg.role==='user'?'학생':'개발자'),timestamp:msg.timestamp}).then(node=>{if(active&&turn===epoch&&holder.isConnected)holder.append(node);else{const trash=make('div');trash.append(node);App.releaseImages(trash);}}).catch(()=>{if(holder.isConnected)holder.textContent='첨부 파일을 불러오지 못했습니다.';});}}
+   if(Array.isArray(msg.images)){const images=make('div','attachments img-list');content.append(mark(images,!!before&&!same(msg.images,before[uid]?.[id]?.images)));for(const image of msg.images.slice(0,30)){const holder=make('div');images.append(holder);App.imageElement({...image,senderName:msg.senderName||(msg.role==='user'?'학생':'개발자'),timestamp:msg.timestamp}).then(node=>{if(active&&turn===epoch&&holder.isConnected)holder.append(node);else{const trash=make('div');trash.append(node);App.releaseImages(trash);}}).catch(()=>{if(holder.isConnected)holder.textContent='첨부 파일을 불러오지 못했습니다.';});}}
    if(!rooms[uid]?.[id])item.classList.add('version-deleted','version-removed-ghost');
    const time=make('div','time msg-time',msg.timestamp?new Date(msg.timestamp).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}):'');if(admin)row.append(time,content);else row.append(content,time);item.append(row);messages.append(item);
   }}
@@ -1622,7 +1709,7 @@ async function show(kind){
  const view=dialog(titles[kind]+' 버전 기록');view.body.textContent='저장된 버전을 불러오는 중입니다.';view.dialog.addEventListener('close',()=>view.dialog.remove(),{once:true});
  try{const result=await StudioAPI.call('studioVersions',{kind});if(!view.dialog.isConnected)return;view.body.replaceChildren();if(!result.versions.length)view.body.textContent='아직 저장된 버전이 없습니다.';
   for(const version of result.versions){const row=make('div','version-row'),label=make('p','',version.version+(version.current?' · 현재 버전':'')+' — '+new Date(version.at).toLocaleString('ko-KR')+'\n'+(version.summary||'수정 완료')),actions=make('div','version-actions');
-   const load=()=>StudioAPI.call('studioVersion',{kind,number:version.number});
+   let cached;const load=()=>kind==='chat'?StudioAPI.call('studioVersion',{kind,number:version.number}):(cached||=StudioAPI.call('studioVersion',{kind,number:version.number}).catch(e=>{cached=null;throw e;}));
    async function act(b,fn){b.disabled=true;try{await fn(await load());}catch(error){App.toast(error.message);}finally{b.disabled=false;}}
    const see=button('미리보기',()=>act(see,a=>preview(kind,a))),restore=button('불러오기',()=>act(restore,async a=>{if(kind==='chat'){view.dialog.close();await restoreChat(a);}else if(await StudioAdmin.restoreVersion(kind,a)){view.dialog.close();}})),download=button('기록 다운로드',()=>act(download,a=>{const url=URL.createObjectURL(new Blob([JSON.stringify(a.record,null,2)],{type:'application/json'})),link=make('a');link.href=url;link.download=kind+'-'+version.version+'.json';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);}));actions.append(see,restore,download);row.append(label,actions);view.body.append(row);
   }
@@ -1675,7 +1762,7 @@ function update(){const editing=controller?.editing===true,dirty=controller?.dir
 function persist(){if(!user||!controller?.draft)return Promise.resolve();const uid=user.uid,kind=controller.draftKey||view,data=controller.draft();const version=viewEpoch;
  persistChain=persistChain.catch(()=>{}).then(()=>StudioDrafts.save(uid,kind,data)).then(()=>{if(version===viewEpoch&&user?.uid===uid)status('임시 저장됨 · '+(controller?.dirty?.()?'수정 완료를 누르면 실제 사이트에 반영됩니다.':'반영할 변경 사항이 없습니다.'));}).catch(error=>{if(version===viewEpoch)status('임시 저장 실패: '+error.message,true);throw error;});return persistChain;
 }
-function changed(){update();persist().catch(()=>{});}
+let draftTimer120;function changed(){update();clearTimeout(draftTimer120);draftTimer120=setTimeout(()=>persist().catch(()=>{}),180);}
 async function loadDraft(kind,empty){const uid=user.uid,[snapshot,saved]=await Promise.all([StudioAPI.section(kind),StudioDrafts.load(uid,kind)]);if(user?.uid!==uid)throw Error('로그인 계정이 변경되었습니다.');const record=snapshot.val()||{revision:0,dataJSON:M.canonical(empty)},remote=M.section(kind,JSON.parse(record.dataJSON));
  if(saved&&saved.data&&saved.base){try{const data=M.section(kind,saved.data);if(saved.editing===true||M.canonical(data)!==saved.base.dataJSON)return{data,base:saved.base,editing:saved.editing===true,defaults:saved.defaults||{},remote};}catch{App.toast('이전 임시 편집 자료를 읽지 못해 게시된 내용을 불러옵니다.');}}
  return{data:remote,base:{revision:record.revision,dataJSON:M.canonical(remote)},editing:false,remote};
@@ -1690,24 +1777,24 @@ function modal(title,content,{confirmText='예',cancelText='아니요',phrase=nu
 }
 function renderViewport(){const {width,height,custom}=viewport;$('studioWidth').value=width;$('studioHeight').value=height;$('studioBreakpoint').textContent=width<=600?'휴대폰 배치 · 600px 이하':width<=1024?'태블릿 배치 · 601~1024px':'컴퓨터 배치 · 1025px 이상';$('studioResizeHint').hidden=!custom;document.querySelectorAll('[data-studio-size]').forEach(button=>button.setAttribute('aria-pressed',String(custom?button.dataset.studioSize==='custom':button.dataset.studioSize===width+','+height)));controller?.viewport?.(viewport);}
 function setViewport(value){if(!Number.isFinite(value.width)||!Number.isFinite(value.height))return;viewport={width:Math.max(240,Math.min(10000,Math.round(value.width))),height:Math.max(240,Math.min(10000,Math.round(value.height))),custom:value.custom??viewport.custom};renderViewport();}
-async function open(name){if(!user||busy)return;persist().catch(()=>{});controller?.destroy?.();controller=null;view=name;const version=++viewEpoch;$('studioHome').hidden=true;$('studioShell').hidden=true;$('workspace').hidden=true;$('studioViewportPanel').hidden=true;$('studioReload').hidden=true;
+async function open(name){if(!user)return;if(busy){App.toast('잠시만 기다려 주세요.');return;}persist().catch(()=>{});controller?.destroy?.();controller=null;view=name;const version=++viewEpoch;$('studioHome').hidden=true;$('studioShell').hidden=true;$('workspace').hidden=true;$('studioViewportPanel').hidden=true;$('studioReload').hidden=true;
  if(name==='home'){$('studioHome').hidden=false;return;}if(name==='chat'){$('workspace').hidden=false;window.dispatchEvent(new Event('resize'));return;}
  $('studioShell').hidden=false;$('studioWork').inert=false;$('studioWork').replaceChildren();$('studioTitle').textContent={course:'수강신청 편집',students:'학생 정보 편집',notices:'공지 편집'}[name];status('불러오는 중입니다.');update();
- try{const factory=factories.get(name);if(!factory)throw Error('편집 화면을 준비하지 못했습니다.');const context={root:$('studioWork'),user,make,modal,changed,refresh:update,status,loadDraft,persist,get viewport(){return viewport;},setViewport,isActive:()=>version===viewEpoch&&Boolean(user),setController:value=>{controller=value;update();}};
+ const doneLoading=StudioBusy120.begin();try{const factory=factories.get(name);if(!factory)throw Error('편집 화면을 준비하지 못했습니다.');const context={root:$('studioWork'),user,make,modal,changed,refresh:update,status,loadDraft,persist,get viewport(){return viewport;},setViewport,isActive:()=>version===viewEpoch&&Boolean(user),setController:value=>{controller=value;update();}};
   const next=await factory(context);if(version!==viewEpoch){next?.destroy?.();return;}controller=next;renderViewport();update();status(controller.alwaysEditing?'학생 정보를 바로 편집할 수 있습니다. 저장을 누르면 변경 사항이 반영됩니다.':controller.editing?'이전에 편집하던 임시 내용을 불러왔습니다. 수정 완료 전에는 실제 사이트에 반영되지 않습니다.':'수정 버튼을 눌러 편집을 시작하세요.');
- }catch(error){if(version===viewEpoch)status(error.message,true);}
+ }catch(error){if(version===viewEpoch)status(error.message,true);}finally{doneLoading();}
 }
-async function publish(){if(!controller||busy||!allowed)return;if(!controller.editing){controller.setEditing(true);changed();return;}if(!controller.dirty())return;busy=true;$('studioWork').inert=true;$('studioHomeBtn').disabled=true;update();status('변경 내용을 반영하고 있습니다.');const active=controller,version=viewEpoch;
+async function publish(){if(!controller||busy||!allowed)return;if(!controller.editing){controller.setEditing(true);changed();return;}if(!controller.dirty())return;busy=true;$('studioWork').inert=true;$('studioHomeBtn').setAttribute('aria-disabled','true');update();status('변경 내용을 반영하고 있습니다.');const active=controller,version=viewEpoch;
  try{await persistChain.catch(()=>{});await active.save();if(version!==viewEpoch)return;active.setEditing(active.alwaysEditing===true);await persist();status('수정한 내용을 실제 사이트에 반영했습니다.');}
  catch(error){if(version===viewEpoch){status(error.message,true);if(error.code==='studio-conflict')$('studioReload').hidden=false;}}
- finally{busy=false;$('studioWork').inert=false;$('studioHomeBtn').disabled=false;update();}
+ finally{busy=false;$('studioWork').inert=false;StudioBusy120.paint();update();}
 }
 async function cancelEdit(){if(!controller?.editing||busy||!allowed)return;const active=controller,version=viewEpoch;
  if(active.dirty()&&!await modal('정말로 수정을 취소하시겠습니까?','아직 반영하지 않은 수정 내용을 취소합니다.'))return;
- if(controller!==active||version!==viewEpoch)return;busy=true;$('studioWork').inert=true;$('studioHomeBtn').disabled=true;update();
+ if(controller!==active||version!==viewEpoch)return;busy=true;$('studioWork').inert=true;$('studioHomeBtn').setAttribute('aria-disabled','true');update();
  try{await persistChain.catch(()=>{});if(controller!==active||version!==viewEpoch)return;active.discard();await persist();status('수정을 취소했습니다.');}
  catch(error){if(version===viewEpoch)status('수정 취소 상태를 기기에 저장하지 못했습니다. '+error.message,true);}
- finally{busy=false;$('studioWork').inert=false;$('studioHomeBtn').disabled=false;update();}
+ finally{busy=false;$('studioWork').inert=false;StudioBusy120.paint();update();}
 }
 async function start(next){stop();user=next;const version=++epoch;$('studioAccount').textContent=next.email||'등록된 관리자 기기';$('studioAccessStatus').textContent='편집 권한을 확인하고 있습니다.';open('home');StudioStudents.start(next);
  presence=CoursePresence.start({db:App.db,uid:next.uid,serverTimestamp:firebase.database.ServerValue.TIMESTAMP,onCount:count=>{if(version===epoch)$('reportVisitorCount').textContent=count===null?'연결 확인 중':String(count);},onConnection:online=>{if(version===epoch&&!online)$('reportVisitorCount').textContent='연결 끊김';},onError:()=>{if(version===epoch)$('reportVisitorCount').textContent='조회 실패';}});
@@ -1723,7 +1810,7 @@ $('studioAddNotice').onclick=()=>controller?.add?.();$('studioDeleteNotice').onc
 $('studioReload').onclick=async()=>{if(!user||!controller)return;if(!await modal('최신 내용 불러오기','현재 임시 편집 내용은 기기에 별도로 보관하고, 실제 사이트의 최신 내용을 불러오시겠습니까?'))return;await StudioDrafts.save(user.uid,view+':conflict-backup',controller.draft());await StudioDrafts.clear(user.uid,view);open(view);};
 window.addEventListener('keydown',event=>{
  if(event.key!=='Delete'||event.repeat||event.isComposing||event.ctrlKey||event.metaKey||event.altKey||event.defaultPrevented||busy||controller?.previewing||document.querySelector('dialog[open]')||event.target.isContentEditable||event.target.closest('input,textarea,select,[contenteditable=true]')||view==='course')return;
- const buttons=[...document.querySelectorAll('button')].filter(button=>!button.disabled&&button.getClientRects().length&&/(삭제|지우기)$/.test(button.textContent.trim()));
+ const buttons=[...document.querySelectorAll('button')].filter(button=>!button.disabled&&button.getClientRects().length&&/(삭제|삭제하기)$/.test(button.textContent.trim()));
  if(buttons.length===1){event.preventDefault();buttons[0].click();}
 });
 window.addEventListener('pagehide',()=>{persist().catch(()=>{});});
@@ -1844,11 +1931,39 @@ return{beforeAt,slotOrder,attach};
 (()=>{'use strict';
 let cachedOwner=null;const rooms=new Map();
 function clear(){cachedOwner=null;rooms.clear();}
-function create({make,isActive,owner}){
+function create({make,isActive,owner,confirm}){
  if(cachedOwner!==owner){clear();cachedOwner=owner;}
  let uid=null,container=null,log=null,status=null,query=null,listener=null,epoch=0,paint=0,open=false,loaded=false,older=false,busy=false,messages=new Map(),liveKeys=new Set(),lastPosition=null;
  let historyScroll=null;
- const day=new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long',timeZone:'Asia/Seoul'}),time=new Intl.DateTimeFormat('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Asia/Seoul'});
+ let selectionMode=false,marked=new Set(),toolsBar=null,allBtn=null,selectedBtn=null,cancelBtn=null,removing=false;
+ function buttons(){
+  if(!toolsBar)return;allBtn.disabled=selectedBtn.disabled=cancelBtn.disabled=removing;
+  selectedBtn.setAttribute('aria-pressed',String(selectionMode));selectedBtn.textContent='선택된 대화 삭제하기'+(selectionMode&&marked.size?' ('+marked.size+'개)':'');
+  cancelBtn.hidden=!selectionMode;
+ }
+ function attachTools(details){
+  toolsBar=make('div','conversation-actions120');allBtn=make('button','studio-danger','모든 대화 삭제하기');selectedBtn=make('button','studio-danger','선택된 대화 삭제하기');cancelBtn=make('button','studio-secondary','취소');
+  for(const b of [allBtn,selectedBtn,cancelBtn])b.type='button';
+  allBtn.onclick=()=>erase('all');selectedBtn.onclick=()=>{if(!selectionMode){selectionMode=true;open=true;details.open=true;buttons();render();subscribe();return;}if(!marked.size)return App.toast('삭제할 대화를 선택해 주세요.');erase('selected');};
+  cancelBtn.onclick=async()=>{if(marked.size&&!await confirm('대화 선택을 취소하시겠습니까?','선택한 대화의 삭제를 취소합니다.'))return;selectionMode=false;marked.clear();buttons();render();};
+  toolsBar.append(allBtn,selectedBtn,cancelBtn);details.before(toolsBar);buttons();
+ }
+ async function erase(scope){
+  const room=uid,ids=[...marked];if(removing)return;
+  if(loaded&&!messages.size)return App.toast('삭제할 대화가 없습니다.');
+  if(!await confirm('정말로 대화를 삭제하시겠습니까?',scope==='all'?'이 학생과 나눈 모든 대화와 첨부 파일을 삭제합니다. 삭제한 대화는 복구할 수 없습니다.':'선택한 대화 '+ids.length+'개와 첨부 파일을 삭제합니다. 삭제한 대화는 복구할 수 없습니다.',{danger:true}))return;
+  if(uid!==room||!isActive())return;removing=true;buttons();
+  try{const result=await StudioAPI.call('studioDeleteMessages',{uid:room,scope,ids});if(uid!==room||!isActive())return;
+   if(scope==='all'){messages.clear();liveKeys.clear();older=false;}else ids.forEach(id=>messages.delete(id));
+   selectionMode=false;marked.clear();render();App.toast(result.deleted+'개의 대화를 삭제했습니다.');
+  }catch(e){App.toast(e.message);}finally{removing=false;buttons();}
+ }
+ function addTrash(meta,id){
+  if(!selectionMode)return;const trash=make('button','trash120');trash.type='button';trash.setAttribute('aria-label','이 대화를 삭제 대상으로 선택');trash.setAttribute('aria-pressed',String(marked.has(id)));trash.append(Media120.icon('trash'));
+  trash.onclick=()=>{if(removing)return;if(marked.has(id))marked.delete(id);else marked.add(id);trash.setAttribute('aria-pressed',String(marked.has(id)));buttons();};meta.append(trash);
+ }
+
+ const day=new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long',timeZone:'Asia/Seoul'}),time=new Intl.DateTimeFormat('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:true,timeZone:'Asia/Seoul'});
  function remember(){if(!uid||cachedOwner!==owner)return;if(historyScroll)lastPosition=historyScroll.capture()||lastPosition;rooms.set(uid,{open,loaded,older,messages:new Map(messages),liveKeys:new Set(liveKeys),position:lastPosition});}
  function stop(){epoch++;if(query)query.off('value',listener);query=null;listener=null;}
  function render({initial=false,position=null}={}){
@@ -1858,12 +1973,13 @@ function create({make,isActive,owner}){
    const ts=ChatOrder.timestamp(message),date=ts===null?'날짜 정보 없음':day.format(ts);if(date!==previous){log.append(make('div','student-chat-date',date));previous=date;}
    const row=make('article','student-chat-message '+(message.role==='admin'?'from-admin':'from-student'));row.dataset.messageId=id;
    row.append(make('strong','student-chat-sender',message.role==='admin'?'개발자':message.senderName||'학생'));
-   if(message.text)row.append(make('p','student-chat-bubble',String(message.text)));
-   if(Array.isArray(message.images))for(const image of message.images.slice(0,10)){const holder=make('div','student-chat-image');row.append(holder);App.imageElement({...image,senderName:message.senderName||(message.role==='user'?'학생':'개발자'),timestamp:message.timestamp}).then(node=>{if(version!==paint||!holder.isConnected){App.releaseImages(node);return;}holder.append(node);historyScroll.refresh();remember();}).catch(()=>{if(version===paint&&holder.isConnected){holder.textContent='사진을 불러오지 못했습니다.';historyScroll.refresh();}});}
-   const stamp=make('time','student-chat-time',ts===null?'시간 정보 없음':time.format(ts));if(ts!==null)stamp.dateTime=new Date(ts).toISOString();row.append(stamp);log.append(row);
+   const line=make('div','student-chat-line120'),content=make('div','student-chat-content120'),meta=make('div','student-chat-meta120');line.append(content,meta);row.append(line);
+   if(message.text)content.append(make('p','student-chat-bubble',String(message.text)));
+   if(Array.isArray(message.images))for(const image of message.images.slice(0,30)){const holder=make('div','student-chat-image');content.append(holder);App.imageElement({...image,senderName:message.senderName||(message.role==='user'?'학생':'개발자'),timestamp:message.timestamp}).then(node=>{if(version!==paint||!holder.isConnected){App.releaseImages(node);return;}holder.append(node);historyScroll.refresh();remember();}).catch(()=>{if(version===paint&&holder.isConnected){holder.textContent='사진을 불러오지 못했습니다.';historyScroll.refresh();}});}
+   const stamp=make('time','student-chat-time',ts===null?'시간 정보 없음':time.format(ts));if(ts!==null)stamp.dateTime=new Date(ts).toISOString();meta.append(stamp);addTrash(meta,id);log.append(row);
   }
   if(!messages.size&&loaded)log.append(make('p','studio-muted','아직 나눈 문의 대화가 없습니다.'));
-  status.textContent=loaded?'대화 '+messages.size+'개 · 보기 전용':'대화를 불러오는 중입니다.';
+  status.textContent=loaded?'대화 '+messages.size+'개':'대화를 불러오는 중입니다.';
   });if(initial&&!position)historyScroll.toBottom();else if(view)historyScroll.restore(view);remember();
  }
  function subscribe(){if(query||!uid||!open)return;const version=epoch,owner=uid;query=App.db.ref('v2/inquiries/'+uid).orderByChild('timestamp').limitToLast(100);
@@ -1877,10 +1993,10 @@ function create({make,isActive,owner}){
   const entries=Object.entries(snap.val()||{}).filter(([id])=>id!==first[0]);entries.forEach(([id,item])=>messages.set(id,item));older=entries.length===100;busy=false;render();
  }catch(error){if(version===epoch)status.textContent=App.error(error);}finally{if(version===epoch)busy=false;}}
  function attach(details,nextUid){
-  remember();if(uid!==nextUid){stop();uid=nextUid;const saved=rooms.get(uid);open=saved?.open||false;loaded=saved?.loaded||false;older=saved?.older||false;busy=false;messages=new Map(saved?.messages);liveKeys=new Set(saved?.liveKeys);lastPosition=saved?.position||null;}
+  remember();if(uid!==nextUid){stop();uid=nextUid;const saved=rooms.get(uid);open=saved?.open??true;selectionMode=false;marked.clear();loaded=saved?.loaded||false;older=saved?.older||false;busy=false;messages=new Map(saved?.messages);liveKeys=new Set(saved?.liveKeys);lastPosition=saved?.position||null;}
   historyScroll?.dispose();if(log)App.releaseImages(log);paint++;container=details;details.open=open;
   status=make('p','studio-muted','대화를 열면 학생과 개발자가 나눈 문의를 볼 수 있습니다.');status.setAttribute('role','status');
-  log=make('div','student-chat-log');log.setAttribute('role','log');log.setAttribute('aria-label','학생 문의 대화 보기');details.append(status,log);historyScroll=ChatScroll.create({container:log,button:make('button')});log.addEventListener('scroll',remember,{passive:true});
+  log=make('div','student-chat-log');log.setAttribute('role','log');log.setAttribute('aria-label','학생 문의 대화 보기');details.append(status,log);attachTools(details);historyScroll=ChatScroll.create({container:log,button:make('button')});log.addEventListener('scroll',remember,{passive:true});
   details.ontoggle=()=>{if(container!==details||open===details.open)return;open=details.open;if(open){render({position:lastPosition,initial:!loaded});subscribe();}else{remember();stop();}};if(open){render({position:lastPosition,initial:!loaded});subscribe();}
  }
  return{attach,destroy(){remember();stop();historyScroll?.dispose();historyScroll=null;paint++;if(log)App.releaseImages(log);container=null;log=null;messages.clear();}};
@@ -1995,12 +2111,12 @@ StudioAdmin.register('students',async ctx=>{
  // Removed or newly privileged accounts cannot be edited from an old local draft.
  const ids=new Set(students.map(s=>s.uid));if(result.ready&&students.length){for(const uid of Object.keys(edits))if(!ids.has(uid)){delete edits[uid];delete baselines[uid];}if(!ids.has(selected))selected=students[0]?.uid||null;}
  const {make}=ctx,wrap=make('div','studio-students'),deleteTools=make('div','student-delete-tools'),columns=make('div','student-columns'),directory=make('aside','student-directory'),detail=make('section','student-detail'),search=make('input'),list=make('div');search.type='search';search.value=navigation.query||'';search.placeholder='이름, 학년, 반, 번호, 계정 검색';search.setAttribute('aria-label','학생 검색');directory.append(search,list);columns.append(directory,detail);wrap.append(deleteTools,columns);ctx.root.append(wrap);
- for(const [scope,label]of [['all','모든 학생 정보 지우기'],['grade1','1학년 학생 정보 지우기'],['grade2','2학년 학생 정보 지우기'],['previous','작년 학생 정보 지우기']]){const button=make('button','studio-danger',label);button.type='button';button.onclick=()=>removeScope(scope).catch(error=>ctx.status(error.message,true));deleteTools.append(button);}
-  const selectDelete=make('button','studio-danger','선택된 학생 지우기'),cancelDelete=make('button','studio-secondary','취소');selectDelete.type=cancelDelete.type='button';deleteTools.append(selectDelete,cancelDelete);
-  function renderDeleteTools(){selectDelete.setAttribute('aria-pressed',String(selectionMode));selectDelete.textContent='선택된 학생 지우기'+(selectionMode&&deleteSelection.size?' ('+deleteSelection.size+'명)':'');cancelDelete.hidden=!selectionMode;}
+ for(const [scope,label]of [['all','모든 학생 정보 삭제하기'],['grade1','1학년 학생 정보 삭제하기'],['grade2','2학년 학생 정보 삭제하기'],['previous','작년 학생 정보 삭제하기']]){const button=make('button','studio-danger',label);button.type='button';button.onclick=()=>removeScope(scope).catch(error=>ctx.status(error.message,true));deleteTools.append(button);}
+  const selectDelete=make('button','studio-danger','선택된 학생 정보 삭제하기'),cancelDelete=make('button','studio-secondary','취소');selectDelete.type=cancelDelete.type='button';deleteTools.append(selectDelete,cancelDelete);
+  function renderDeleteTools(){selectDelete.setAttribute('aria-pressed',String(selectionMode));selectDelete.textContent='선택된 학생 정보 삭제하기'+(selectionMode&&deleteSelection.size?' ('+deleteSelection.size+'명)':'');cancelDelete.hidden=!selectionMode;}
   selectDelete.onclick=()=>{if(!selectionMode){selectionMode=true;renderDeleteTools();renderList();ctx.changed();return;}if(!deleteSelection.size)return App.toast('삭제할 학생을 선택해 주세요.');removeScope('selected').catch(error=>ctx.status(error.message,true));};
   cancelDelete.onclick=async()=>{if(deleteSelection.size&&!await ctx.modal('학생 선택을 취소하시겠습니까?','취소하면 삭제할 학생을 선택한 진행상황은 저장되지 않습니다.'))return;selectionMode=false;deleteSelection.clear();renderDeleteTools();renderList();ctx.changed();};renderDeleteTools();
- search.oninput=()=>{renderList();rememberView();};const conversation=StudioStudentChat.create({make,owner:ctx.user.uid,isActive:()=>!stopped&&ctx.isActive()});
+ search.oninput=()=>{renderList();rememberView();};const conversation=StudioStudentChat.create({make,confirm:ctx.modal,owner:ctx.user.uid,isActive:()=>!stopped&&ctx.isActive()});
  let viewFrame=0,pendingDirectory=rosterReady?null:navigation.directory;
  function captureDetail(){if(!detail.dataset.uid||!detail.querySelector('.student-account'))return;navigation.details[detail.dataset.uid]={position:scroll.capture(detail),opened:[...detail.querySelectorAll('details[open][data-section]')].map(node=>node.dataset.section)};}
  function rememberView(){if(!ctx.isActive())return navigation;navigation.query=search.value;navigation.selected=selected;if(!pendingDirectory)navigation.directory=scroll.capture(directory);captureDetail();StudioStudents.saveView(ctx.user.uid,navigation);return navigation;}
@@ -2036,14 +2152,14 @@ StudioAdmin.register('students',async ctx=>{
   for(const input of detail.querySelectorAll('[data-course-id]'))input.checked=data.selection.courses.includes(input.dataset.courseId);
   detail.querySelector('.student-selection-summary').textContent='선택한 교과 총 '+E.analyze(data.selection).totals.total+'학점';scroll.restore(detail,position);
  }
- function renderDetail(){captureDetail();const view=navigation.details[selected]||{opened:[],position:{top:0,left:0,anchors:[]}},open=view.opened||[];detail.dataset.uid=selected||'';detail.replaceChildren();const student=current();if(!student){detail.append(make('p','studio-muted','왼쪽에서 학생을 선택해 주세요.'));return;}const data=value(),account=make('div','student-account');account.append(make('strong','',label(student)),make('p','','접속 계정: '+(student.email||'정보 없음')),make('p','','로그인 방식: '+(student.providers.map(p=>p==='password'?'이메일·비밀번호':p==='google.com'?'Google':p).join(', ')||'기존 DB 정보')),make('p','','계정 생성: '+(student.createdAt?new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Seoul'}).format(new Date(student.createdAt)):'생성 날짜 확인 불가')));account.dataset.viewKey='account';const deleteOne=make('button','studio-danger student-delete-one','해당 학생 정보 지우기');deleteOne.type='button';deleteOne.onclick=()=>removeScope('student',student.uid).catch(error=>ctx.status(error.message,true));account.append(deleteOne);detail.append(account);
+ function renderDetail(){captureDetail();const view=navigation.details[selected]||{opened:[],position:{top:0,left:0,anchors:[]}},open=view.opened||[];detail.dataset.uid=selected||'';detail.replaceChildren();const student=current();if(!student){detail.append(make('p','studio-muted','왼쪽에서 학생을 선택해 주세요.'));return;}const data=value(),account=make('div','student-account');account.append(make('strong','',label(student)),make('p','','접속 계정: '+(student.email||'정보 없음')),make('p','','로그인 방식: '+(student.providers.map(p=>p==='password'?'이메일·비밀번호':p==='google.com'?'Google':p).join(', ')||'기존 DB 정보')),make('p','','계정 생성: '+(student.createdAt?new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Seoul'}).format(new Date(student.createdAt)):'생성 날짜 확인 불가')));account.dataset.viewKey='account';const deleteOne=make('button','studio-danger student-delete-one','해당 학생 정보 삭제하기');deleteOne.type='button';deleteOne.onclick=()=>removeScope('student',student.uid).catch(error=>ctx.status(error.message,true));account.append(deleteOne);detail.append(account);
   const profile=make('div','student-profile-fields');profile.dataset.viewKey='profile';for(const [key,text,min,max]of [['grade','학년',1,3],['classNum','반',1,12],['studentNum','번호',1,35],['name','이름']]){const row=make('label','',text),input=make('input');input.type=key==='name'?'text':'number';input.value=data.profile[key];input.disabled=!editing||deleting;if(min){input.min=min;input.max=max;}else input.maxLength=40;input.dataset.profileField=key;input.setAttribute('aria-label','학생 '+text);input.oninput=()=>{ensure().profile[key]=key==='grade'?Number(input.value):input.value;changed();};row.append(input);profile.append(row);}detail.append(profile);const chat=make('details','student-conversation');chat.dataset.section='conversation';chat.dataset.viewKey='conversation';chat.append(make('summary','','문의 대화 보기'));detail.append(chat);conversation.attach(chat,student.uid);
   const track=make('label','studio-notice-policy','과학 중점 과정'),check=make('input');check.type='checkbox';check.checked=data.selection.sciTrack;check.disabled=!editing||deleting;check.onchange=()=>{const next=E.toggleTrack(value().selection);if(!next.ok){App.toast(next.reason);check.checked=!check.checked;return;}ensure().selection=next.state;if(next.reason)App.toast(next.reason);changed();renderDetail();};track.dataset.viewKey='track';track.prepend(check);detail.append(track);
   const analysis=E.analyze(data.selection),summary=make('p','student-selection-summary','선택한 교과 총 '+analysis.totals.total+'학점');summary.dataset.viewKey='selection-summary';detail.append(summary);
   for(const semester of E.semesters){const sem=typeof semester==='string'?semester:semester.key;const box=make('details','student-semester');box.dataset.sem=sem;box.dataset.section=sem;box.open=open.includes(sem);const heading=make('summary','',sem.replace('-','학년 ')+'학기');heading.dataset.viewKey='semester:'+sem;box.append(heading);const grid=make('div','student-course-grid');for(const course of E.courses.filter(c=>c.sem===sem)){const row=make('label','student-course'),input=make('input'),description=make('span'),isSelected=data.selection.courses.includes(course.id);input.type='checkbox';input.checked=isSelected;input.disabled=!editing||deleting;row.dataset.viewKey='course:'+course.id;input.dataset.courseId=course.id;input.setAttribute('aria-label',sem+' '+course.name);input.onchange=()=>{const next=E.canToggle(value().selection,course.id);if(!next.ok){input.checked=value().selection.courses.includes(course.id);App.toast(next.reason);return;}ensure().selection=next.state;changed();renderDetail();};description.append(make('b','',course.name),make('small','',course.cat+' · '+course.type+' · '+course.grade));row.append(input,description,make('em','',course.cred+'학점'));grid.append(row);}box.append(grid);detail.append(box);}
   scroll.restore(detail,view.position);
  }
- function lock(value){deleting=value;deleteTools.querySelectorAll('button').forEach(button=>button.disabled=value);detail.inert=value;list.querySelectorAll('.student-delete-check').forEach(check=>check.disabled=value);}
+ let endDeleteWait120=null;function lock(value){if(value&&!endDeleteWait120)endDeleteWait120=StudioBusy120.begin();if(!value&&endDeleteWait120){endDeleteWait120();endDeleteWait120=null;}deleting=value;deleteTools.querySelectorAll('button').forEach(button=>button.disabled=value);detail.inert=value;list.querySelectorAll('.student-delete-check').forEach(check=>check.disabled=value);}
   async function removeScope(scope,targetUid){if(deleting)return;lock(true);
   try{
    const target=students.find(s=>s.uid===targetUid),label=scope==='student'?(target?.profile?.name||target?.email||targetUid):{all:'모든 학생',grade1:'1학년 학생',grade2:'2학년 학생',previous:'작년에 생성된 학생 계정',selected:'선택한 학생'}[scope];
@@ -2056,7 +2172,7 @@ StudioAdmin.register('students',async ctx=>{
    job=await StudioAPI.call('studioDeleteStart',{planId:preview.planId,confirmation});ctx.changed();await resumeJob();
   }finally{lock(false);}
  }
- async function resumeJob(){if(!job||job.status==='complete'||stopped)return;lock(true);try{while(!stopped&&job.status!=='complete'){ctx.status(`학생 정보 삭제 중: ${job.deleted} / ${job.total}명`);job=await StudioAPI.call('studioDeleteStep',{jobId:job.jobId});ctx.changed();if(job.status==='retry'||job.status==='blocked'){ctx.status((job.status==='blocked'?'삭제 권한 또는 보호 계정을 확인해야 합니다. ':'남은 삭제 작업은 보관되어 재시도할 수 있습니다. ')+(job.errorMessage||job.error||'서버 오류')+' · '+job.deleted+' / '+job.total+'명 완료',true);return;}}
+ async function resumeJob(){if(!job||job.status==='complete'||stopped)return;lock(true);try{while(!stopped&&job.status!=='complete'){ctx.status(`학생 정보 삭제 중: ${job.deleted} / ${job.total}명`);job=await StudioAPI.call('studioDeleteStep',{jobId:job.jobId});if(job.processing)await new Promise(resolve=>setTimeout(resolve,job.retryAfterMs||1500));ctx.changed();if(job.status==='retry'||job.status==='blocked'){ctx.status((job.status==='blocked'?'삭제 권한 또는 보호 계정을 확인해야 합니다. ':'남은 삭제 작업은 보관되어 재시도할 수 있습니다. ')+(job.errorMessage||job.error||'서버 오류')+' · '+job.deleted+' / '+job.total+'명 완료',true);return;}}
    if(!stopped){const next=StudioStudents.snapshot();students=next.students;const remaining=new Set(students.map(s=>s.uid));for(const uid of Object.keys(edits))if(!remaining.has(uid)){delete edits[uid];delete baselines[uid];}if(!remaining.has(selected))selected=students[0]?.uid||null;const count=job.deleted;job=null;selectionMode=false;deleteSelection.clear();renderDeleteTools();ctx.changed();renderList();renderDetail();ctx.status(count+'명의 계정과 학생 정보를 삭제했습니다.');}
   }catch(error){ctx.status('삭제 진행 상황을 확인하지 못했습니다. 서버의 남은 작업은 유지됩니다. '+error.message,true);}finally{lock(false);}
  }
@@ -2096,13 +2212,13 @@ function releaseImages(){if(sdk?.releaseImages)sdk.releaseImages($('messages'));
 function clearPreview(){previewUrls.forEach(url=>URL.revokeObjectURL(url));previewUrls=[];files=[];$('images').value='';$('previews').replaceChildren();$('previews').hidden=true;}
 function stopRoom(){globalThis.InquiryPreview?.close();roomEpoch++;renderEpoch++;if(contactRef)contactRef.off();contactRef=null;if(messageQuery)messageQuery.off();messageQuery=null;chatScroll.reset();roomLoaded=false;messages.clear();liveKeys.clear();releaseImages();$('messages').replaceChildren();currentUid=null;hasOlder=false;loadingOlder=false;pending=null;clearPreview();$('reply').value='';$('messages').hidden=true;$('messageViewport').hidden=true;$('composer').hidden=true;$('roomEmpty').hidden=false;$('deleteRoom').disabled=true;$('roomTitle').textContent='문의를 선택해 주세요';$('roomAccount').textContent='';$('roomStatus').textContent='';$('sendError').textContent='';$('workspace').classList.remove('room-open');}
 function stopAll(){window.StudioAdmin?.stop();stopRoom();if(roleRef)roleRef.off();roleRef=null;fullAdmin=false;if(roomRef)roomRef.off();if(connectionRef)connectionRef.off();roomRef=null;connectionRef=null;rooms={};liveRoomKeys.clear();moreRooms=false;loadingRooms=false;$('roomList').replaceChildren();}
-function setBusy(){const locked=sending||deleting,attach=canAttachImages();$('send').disabled=locked;$('send').textContent=sending?'전송 중…':'전송';$('reply').readOnly=deleting;$('images').disabled=locked||!attach;$('deleteRoom').disabled=locked||!currentUid||!fullAdmin;document.querySelector('.attach').setAttribute('aria-disabled',String(locked||!attach));document.querySelector('.attach').style.opacity=attach?'':'0.45';document.querySelector('.attach').style.pointerEvents=locked||!attach?'none':'';}
+let endChatWait120=null;function setBusy(){if((sending||deleting)&&!endChatWait120)endChatWait120=StudioBusy120.begin();if(!sending&&!deleting&&endChatWait120){endChatWait120();endChatWait120=null;}const locked=sending||deleting,attach=canAttachImages();$('send').disabled=locked;$('send').textContent=sending?'전송 중…':'전송';$('reply').readOnly=deleting;$('images').disabled=locked||!attach;$('deleteRoom').disabled=locked||!currentUid||!fullAdmin;document.querySelector('.attach').setAttribute('aria-disabled',String(locked||!attach));document.querySelector('.attach').style.opacity=attach?'':'0.45';document.querySelector('.attach').style.pointerEvents=locked||!attach?'none':'';}
 function studentDisplayName(name){const value=String(name||'익명 문의');return /^\d{1,2}반\s+\d{1,2}번\s+/.test(value)?'1학년 '+value:value;}
 function canAttachImages(){return Boolean(sdk?.canAttachImages?.()??fullAdmin);}
 function renderRooms(){const term=$('roomSearch').value.trim().toLocaleLowerCase('ko');const list=Object.entries(rooms).filter(([,room])=>room&&room.deleted!==true&&String(room.name||'익명 문의').toLocaleLowerCase('ko').includes(term)).sort((a,b)=>(Number(b[1].updatedAt)||0)-(Number(a[1].updatedAt)||0));const fragment=document.createDocumentFragment();list.forEach(([uid,room])=>{const button=textNode('button','user-item'+(uid===currentUid?' active':''),'');button.type='button';button.append(textNode('span','user-name',room.name||'익명 문의'),textNode('span','user-preview',room.lastText||({image:'(사진)',video:'(동영상)',file:'(파일)'}[room.lastMediaType]||'(새 문의)')));button.addEventListener('click',()=>openRoom(uid));fragment.append(button);});if(!list.length)fragment.append(textNode('p','list-empty',term?'불러온 문의 중 검색 결과가 없습니다.':'아직 접수된 문의가 없습니다.'));if(moreRooms){const button=textNode('button','user-item',loadingRooms?'불러오는 중…':'이전 문의 더 불러오기');button.type='button';button.disabled=loadingRooms;button.addEventListener('click',loadOlderRooms);fragment.append(button);}$('roomList').replaceChildren(fragment);}
 async function loadOlderRooms(){if(loadingRooms||!moreRooms)return;const entries=Object.entries(rooms).sort((a,b)=>(Number(a[1].updatedAt)||0)-(Number(b[1].updatedAt)||0)||a[0].localeCompare(b[0])),oldest=entries[0],epoch=authEpoch;if(!oldest)return;loadingRooms=true;renderRooms();try{const snapshot=await sdk.db.ref('v2/rooms').orderByChild('updatedAt').endAt(Number(oldest[1].updatedAt)||0,oldest[0]).limitToLast(201).once('value');if(epoch!==authEpoch)return;const items=Object.entries(snapshot.val()||{}).filter(([uid])=>uid!==oldest[0]);items.forEach(([uid,room])=>rooms[uid]=room);moreRooms=items.length===200;}catch(error){if(epoch===authEpoch)$('listStatus').textContent=friendly(error);}finally{if(epoch===authEpoch){loadingRooms=false;renderRooms();}}}
 function formatDate(ts){return new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'}).format(new Date(ts));}
-function formatTime(ts){return new Intl.DateTimeFormat('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(ts));}
+function formatTime(ts){return new Intl.DateTimeFormat('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:true}).format(new Date(ts));}
 function dateSeparator(label){
  const node=textNode('div','date date-separator',''),ns='http://www.w3.org/2000/svg',icon=document.createElementNS(ns,'svg');
  icon.setAttribute('viewBox','0 0 24 24');icon.setAttribute('aria-hidden','true');
@@ -2125,7 +2241,7 @@ function renderMessages(options={}){
   if(typeof msg.text==='string'&&msg.text)content.append(textNode('div','bubble msg-bubble '+(admin?'msg-admin':'msg-user'),msg.text));
   if(Array.isArray(msg.images)){
    const images=document.createElement('div');images.className='attachments img-list';content.append(images);
-   msg.images.slice(0,10).forEach(image=>{const holder=document.createElement('div');images.append(holder);sdk.imageElement({...image,senderName:msg.senderName,timestamp:msg.timestamp}).then(node=>{if(epoch===renderEpoch&&holder.isConnected)chatScroll.update(()=>holder.append(node));else if(sdk.releaseImages){const detached=document.createElement('div');detached.append(node);sdk.releaseImages(detached);}}).catch(()=>{if(epoch===renderEpoch&&holder.isConnected)chatScroll.update(()=>{holder.textContent='이미지를 불러오지 못했습니다.';});});});
+   msg.images.slice(0,30).forEach(image=>{const holder=document.createElement('div');images.append(holder);sdk.imageElement({...image,senderName:msg.senderName,timestamp:msg.timestamp}).then(node=>{if(epoch===renderEpoch&&holder.isConnected)chatScroll.update(()=>holder.append(node));else if(sdk.releaseImages){const detached=document.createElement('div');detached.append(node);sdk.releaseImages(detached);}}).catch(()=>{if(epoch===renderEpoch&&holder.isConnected)chatScroll.update(()=>{holder.textContent='이미지를 불러오지 못했습니다.';});});});
   }
   const time=textNode('div','time msg-time',ts?formatTime(ts):'전송 확인 중');
   if(admin)row.append(time,content);else row.append(content,time);
@@ -2145,12 +2261,12 @@ function watchRoomContact(uid,epoch){
 }
 function openRoom(uid){if(uid===currentUid){$('workspace').classList.add('room-open');chatScroll.refresh();return;}stopRoom();currentUid=uid;const epoch=roomEpoch;$('workspace').classList.add('room-open');$('roomTitle').textContent=rooms[uid]?.name||'익명 문의';$('roomEmpty').hidden=true;$('messages').hidden=false;$('messageViewport').hidden=false;$('composer').hidden=false;$('roomStatus').textContent='대화를 불러오는 중입니다.';watchRoomContact(uid,epoch);setBusy();renderRooms();messageQuery=sdk.db.ref('v2/inquiries/'+uid).orderByChild('timestamp').limitToLast(100);messageQuery.on('value',snap=>{if(epoch!==roomEpoch||uid!==currentUid)return;const data=snap.val()||{},newKeys=Object.keys(data).sort(),initial=!roomLoaded,incomingIds=initial?[]:newKeys.filter(key=>!messages.has(key)&&data[key]?.role==='user');const min=ChatOrder.sorted(Object.entries(data))[0];liveKeys.forEach(key=>{if(!Object.hasOwn(data,key)&&(!min||ChatOrder.compare([key,messages.get(key)],min)>=0))messages.delete(key);});Object.entries(data).forEach(([key,value])=>messages.set(key,value));liveKeys=new Set(newKeys);hasOlder=newKeys.length===100&&messages.size<=100?true:hasOlder;$('roomStatus').textContent='최근 대화 '+messages.size+'개';renderMessages({initial,incomingIds});roomLoaded=true;},error=>{if(epoch===roomEpoch)$('roomStatus').textContent=friendly(error);});}
 async function loadOlder(){if(!currentUid||loadingOlder||!messages.size)return;const uid=currentUid,epoch=roomEpoch,oldest=ChatOrder.sorted(messages.entries())[0];loadingOlder=true;renderMessages();try{const snap=await sdk.db.ref('v2/inquiries/'+uid).orderByChild('timestamp').endAt(ChatOrder.timestamp(oldest[1]),oldest[0]).limitToLast(101).once('value');if(epoch!==roomEpoch)return;const entries=Object.entries(snap.val()||{}).filter(([id])=>id!==oldest[0]);entries.forEach(([id,msg])=>messages.set(id,msg));hasOlder=entries.length===100;}catch(error){if(epoch===roomEpoch)$('roomStatus').textContent=friendly(error);}finally{if(epoch===roomEpoch){loadingOlder=false;renderMessages();}}}
-function renderPreview(){previewUrls.forEach(url=>URL.revokeObjectURL(url));previewUrls=[];$('previews').replaceChildren();$('previews').hidden=!files.length;files.forEach((file,index)=>{const wrap=document.createElement('div');wrap.className='preview preview-img-wrap';if(['image/jpeg','image/png','image/webp'].includes(file.type)){const img=document.createElement('img'),url=URL.createObjectURL(file);previewUrls.push(url);img.src=url;img.alt=file.name;globalThis.InquiryPreview?.bind(img);wrap.append(img);}else wrap.append(textNode('span','file-preview','📎 '+file.name));const remove=textNode('button','preview-del','×');remove.type='button';remove.setAttribute('aria-label',file.name+' 첨부 취소');remove.disabled=sending;remove.addEventListener('click',()=>{if(sending)return;files.splice(index,1);pending=null;renderPreview();});wrap.append(remove);$('previews').append(wrap);});}
-$('images').addEventListener('change',event=>{if(sending||!canAttachImages())return;const additions=Array.from(event.target.files||[]);event.target.value='';const next=[...files,...additions];if(next.length>10||next.some(f=>f.size<=0||f.size>5*1024*1024)||next.reduce((n,f)=>n+f.size,0)>10*1024*1024){$('sendError').textContent='사진·파일은 한 번에 10개, 각 5MB 이하, 합계 10MB 이하로 선택해주세요.';return;}files=next;pending=null;$('sendError').textContent='';renderPreview();$('reply').focus();});
+function renderPreview(){previewUrls.forEach(url=>URL.revokeObjectURL(url));previewUrls=[];$('previews').replaceChildren();$('previews').hidden=!files.length;files.forEach((file,index)=>{const wrap=document.createElement('div');wrap.className='preview preview-img-wrap';wrap.append(Media120.preview(file,previewUrls));const remove=textNode('button','preview-del','×');remove.type='button';remove.setAttribute('aria-label',file.name+' 첨부 취소');remove.disabled=sending;remove.addEventListener('click',()=>{if(sending)return;files.splice(index,1);pending=null;renderPreview();});wrap.append(remove);$('previews').append(wrap);});}
+$('images').addEventListener('change',event=>{if(sending||!canAttachImages())return;const additions=Array.from(event.target.files||[]);event.target.value='';const next=[...files,...additions];if(!Media120.valid(next)){$('sendError').textContent=Media120.hint;return;}files=next;pending=null;$('sendError').textContent='';renderPreview();$('reply').focus();});
 $('reply').addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing){event.preventDefault();$('composer').requestSubmit();}});
 async function persistReply(ref,payload,request){await InquiryTransport.call('inquirySend',{uid:request.uid,messageId:request.key,payload});}
-$('composer').addEventListener('submit',async event=>{event.preventDefault();if(sending||deleting||!currentUid)return;const text=$('reply').value.trim(),uid=currentUid,epoch=authEpoch,room=roomEpoch,chosen=[...files];if(!text&&!chosen.length)return;sending=true;setBusy();renderPreview();$('sendError').textContent='';try{if(!pending||pending.uid!==uid||pending.text!==text||pending.files.length!==chosen.length||pending.files.some((f,i)=>f!==chosen[i]))pending={uid,text,files:chosen,key:sdk.db.ref('v2/inquiries/'+uid).push().key,images:null};const request=pending;chatScroll.prepareOwnSend?.(request.key);if(!request.images)request.images=await sdk.uploadImages(uid,chosen);if(epoch!==authEpoch)throw new Error('로그인 계정이 변경되어 전송을 중단했습니다.');const payload={role:'admin',senderName:'개발자',text,timestamp:firebase.database.ServerValue.TIMESTAMP};if(request.images.length)payload.images=request.images;await persistReply(sdk.db.ref('v2/inquiries/'+uid+'/'+request.key),payload,request);if(currentUid===uid&&roomEpoch===room){if($('reply').value.trim()===text)$('reply').value='';clearPreview();pending=null;$('sendError').textContent='';sdk.toast('답변을 전송했습니다.');}}catch(error){chatScroll.cancelOwnSend?.(pending?.key);if(currentUid===uid&&roomEpoch===room)$('sendError').textContent=friendly(error);}finally{sending=false;setBusy();renderPreview();}});
-$('deleteRoom').addEventListener('click',async()=>{if(!fullAdmin||!currentUid||sending||deleting)return;const uid=currentUid,name=rooms[uid]?.name||'이 문의';if(!await SiteConfirm(name+'의 대화와 첨부 이미지를 삭제할까요? 이 작업은 되돌릴 수 없습니다.'))return;deleting=true;setBusy();try{await sdk.functions.httpsCallable('deleteInquiry')({uid});if(currentUid===uid)stopRoom();sdk.toast('대화를 삭제했습니다.');}catch(error){$('roomStatus').textContent=friendly(error);}finally{deleting=false;setBusy();}});
+$('composer').addEventListener('submit',async event=>{event.preventDefault();if(sending||deleting||!currentUid)return;const text=$('reply').value.trim(),uid=currentUid,epoch=authEpoch,room=roomEpoch,chosen=[...files];if(!text&&!chosen.length)return;sending=true;setBusy();renderPreview();$('sendError').textContent='';try{if(!pending||pending.uid!==uid||pending.text!==text||pending.files.length!==chosen.length||pending.files.some((f,i)=>f!==chosen[i]))pending={uid,text,files:chosen,key:sdk.db.ref('v2/inquiries/'+uid).push().key,images:null};const request=pending;chatScroll.prepareOwnSend?.(request.key);if(!request.images)request.images=await sdk.uploadImages(uid,chosen,request.key);if(epoch!==authEpoch)throw new Error('로그인 계정이 변경되어 전송을 중단했습니다.');const payload={role:'admin',senderName:'개발자',text,timestamp:firebase.database.ServerValue.TIMESTAMP};if(request.images.length)payload.images=request.images;await persistReply(sdk.db.ref('v2/inquiries/'+uid+'/'+request.key),payload,request);if(currentUid===uid&&roomEpoch===room){if($('reply').value.trim()===text)$('reply').value='';clearPreview();pending=null;$('sendError').textContent='';sdk.toast('답변을 전송했습니다.');}}catch(error){chatScroll.cancelOwnSend?.(pending?.key);if(currentUid===uid&&roomEpoch===room)$('sendError').textContent=friendly(error);}finally{sending=false;setBusy();renderPreview();}});
+$('deleteRoom').addEventListener('click',async()=>{if(!fullAdmin||!currentUid||sending||deleting)return;const uid=currentUid,name=rooms[uid]?.name||'이 문의';if(!await SiteConfirm(name+'의 대화와 첨부 이미지를 삭제할까요? 이 작업은 되돌릴 수 없습니다.'))return;deleting=true;setBusy();try{await InquiryTransport.call('inquiryDeleteRoom120',{uid,scope:'all'});if(currentUid===uid)stopRoom();sdk.toast('대화를 삭제했습니다.');}catch(error){$('roomStatus').textContent=friendly(error);}finally{deleting=false;setBusy();}});
 $('back').addEventListener('click',()=>$('workspace').classList.remove('room-open'));
 $('roomSearch').addEventListener('input',renderRooms);
 async function login(action){$('loginError').textContent='';const buttons=$('gate').querySelectorAll('button');buttons.forEach(b=>b.disabled=true);try{await action();$('password').value='';}catch(error){$('loginError').textContent=friendly(error);}finally{buttons.forEach(b=>b.disabled=false);}}
@@ -2170,15 +2286,15 @@ async function authChanged(user){
   if(epoch!==authEpoch)return;
   if(!fullAdmin&&permission.val()!==true){$('gateInfo').textContent=user.isAnonymous?'관리자 권한이 등록된 계정으로 로그인해 주세요.':'이 계정에는 문의 관리 권한이 없습니다. 기존 관리자 계정으로 로그인해 주세요.';$('loginForm').hidden=!user.isAnonymous;$('googleLogin').hidden=!user.isAnonymous;$('gateLogout').hidden=user.isAnonymous;return;}
   $('deleteRoom').hidden=!fullAdmin;
-  document.querySelector('.composer .hint').textContent=canAttachImages()?'Enter 전송 · Shift+Enter 줄바꿈 · 사진·파일 10개, 각 5MB 이하 · 합계 10MB 이하':'Enter 전송 · Shift+Enter 줄바꿈';
+  document.querySelector('.composer .hint').textContent=canAttachImages()?'Enter 전송 · Shift+Enter 줄바꿈 · 사진·동영상·파일 30개 · 각 128MB · 합계 512MB':'Enter 전송 · Shift+Enter 줄바꿈';
   $('gate').hidden=true;StudioAdmin.start(user);$('accountInfo').textContent=user.email||'관리자';$('listStatus').textContent='문의 목록을 불러오는 중입니다.';
   if(!fullAdmin){
    roleRef=sdk.db.ref(rolePath);
    roleRef.on('value',snapshot=>{if(epoch===authEpoch&&snapshot.val()!==true)authChanged(user);},()=>{if(epoch===authEpoch)authChanged(user);});
   }
-  // Firebase streams changed children into its local cache. Listing the inquiry tree
+  function legacyRooms(){  // Firebase streams changed children into its local cache. Listing the inquiry tree
   // discovers new rooms immediately while Functions is unavailable.
-  roomRef=sdk.db.ref('v2/inquiries');
+  if(roomRef)roomRef.off();roomRef=sdk.db.ref('v2/inquiries');
   roomRef.on('value',snap=>{
    if(epoch!==authEpoch)return;
    const nextRooms={};
@@ -2199,6 +2315,12 @@ async function authChanged(user){
    renderRooms();
    $('listStatus').textContent='문의 '+Object.keys(rooms).length+'개 · 실시간 갱신 중';
   },error=>{if(epoch===authEpoch)$('listStatus').textContent=friendly(error);});
+  }
+  roomRef=sdk.db.ref('v2/rooms').orderByChild('updatedAt').limitToLast(200);
+  roomRef.on('value',snap=>{if(epoch!==authEpoch)return;const visible=snap.val()||{},keys=new Set(Object.keys(visible));for(const k of liveRoomKeys)if(!keys.has(k))delete rooms[k];
+   liveRoomKeys=keys;Object.assign(rooms,visible);moreRooms=keys.size===200;
+   if(currentUid&&rooms[currentUid])$('roomTitle').textContent=rooms[currentUid].name;if(currentUid&&!rooms[currentUid])stopRoom();renderRooms();$('listStatus').textContent='문의 '+Object.keys(rooms).length+'개 · 실시간 갱신 중';
+  },()=>{if(epoch===authEpoch)legacyRooms();});
   connectionRef=sdk.db.ref('.info/connected');connectionRef.on('value',snap=>{if(epoch!==authEpoch)return;$('listStatus').textContent=snap.val()?'서버 연결됨 · 최근 문의를 실시간으로 확인합니다.':'서버 연결이 끊겼습니다. 연결이 복구되면 자동 갱신됩니다.';});
  }catch(error){if(epoch===authEpoch){$('loginError').textContent=friendly(error);$('gateLogout').hidden=user.isAnonymous;if(user.isAnonymous){$('gateInfo').textContent='관리자 권한이 등록된 계정으로 로그인해 주세요.';$('loginForm').hidden=false;$('googleLogin').hidden=false;}}}
 }
