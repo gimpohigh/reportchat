@@ -1042,8 +1042,9 @@ const Media120=(()=>{
   const card=document.createElement('span');card.className='file-preview';card.textContent='📎 '+file.name;return card;
  }
  async function compressPhoto(file,mime){
-  if(file.size<3*MiB||!['image/jpeg','image/webp'].includes(mime)||typeof createImageBitmap!=='function')return file;
-  let bitmap;try{bitmap=await createImageBitmap(file);const ratio=Math.min(1,3600/Math.max(bitmap.width,bitmap.height));const c=document.createElement('canvas');c.width=Math.max(1,Math.round(bitmap.width*ratio));c.height=Math.max(1,Math.round(bitmap.height*ratio));c.getContext('2d').drawImage(bitmap,0,0,c.width,c.height);const b=await new Promise(r=>c.toBlob(r,mime,.94));return b&&b.size<file.size?b:file;}catch{return file;}finally{bitmap?.close();}
+  if(file.size<3*MiB||!['image/jpeg','image/png','image/webp'].includes(mime)||typeof createImageBitmap!=='function')return file;
+  let bitmap;try{bitmap=await createImageBitmap(file);const ratio=Math.min(1,3600/Math.max(bitmap.width,bitmap.height));const c=document.createElement('canvas');c.width=Math.max(1,Math.round(bitmap.width*ratio));c.height=Math.max(1,Math.round(bitmap.height*ratio));c.getContext('2d').drawImage(bitmap,0,0,c.width,c.height);
+   const format=mime==='image/png'?'image/webp':mime,b=await new Promise(r=>c.toBlob(r,format,mime==='image/png'?.98:.94));return b&&b.type===format&&b.size<file.size*.92?b:file;}catch{return file;}finally{bitmap?.close();}
  }
  async function parallel(items,n,fn){const result=new Array(items.length);let index=0;await Promise.all(Array.from({length:Math.min(n,items.length)},async()=>{while(index<items.length){const i=index++;result[i]=await fn(items[i],i);}}));return result;}
  async function http(action,args,{user,grant,body,signal,method}={}){
@@ -1057,7 +1058,8 @@ const Media120=(()=>{
   return parallel(files,2,async file=>{
    let entry=attachments.get(file);if(!entry||entry.key!==key||entry.room!==room||entry.uid!==user.uid){const mime=type(file);entry={uid:user.uid,room,key,mime,id:crypto.randomUUID(),grant:crypto.randomUUID(),data:compressPhoto(file,mime),parts:new Set()};attachments.set(file,entry);}
    const data=await entry.data;if(App.auth.currentUser?.uid!==user.uid)throw Error('로그인 계정이 변경되었습니다.');
-   const info={id:entry.id,grant:entry.grant,messageId:key,mime:entry.mime,size:data.size,name:file.name.slice(0,120)||'첨부 파일'};
+   const converted=data!==file&&data.type!==entry.mime,name=converted?file.name.replace(/\.[^.]*$/,'').slice(0,115)+'.webp':file.name;
+   const info={id:entry.id,grant:entry.grant,messageId:key,mime:converted?data.type:entry.mime,size:data.size,name:name.slice(0,120)||'첨부 파일'};
    const start=await(await http('start',{room},{user,body:info})).json();
    if(!start.finished){const indices=Array.from({length:Math.ceil(data.size/start.chunk)},(_,i)=>i).filter(n=>!entry.parts.has(n));
     await parallel(indices,3,async n=>{if(App.auth.currentUser?.uid!==user.uid)throw Error('로그인 계정이 변경되었습니다.');await http('part',{id:entry.id,n},{grant:entry.grant,body:data.slice(n*start.chunk,(n+1)*start.chunk)});entry.parts.add(n);});
@@ -1100,7 +1102,7 @@ const Media120=(()=>{
   try{return await downloadBytes119(ref,controller.signal,progress);}finally{requests.delete(controller);signal?.removeEventListener('abort',cancel);}
  }
  async function downloadBytes119(ref,signal,progress){
-  if(ref.mediaId)return Media120.binary(ref,signal,progress);
+  if(ref.mediaId){const key=App.auth.currentUser?.uid+':'+ref.mediaId;if(cache.has(key))return cache.get(key);const blob=await Media120.binary(ref,signal,progress);if(kind(ref)==='image')remember(key,blob);return blob;}
   if(!pathOK(ref.dbPath))throw Error('첨부 경로가 올바르지 않습니다.');
   const user=App.auth.currentUser,epoch=generation;if(!user)throw Error('로그인이 필요합니다.');const key=user.uid+':'+ref.dbPath;
   if(cache.has(key))return cache.get(key);
